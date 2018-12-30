@@ -1,7 +1,6 @@
 # plugin-meross
 
->>> This plugin is not yet functional. <<<
-
+#### This plugin is not yet functional. ####
 
 
 Usage of Python commandline tools :
