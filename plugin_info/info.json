@@ -1,0 +1,11 @@
+{
+	"id": "meross",
+	"name" : "Meross",
+	"description" : "Plugin pour controller les Smartplug Meross",
+	"licence" : "GPL",
+	"author" : "astral0@protonmail.com",
+	"require" : "3.0",
+	"category" : "energy",
+        "changelog" : "https://www.nextdom.org",
+        "documentation" : "https://www.nectdom.org/plugin-meross/#language#/"
+}
