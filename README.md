@@ -20,4 +20,4 @@ password = your-meross-account-password
 ./meross.sh --help  # for all arguments
 
 
-############# The Nextdom / Jeedom plugin part in not functionnal yet ! #############
+#### The Nextdom / Jeedom plugin part in not functionnal yet ! #####
