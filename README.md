@@ -1,5 +1,8 @@
 # plugin-meross
 
+[![Join the chat at https://gitter.im/NextDom/plugin-Meross](https://badges.gitter.im/NextDom/plugin-Meross.svg)](https://gitter.im/NextDom/plugin-Meross?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
+
 #### This plugin is not yet functional. ####
 
 
