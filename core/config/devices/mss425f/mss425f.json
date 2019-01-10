@@ -1,0 +1,69 @@
+{
+    "mss425f": {
+        "name": "Smart WiFi Surge Protector",
+        "group": "Connect and Control",
+        "configuration": {
+            "type": "mss425f"
+        },
+        "commands": [
+            {
+                "name": "Status 0",
+                "type": "info",
+                "subtype": "binary",
+                "display": {
+                    "generic_type": "ENERGY_STATE"
+                },
+                "isVisible": 0,
+                "isHistorized": 0,
+                "logicalId": "status_0",
+                "template": {
+                    "dashboard": "light",
+                    "mobile": "light"
+                }
+            },
+            {
+                "name": "Off 0",
+                "type": "action",
+                "subtype": "other",
+                "display": {
+                    "generic_type": "ENERGY_OFF"
+                },
+                "value": "status_0",
+                "isVisible": 1,
+                "logicalId": "off_0",
+                "template": {
+                    "dashboard": "prise",
+                    "mobile": "prise"
+                }
+            },
+            {
+                "name": "On 0",
+                "type": "action",
+                "subtype": "other",
+                "display": {
+                    "generic_type": "ENERGY_ON"
+                },
+                "value": "status_0",
+                "isVisible": 1,
+                "logicalId": "on_0",
+                "template": {
+                    "dashboard": "prise",
+                    "mobile": "prise"
+                }
+            },
+            {
+                "name": "Rafraichir",
+                "type": "action",
+                "subtype": "other",
+                "display": {
+                    "generic_type": "DONT"
+                },
+                "configuration": {
+                    "switch": "read"
+                },
+                "isVisible": 0,
+                "logicalId": "refresh"
+            }
+        ]
+    }
+}
