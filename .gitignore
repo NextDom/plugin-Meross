@@ -1,0 +1,12 @@
+nbproject/
+\.project
+\.DS_Store
+Thumbs.db
+*.php~
+composer.lock
+vendor
+\.idea
+.vscode
+tests/mocked_Jeedom_env/plugins/*
+3rparty/config.ini
+3rparty/result*

@@ -1,0 +1,32 @@
+{
+  "plugins\/Meross\/desktop\/php\/Meross.php": {
+    "Action": "Action",
+    "Activer": "Activate",
+    "Ajouter": "Add",
+    "Ajouter un Meross": "Add a Meross",
+    "Aucun": "Nothing",
+    "Catégorie": "Category",
+    "Commandes": "Commands",
+    "Configuration": "Configuration",
+    "Configuration avancée": "Advanced configuration",
+    "Equipement": "Equipment",
+    "Gestion": "Management",
+    "Mes Merosss": "My Merosss",
+    "Nom": "Name",
+    "Nom de l'équipement Meross": "Name of the Meross equipment",
+    "Objet parent": "Parent object",
+    "Rechercher": "Find",
+    "Sauvegarder": "Save",
+    "Supprimer": "Delete",
+    "Type": "Type",
+    "Visible": "Visible"
+  },
+  "plugins\/Meross\/plugin_info\/configuration.php": {
+    "Global param 1": "First global parameter",
+    "Global param 2": "Second global parameter",
+    "Global param 3": "Third global parameter",
+    "Default value": "Default value",
+    "First value": "First value",
+    "Second value": "Second value"
+  }
+}
