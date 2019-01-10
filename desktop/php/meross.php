@@ -46,6 +46,12 @@ $eqLogics = eqLogic::byType($plugin->getId());
              style="border-left: solid 1px #EEE; padding-left: 25px;">
             <legend><i class="fa fa-cog"></i> {{Gestion}}</legend>
             <div class="eqLogicThumbnailContainer">
+                <div class="cursor eqLogicAction" data-action="add"
+                     style="text-align: center; background-color : #ffffff; height : 120px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;">
+                    <i class="fa fa-plus" style="font-size : 6em;color:#33b8cc;"></i>
+                    <br>
+                    <span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;">{{ Ajouter }}</span>
+                </div>
                 <div class="cursor eqLogicAction" data-action="sync"
                      style="text-align: center; background-color : #ffffff; height : 120px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;">
                     <i class="fa fa-sync" style="font-size : 6em;color:#33b8cc;"></i>
@@ -68,7 +74,11 @@ $eqLogics = eqLogic::byType($plugin->getId());
                 foreach ($eqLogics as $eqLogic) {
                     $opacity = ($eqLogic->getIsEnable()) ? '' : jeedom::getConfiguration('eqLogic:style:noactive');
                     echo '<div class="eqLogicDisplayCard cursor" data-eqLogic_id="' . $eqLogic->getId() . '" style="text-align: center; background-color : #ffffff; height : 200px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;' . $opacity . '" >';
-                    echo '<img src="' . $plugin->getPathImgIcon() . '" height="105" width="95" />';
+                    if (file_exists(dirname(__FILE__) . '/../../core/config/devices/' . $eqLogic->getConfiguration('type') . '/' . $eqLogic->getConfiguration('type') . '.png')) {
+                        echo '<img src="plugins/meross/core/config/devices/' . $eqLogic->getConfiguration('type') . '/' . $eqLogic->getConfiguration('type') . '.png' . '" height="105" width="105" />';
+                      } else {
+                        echo '<img src="' . $plugin->getPathImgIcon() . '" height="105" width="95" />';
+                      }
                     echo "<br>";
                     echo '<span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;">' . $eqLogic->getHumanName(true, true) . '</span>';
                     echo '</div>';
@@ -159,11 +169,10 @@ $eqLogics = eqLogic::byType($plugin->getId());
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-3 control-label" for="Meross-param">{{Meross param
-                                    1}}</label>
+                                <label class="col-sm-3 control-label" for="Meross-param">{{ Modèle }}</label>
                                 <div class="col-sm-3">
-                                    <input type="text" class="eqLogicAttr form-control" id="Meross-param"
-                                           data-l1key="configuration" data-l2key="city" placeholder="param1"/>
+                                    <input type="text" class="eqLogicAttr form-control" id="type-param"
+                                           data-l1key="configuration" data-l2key="type" placeholder="{{Modèle}}"/>
                                 </div>
                             </div>
                         </fieldset>

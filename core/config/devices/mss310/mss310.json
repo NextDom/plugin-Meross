@@ -1,0 +1,69 @@
+{
+    "mss310": {
+        "name": "Smart WiFi Plug with Energy Monitor",
+        "group": "Connect and Control",
+        "configuration": {
+            "type": "mss310"
+        },
+        "commands": [
+            {
+                "name": "Status",
+                "type": "info",
+                "subtype": "binary",
+                "display": {
+                    "generic_type": "ENERGY_STATE"
+                },
+                "isVisible": 0,
+                "isHistorized": 0,
+                "logicalId": "status",
+                "template": {
+                    "dashboard": "light",
+                    "mobile": "light"
+                }
+            },
+            {
+                "name": "Off",
+                "type": "action",
+                "subtype": "other",
+                "display": {
+                    "generic_type": "ENERGY_OFF"
+                },
+                "value": "Status",
+                "isVisible": 1,
+                "logicalId": "off",
+                "template": {
+                    "dashboard": "prise",
+                    "mobile": "prise"
+                }
+            },
+            {
+                "name": "On",
+                "type": "action",
+                "subtype": "other",
+                "display": {
+                    "generic_type": "ENERGY_ON"
+                },
+                "value": "Status",
+                "isVisible": 1,
+                "logicalId": "on",
+                "template": {
+                    "dashboard": "prise",
+                    "mobile": "prise"
+                }
+            },
+            {
+                "name": "Rafraichir",
+                "type": "action",
+                "subtype": "other",
+                "display": {
+                    "generic_type": "DONT"
+                },
+                "configuration": {
+                    "switch": "read"
+                },
+                "isVisible": 0,
+                "logicalId": "refresh"
+            }
+        ]
+    }
+}
