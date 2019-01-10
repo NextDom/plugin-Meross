@@ -118,18 +118,12 @@ class MerossHttpClient:
     def list_supported_devices(self):
         supported_devices = []
         for dev in self.list_devices():
-            #print("AA : " + str(dev) )
             deviceType = dev['deviceType']
             device = build_wrapper(self._token, self._key, self._userid, deviceType, dev)
             if device is not None:
                 supported_devices.append(device)
             #else log...
-        #print (" ================ AA1 ============== ")
-        #print (supported_devices)
-        #print (dir(supported_devices[0]))
-        #print (supported_devices[0]._name)
-        
-        #blaa
+
         return supported_devices
 
 

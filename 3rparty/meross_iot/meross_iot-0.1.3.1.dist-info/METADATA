@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: meross-iot
-Version: 0.1.2.0
+Version: 0.1.3.1
 Summary: A simple library to deal with Meross devices. At the moment MSS110, MSS310 smart plugs and the MSS425E power stirp
 Home-page: https://github.com/albertogeniola/MerossIot
 Author: Alberto Geniola
@@ -20,10 +20,13 @@ Description-Content-Type: text/markdown
 Requires-Dist: paho-mqtt (>=1.3.1)
 Requires-Dist: requests (>=2.19.1)
 
+[![Build status](https://albertogeniola.visualstudio.com/Meross/_apis/build/status/Meross-Python%20package-CI)](https://albertogeniola.visualstudio.com/Meross/_build/latest?definitionId=1)
+![Deployment](https://albertogeniola.vsrm.visualstudio.com/_apis/public/Release/badge/c4128d1b-c23c-418d-95c5-2de061954ee5/1/1)
+
 # Meross IoT library
 A pure-python based library providing API for controlling Meross IoT devices over the internet.
 
-To see what devices are currently supported, checkout the `Currently supported devices`-section. 
+To see what devices are currently supported, checkout the *Currently supported devices* section. 
 Hopefully, more Meross hardware will be supported in the future.
 
 This library is still work in progress, therefore use it with caution.
@@ -48,40 +51,51 @@ if __name__=='__main__':
     httpHandler = MerossHttpClient(email="YOUR_MEROSS_CLOUD_EMAIL", password="YOUR_PASSWORD")
 
     # Retrieves the list of supported devices
+    print("Listing Devices...")
     devices = httpHandler.list_supported_devices()
 
-    # Returns most of the info about the power plug
-    data = devices[0].get_sys_data()
+    for counter, device in enumerate(devices):
+        print("Playing with device: %d" % counter)
+        # Returns most of the info about the power plug
+        print("\nGetting system data...")
+        data = device.get_sys_data()
 
-    # Turns the power-plug on
-    devices[0].turn_off()
+        # Turns the power-plug on
+        print("\nTurning the device on...")
+        device.turn_off()
 
-    # Turns the power-plug off
-    devices[0].turn_on()
+        # Turns the power-plug off
+        print("\nTurning the device off...")
+        device.turn_on()
 
-    # Reads the historical device consumption
-    consumption = devices[0].get_power_consumptionX()
+        # Reads the historical device consumption
+        print("\nReading consumption data...")
+        consumption = device.get_power_consumptionX()
 
-    # Returns the list of WIFI Network available for the plug
-    # (Note. this takes some time to complete)
-    wifi_list = devices[0].get_wifi_list()
+        # Returns the list of WIFI Network available for the plug
+        # (Note. this takes some time to complete)
+        print("\nScanning Wifi...")
+        wifi_list = device.get_wifi_list()
 
-    # Info about the device
-    trace = devices[0].get_trace()
-    debug = devices[0].get_debug()
+        # Info about the device
+        print("\nGetting device trace...")
+        trace = device.get_trace()
+        print("\nGetting device debug...")
+        debug = device.get_debug()
 
-    # Returns the capabilities of this device
-    abilities = devices[0].get_abilities()
+        # Returns the capabilities of this device
+        print("\nRetrieving device abilities...")
+        abilities = device.get_abilities()
 
-    # I still have to figure this out :S
-    report = devices[0].get_report()
+        # I still have to figure this out :S
+        # The following command is not yet implemented on all devices
+        # and might not work as expected.
+        # report = device.get_report()
 
-    # Returns the current power consumption and voltage from the plug
-    # (Note: this is not really realtime, but close enough)
-    electricity = devices[0].get_electricity()
-
-    current_status = devices[0].get_electricity()
-    print(current_status)
+        # Returns the current power consumption and voltage from the plug
+        # (Note: this is not really realtime, but close enough)
+        print("\nReading electricity...")
+        electricity = device.get_electricity()
 
 ```
 
