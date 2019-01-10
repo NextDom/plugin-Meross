@@ -169,7 +169,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-3 control-label" for="Meross-param">{{ Modèle }}</label>
+                                <label class="col-sm-3 control-label" for="type-param">{{ Modèle }}</label>
                                 <div class="col-sm-3">
                                     <input type="text" class="eqLogicAttr form-control" id="type-param"
                                            data-l1key="configuration" data-l2key="type" placeholder="{{Modèle}}"/>
