@@ -14,7 +14,7 @@ Retrouvez le sur le [Market](https://www.jeedom.com/market/index.php?v=d&p=marke
 
 ~~Insérer un screenshot du plugin en mode desktop~~
 
-![screenshot1](../images/Meross_icon.png)
+![screenshot1](../images/meross_icon.png)
 
 # Forum
 
