@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-debug = False
+debug = True
 
 import time
 import sys
@@ -93,6 +93,7 @@ def ConnectAndRefreshAll(email, password):
             'mac':    data['all']['system']['hardware']['macAddress'],
             'online': data['all']['system']['online']['status'],
             'uuid':   data['all']['system']['hardware']['uuid'],
+            'type':   data['all']['system']['hardware']['type'],
             } )
         try:
             electricity = device.get_electricity()
@@ -126,9 +127,10 @@ def ConnectAndRefreshAll(email, password):
     f.close()
 
     # Save dictionnary into JSON file
+    l_devices = list(d_devices.values())
+    #print(l_devices)
     with open(jsonfile, 'w') as fp:
-        json.dump(d_devices, fp)
-
+        json.dump(l_devices, fp)
     return d_devices
 
 # ---------------------------------------------------------------------

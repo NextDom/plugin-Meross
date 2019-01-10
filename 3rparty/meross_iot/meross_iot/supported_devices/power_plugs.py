@@ -1,3 +1,5 @@
+debug = False
+
 import paho.mqtt.client as mqtt
 import ssl
 import random
@@ -15,7 +17,8 @@ from logging import StreamHandler
 
 l = logging.getLogger("meross_powerplug")
 l.addHandler(StreamHandler(stream=sys.stdout))
-l.setLevel(logging.DEBUG)
+#l.setLevel(logging.DEBUG)
+l.setLevel(logging.INFO)
 
 class ClientStatus(Enum):
     INITIALIZED = 1
@@ -38,6 +41,9 @@ class Device:
     _uuid = None
     _client_id = None
     _app_id = None
+
+    # AA
+    _name = None
 
     # Topic name where the client should publish to its commands. Every client should have a dedicated one.
     _client_request_topic = None
@@ -90,6 +96,12 @@ class Device:
         if "channels" in kwords:
             self._channels = kwords['channels']
 
+            # AA
+        if "devName" in kwords:
+            self._name = kwords['devName']
+        else:
+            self._name = ""
+
         self._generate_client_and_app_id()
 
         # Password is calculated as the MD5 of USERID concatenated with KEY
@@ -123,7 +135,7 @@ class Device:
                 raise Exception(self._error)
 
     def _on_disconnect(self, client, userdata, rc):
-        l.info("Disconnection detected. Reason: %s" % str(rc))
+        l.debug("Disconnection detected. Reason: %s" % str(rc))
 
         # We should clean all the data structures.
         with self._status_lock:
@@ -144,18 +156,18 @@ class Device:
             client.loop_stop()
 
     def _on_unsubscribe(self):
-        l.info("Unsubscribed from topic")
+        l.debug("Unsubscribed from topic")
         self._subscription_count.dec()
 
     def _on_subscribe(self, client, userdata, mid, granted_qos):
-        l.info("Succesfully subscribed!")
+        l.debug("Succesfully subscribed!")
         if self._subscription_count.inc() == 2:
             with self._waiting_subscribers_queue:
                 self._set_status(ClientStatus.SUBSCRIBED)
                 self._waiting_subscribers_queue.notify_all()
 
     def _on_connect(self, client, userdata, rc, other):
-        l.info("Connected with result code %s" % str(rc))
+        l.debug("Connected with result code %s" % str(rc))
         self._set_status(ClientStatus.SUBSCRIBED)
 
         self._set_status(ClientStatus.CONNECTED)
@@ -165,7 +177,7 @@ class Device:
         self._user_topic = "/app/%s/subscribe" % self._user_id
 
         # Subscribe to the relevant topics
-        l.info("Subscribing to topics..." )
+        l.debug("Subscribing to topics..." )
         client.subscribe(self._user_topic)
         client.subscribe(self._client_response_topic)
 

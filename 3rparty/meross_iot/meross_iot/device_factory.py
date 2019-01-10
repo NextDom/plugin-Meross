@@ -13,5 +13,7 @@ def build_wrapper(
         return Mss110(token, key, user_id,**device_specs)
     elif device_type.lower() == "mss425e":
         return Mss425e(token, key, user_id,**device_specs)
+    elif device_type.lower() == "mss425f":
+        return Mss425e(token, key, user_id,**device_specs)
     else:
         return None
