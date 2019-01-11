@@ -10,3 +10,4 @@ vendor
 tests/mocked_Jeedom_env/plugins/*
 3rparty/config.ini
 3rparty/result*
+__pycache__*
