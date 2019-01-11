@@ -93,7 +93,7 @@ def ConnectAndRefreshAll(email, password):
             'ip':       data['all']['system']['firmware']['innerIp'],
             'mac':      data['all']['system']['hardware']['macAddress'],
             'online':   data['all']['system']['online']['status'],
-            #'uuid':    data['all']['system']['hardware']['uuid'],
+            'uuid':    data['all']['system']['hardware']['uuid'],
             'type':     data['all']['system']['hardware']['type'],
             'version':  data['all']['system']['firmware']['version'],
             } )
