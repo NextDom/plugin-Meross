@@ -89,13 +89,13 @@ def ConnectAndRefreshAll(email, password):
         #pprint.pprint(device)
         uuid = device._uuid
         d_devices[uuid] = dict( {
-            'name':   device._name,
-            'ip':     data['all']['system']['firmware']['innerIp'],
-            'mac':    data['all']['system']['hardware']['macAddress'],
-            'status': data['all']['system']['online']['status'],
-            'online': '1',
-            #'uuid':   data['all']['system']['hardware']['uuid'],
-            'type':   data['all']['system']['hardware']['type'],
+            'name':     device._name,
+            'ip':       data['all']['system']['firmware']['innerIp'],
+            'mac':      data['all']['system']['hardware']['macAddress'],
+            'online':   data['all']['system']['online']['status'],
+            #'uuid':    data['all']['system']['hardware']['uuid'],
+            'type':     data['all']['system']['hardware']['type'],
+            'version':  data['all']['system']['firmware']['version'],
             } )
         try:
             electricity = device.get_electricity()
