@@ -25,6 +25,24 @@ $("#table_cmd").sortable({
     forcePlaceholderSize: true
 });
 
+$('.eqLogicAction[data-action=sync]').on('click', function () {
+    $.post({
+        url: 'plugins/meross/core/ajax/meross.ajax.php',
+        data: {
+            action: 'syncMeross'
+        },
+        success: function (data, status) {
+            // Test si l'appel a échoué
+            if (data.state !== 'ok' || status !== 'success') {
+                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+            }
+        },
+        error: function (request, status, error) {
+            handleAjaxError(request, status, error);
+        }
+    });
+});
+
 /*
  * Fonction pour l'ajout de commande, appellé automatiquement par plugin.Meross
  */
