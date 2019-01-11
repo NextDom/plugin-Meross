@@ -87,36 +87,41 @@ def ConnectAndRefreshAll(email, password):
         data = device.get_sys_data()
         #pprint.pprint(data)
         #pprint.pprint(device)
-        d_devices[num] = dict( {
+        uuid = device._uuid
+        d_devices[uuid] = dict( {
             'name':   device._name,
             'ip':     data['all']['system']['firmware']['innerIp'],
             'mac':    data['all']['system']['hardware']['macAddress'],
-            'online': data['all']['system']['online']['status'],
-            'uuid':   data['all']['system']['hardware']['uuid'],
+            'status': data['all']['system']['online']['status'],
+            'online': '1',
+            #'uuid':   data['all']['system']['hardware']['uuid'],
             'type':   data['all']['system']['hardware']['type'],
             } )
         try:
             electricity = device.get_electricity()
-            d_devices[num]['power'] = electricity['electricity']['power']
+            d_devices[uuid]['power'] = electricity['electricity']['power']
         except:
-            d_devices[num]['power'] = '-1'
+            d_devices[uuid]['power'] = '-1'
 
         try:
-            d_devices[num]['consumption'] = device.get_power_consumptionX()['consumptionx']
+            l_consumption = device.get_power_consumptionX()['consumptionx']
         except:
-            d_devices[num]['consumption'] = []
+            l_consumption = []
+
+        d_devices[uuid]['consumption'] = []
 
         #now = datetime.datetime.now()
         #yesterday = now.strftime("%Y-%m-%d")
         today = datetime.today()
         yesterday = (today - timedelta(1) ).strftime("%Y-%m-%d")
-        d_devices[num]['consumption_yesterday'] = -1
-        for c in d_devices[num]['consumption']:
+        d_devices[uuid]['consumption_yesterday'] = -1
+
+        for c in l_consumption:
             if c['date'] == yesterday:
                 try:
-                    d_devices[num]['consumption_yesterday'] = c['value']
+                    d_devices[uuid]['consumption_yesterday'] = c['value']
                 except:
-                    d_devices[num]['consumption_yesterday'] = -1
+                    d_devices[uuid]['consumption_yesterday'] = -1
                 break
 
     if debug: pprint.pprint(d_devices)
@@ -130,7 +135,7 @@ def ConnectAndRefreshAll(email, password):
     l_devices = list(d_devices.values())
     #print(l_devices)
     with open(jsonfile, 'w') as fp:
-        json.dump(l_devices, fp)
+        json.dump(d_devices, fp)
     return d_devices
 
 # ---------------------------------------------------------------------
