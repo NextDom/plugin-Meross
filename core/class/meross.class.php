@@ -1,73 +1,51 @@
 <?php
 
-/*
- * This file is part of the NextDom software (https://github.com/NextDom or http://nextdom.github.io).
- * Copyright (c) 2018 NextDom.
+/* This file is part of Jeedom.
  *
- * This program is free software: you can redistribute it and/or modify
+ * Jeedom is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, version 2.
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * General Public License for more details.
+ * Jeedom is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
  */
 
 /* * ***************************Includes********************************* */
-
 require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
-//require_once './MerossCmd.class.php';
-require_once 'merossCmd.class.php';
+require_once "merossCmd.class.php";
 
 class meross extends eqLogic
 {
-    /*     * *************************Attributs****************************** */
+
+    private static $pathJson = __DIR__ . '/../../3rparty/result.json';
+    private static $pathScript = __DIR__ . '/../../3rdparty/meross.sh';
 
 
-    /*     * ***********************Methode static*************************** */
+    public static $_widgetPossibility = array(
+        'custom' => true,
+        'custom::layout' => false,
+        'parameters' => array(
+            'sub-background-color' => array(
+                'name' => 'Couleur de la barre de contrôle',
+                'type' => 'color',
+                'default' => 'rgba(0,0,0,0.5)',
+                'allow_transparent' => true,
+                'allow_displayType' => true,
+            ),
+        ),
+    );
 
-    /*
-     * Fonction exécutée automatiquement toutes les minutes par Jeedom
-      public static function cron() {
-
-      }
-     */
-
-
-    /*
-     * Fonction exécutée automatiquement toutes les heures par Jeedom
-      public static function cronHourly() {
-
-      }
-     */
-
-    /*
-     * Fonction exécutée automatiquement tous les jours par Jeedom
-      public static function cronDaily() {
-
-      }
-     */
-
-
-    /*     * *********************Méthodes d'instance************************* */
-
-    public function preInsert()
+    public static function cron()
     {
-
-    }
-
-    public function postInsert()
-    {
-
-    }
-
-    public function preSave()
-    {
-
+        foreach (eqLogic::byType('meross', true) as $eqLogic) {
+            $eqLogic->updateInfo();
+        }
     }
 
     public function postSave()
@@ -75,75 +53,128 @@ class meross extends eqLogic
 
     }
 
-    public function preUpdate()
+    public function launchScript()
     {
-
+        try {
+            shell_exec("sudo sh " . self::$pathScript);
+        } catch (\Exception $e) {
+            return;
+        }
     }
 
-    public function postUpdate()
+    public function getJson()
     {
+        try {
+            $data = file_get_contents(self::$pathJson);
+            $json = json_decode($data, true);
+            return $json;
+        } catch (\Exception $e) {
+            return;
+        }
+    }
+    public function syncMeross()
+    {
+        log::add('meross', 'debug', '=== AJOUT DES EQUIPEMENTS ===');
 
+        $json = self::getJson();
+        foreach ($json as $key=>$devices) {
+            $device = self::byLogicalId($key, 'meross');
+            if (!is_object($device)) {
+                log::add('meross', 'debug','Ajout de l\'équipement ' . $devices["name"]);
+                $device = new self();
+                $device->setName($devices["name"]);
+                $device->setEqType_name("meross");
+                $device->setLogicalId($key);
+                $device->setConfiguration('type', $devices["type"]);
+                $device->setConfiguration('ip', $devices["ip"]);
+                $device->setConfiguration('mac', $devices["mac"]);
+                $device->setConfiguration('online', $devices["online"]);
+                $device->save();
+            } else {
+                log::add('meross', 'debug','équipement' . $devices["name"] . ' deja ajouter ');
+            }
+
+            $cmd = $device->getCmd(null, "consommation");
+
+            if (!is_object($cmd)) {
+                log::add('meross', 'debug','-- ajout de la commande consommation ');
+                $cmd = new merossCmd();
+                $cmd->setLogicalId("consommation");
+                $cmd->setName(__("consommation", __FILE__));
+                $cmd->setType("info");
+                $cmd->setSubType("numeric");
+                $cmd->setEqLogic_id($device->getId());
+                $cmd->save();
+            }
+
+
+            $cmd = $device->getCmd(null, "state");
+            if (!is_object($cmd)) {
+                log::add('meross', 'debug','-- ajout de la commande state ');
+
+                $cmd = new merossCmd();
+                $cmd->setLogicalId("state");
+                $cmd->setName(__("state", __FILE__));
+                $cmd->setType("info");
+                $cmd->setSubType("binary");
+                $cmd->setEqLogic_id($device->getId());
+                $cmd->save();
+            }
+
+
+
+            $cmd = $device->getCmd(null, "on");
+            if (!is_object($cmd)) {
+                log::add('meross', 'debug','-- ajout des commandes on et off ');
+                $cmd = new merossCmd();
+                $cmd->setLogicalId("on");
+                $cmd->setName(__("on", __FILE__));
+                $cmd->setType("action");
+                $cmd->setSubType("other");
+                $cmd->setEqLogic_id($device->getId());
+                $cmd->save();
+            }
+            $cmd = $device->getCmd(null, "off");
+            if (!is_object($cmd)) {
+                $cmd = new merossCmd();
+                $cmd->setLogicalId("off");
+                $cmd->setName(__("off", __FILE__));
+                $cmd->setType("action");
+                $cmd->setSubType("other");
+                $cmd->setEqLogic_id($device->getId());
+                $cmd->save();
+            }
+
+
+        }
     }
 
-    public function preRemove()
+    public function updateInfo()
     {
+        log::add('meross', 'debug', '=== MAJ DES INFOS ===');
+        try {
+            $infos = self::getJson();
+        } catch (\Exception $e) {
+            return;
+        }
 
+        foreach ($infos as $key=>$devices) {
+            if ($key == $this->getLogicalId()) {
+                log::add('meross', 'debug', 'infos de : ' . $devices['name']);
+                if (isset($infos['state'])) {
+                    log::add('meross', 'debug', 'etat: ');
+                    $this->checkAndUpdateCmd('power_state', $devices['state']);
+                }
+                if (isset($infos['state'])) {
+                    $this->checkAndUpdateCmd('consumption', $devices['consumption']);
+                }
+
+                if (isset($infos['state'])) {
+                    $this->setConfiguration('online', $devices['online']);
+                }
+
+            }
+        }
     }
 
-    public function postRemove()
-    {
-
-    }
-
-    /*
-     * Non obligatoire mais permet de modifier l'affichage du widget si vous en avez besoin
-      public function toHtml($_version = 'dashboard') {
-
-      }
-     */
-
-    /*
-     * Non obligatoire mais ca permet de déclencher une action après modification de variable de configuration
-      public static function postConfig_<Variable>() {
-      }
-     */
-
-    /*
-     * Non obligatoire mais ca permet de déclencher une action avant modification de variable de configuration
-      public static function preConfig_<Variable>() {
-      }
-     */
-
-        /*
-         * Non obligatoire
-         * Obtenir l'état du daemon
-         *
-         * @return [log] message de log
-         *         [state]  ok  Démarré
-         *                  nok Non démarré
-         *         [launchable] ok  Démarrable
-         *                      nok Non démarrable
-         *         [launchable_message] Cause de non démarrage
-         *         [auto]   0 Démarrage automatique désactivé
-         *                  1 Démarrage automatique activé
-         * 
-          public static function deamon_info()
-          {
-
-          }
-         */
-
-    /*
-         * Démarre le daemon
-         *
-         * @param Debug (par défault désactivé)
-         * 
-         * 
-    public static function deamon_start($_debug = false)
-    {
-    }
-        */ 
-
-    /*     * **********************Getteur Setteur*************************** */
 }
-

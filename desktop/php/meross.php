@@ -46,12 +46,6 @@ $eqLogics = eqLogic::byType($plugin->getId());
              style="border-left: solid 1px #EEE; padding-left: 25px;">
             <legend><i class="fa fa-cog"></i> {{Gestion}}</legend>
             <div class="eqLogicThumbnailContainer">
-                <div class="cursor eqLogicAction" data-action="add"
-                     style="text-align: center; background-color : #ffffff; height : 120px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;">
-                    <i class="fa fa-plus" style="font-size : 6em;color:#33b8cc;"></i>
-                    <br>
-                    <span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;">{{ Ajouter }}</span>
-                </div>
                 <div class="cursor eqLogicAction" data-action="sync"
                      style="text-align: center; background-color : #ffffff; height : 120px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;">
                     <i class="fa fa-sync" style="font-size : 6em;color:#33b8cc;"></i>
@@ -63,6 +57,11 @@ $eqLogics = eqLogic::byType($plugin->getId());
                     <i class="fa fa-wrench" style="font-size : 6em;color:#767676;"></i>
                     <br>
                     <span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;">{{ Configuration }}</span>
+                </div>
+                <div class="cursor" id="bt_healthmeross" style="text-align: center; background-color : #ffffff; height : 120px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;" >
+                    <i class="fa fa-medkit" style="font-size : 5em;color:#767676;"></i>
+                    <br>
+                    <span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;color:#767676">{{Santé}}</span>
                 </div>
             </div>
 
