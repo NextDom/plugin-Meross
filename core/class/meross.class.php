@@ -156,21 +156,20 @@ class meross extends eqLogic
         try {
             $infos = self::getJson();
         } catch (\Exception $e) {
-            return;
         }
 
         foreach ($infos as $key=>$devices) {
             if ($key == $this->getLogicalId()) {
                 log::add('meross', 'debug', 'infos de : ' . $devices['name']);
-                if (isset($infos['state'])) {
+                if (isset($devices['status'])) {
                     log::add('meross', 'debug', 'etat: ');
                     $this->checkAndUpdateCmd('status', $devices['status']);
                 }
-                if (isset($infos['consumption'])) {
+                if (isset($devices['consumption'])) {
                     $this->checkAndUpdateCmd('consommation', $devices['consumption']);
                 }
 
-                if (isset($infos['online'])) {
+                if (isset($devices['online'])) {
                     $this->setConfiguration('online', $devices['online']);
                 }
 
