@@ -22,6 +22,12 @@ class merossCmd extends cmd
 {
     public function execute($_options = array())
     {
+        $eqLogic = $this->getEqLogic();
 
+        if($this->getLogicalId() == "on") {
+            shell_exec("sh " . __DIR__ . '/../../3rdparty/meross.sh --uuid' . $eqLogic->getLogicalId() . ' --set_on');
+        } elseif ($this->getLogicalId() == "on") {
+            shell_exec("sh " . __DIR__ . '/../../3rdparty/meross.sh --uuid' . $eqLogic->getLogicalId() . ' --set_off');
+        }
     }
 }

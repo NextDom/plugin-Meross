@@ -162,7 +162,7 @@ class meross extends eqLogic
             if ($key == $this->getLogicalId()) {
                 log::add('meross', 'debug', 'infos de : ' . $devices['name']);
                 if (isset($devices['status'])) {
-                    log::add('meross', 'debug', 'etat: ');
+                    log::add('meross', 'debug', 'etat: ' . $devices['status']);
                     $this->checkAndUpdateCmd('status', $devices['status']);
                 }
                 if (isset($devices['consumption'])) {
