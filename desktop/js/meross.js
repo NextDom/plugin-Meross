@@ -25,6 +25,11 @@ $("#table_cmd").sortable({
     forcePlaceholderSize: true
 });
 
+$('#bt_healthmeross').on('click', function () {
+    $('#md_modal').dialog({title: "{{Santé Meross}}"});
+    $('#md_modal').load('index.php?v=d&plugin=meross&modal=health').dialog('open');
+});
+
 $('.eqLogicAction[data-action=sync]').on('click', function () {
     $.post({
         url: 'plugins/meross/core/ajax/meross.ajax.php',
