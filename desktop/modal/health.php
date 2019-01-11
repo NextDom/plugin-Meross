@@ -46,7 +46,7 @@ foreach ($eqLogics as $eqLogic) {
     }
 	echo '<tr><td>' . $image . '</td><td><a href="' . $eqLogic->getLinkToConfiguration() . '" style="text-decoration: none;">' . $eqLogic->getHumanName(true) . '</a></td>';
 	echo '<td><span class="label label-info" style="font-size : 1em;">' . $eqLogic->getId() . '</span></td>';
-	echo '<td><span class="label label-info" style="font-size : 1em;">' . $eqLogic->getConfiguration('addr') . '</span></td>';
+	echo '<td><span class="label label-info" style="font-size : 1em;">' . $eqLogic->getConfiguration('ip') . '</span></td>';
 	echo '<td><span class="label label-info" style="font-size : 1em;">' . $eqLogic->getConfiguration('model') . '</span></td>';
 	echo '<td><span class="label label-info" style="font-size : 1em;">' . $eqLogic->getConfiguration('createtime') . '</span></td></tr>';
 }

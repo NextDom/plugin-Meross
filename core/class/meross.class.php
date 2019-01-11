@@ -23,8 +23,8 @@ require_once "merossCmd.class.php";
 class meross extends eqLogic
 {
 
-    private static $pathJson = __DIR__ . '/../../3rparty/result.json';
-    private static $pathScript = __DIR__ . '/../../3rdparty/meross.sh';
+    private static $_pathJson = __DIR__ . '/../../3rparty/result.json';
+    private static $_pathScript = __DIR__ . '/../../3rdparty/meross.sh';
 
 
     public static $_widgetPossibility = array(
@@ -43,6 +43,8 @@ class meross extends eqLogic
 
     public static function cron()
     {
+        self::launchScript();
+        log::add('meross', 'debug', '=== MAJ DES INFOS ===');
         foreach (eqLogic::byType('meross', true) as $eqLogic) {
             $eqLogic->updateInfo();
         }
@@ -56,20 +58,20 @@ class meross extends eqLogic
     public function launchScript()
     {
         try {
-            shell_exec("sudo sh " . self::$pathScript);
+            shell_exec("sudo sh " . self::$_pathScript);
         } catch (\Exception $e) {
-            return;
+            log::add('meross', 'error', 'pas de fichier script trouvé ' . $e);
         }
     }
 
     public function getJson()
     {
         try {
-            $data = file_get_contents(self::$pathJson);
+            $data = file_get_contents(self::$_pathJson);
             $json = json_decode($data, true);
             return $json;
         } catch (\Exception $e) {
-            return;
+            log::add('meross', 'error', 'pas de fichier json trouvé ' . $e);
         }
     }
     public function syncMeross()
@@ -108,13 +110,13 @@ class meross extends eqLogic
             }
 
 
-            $cmd = $device->getCmd(null, "state");
+            $cmd = $device->getCmd(null, "status");
             if (!is_object($cmd)) {
                 log::add('meross', 'debug','-- ajout de la commande state ');
 
                 $cmd = new merossCmd();
-                $cmd->setLogicalId("state");
-                $cmd->setName(__("state", __FILE__));
+                $cmd->setLogicalId("status");
+                $cmd->setName(__("status", __FILE__));
                 $cmd->setType("info");
                 $cmd->setSubType("binary");
                 $cmd->setEqLogic_id($device->getId());
@@ -151,7 +153,6 @@ class meross extends eqLogic
 
     public function updateInfo()
     {
-        log::add('meross', 'debug', '=== MAJ DES INFOS ===');
         try {
             $infos = self::getJson();
         } catch (\Exception $e) {
@@ -163,13 +164,13 @@ class meross extends eqLogic
                 log::add('meross', 'debug', 'infos de : ' . $devices['name']);
                 if (isset($infos['state'])) {
                     log::add('meross', 'debug', 'etat: ');
-                    $this->checkAndUpdateCmd('power_state', $devices['state']);
+                    $this->checkAndUpdateCmd('status', $devices['status']);
                 }
-                if (isset($infos['state'])) {
-                    $this->checkAndUpdateCmd('consumption', $devices['consumption']);
+                if (isset($infos['consumption'])) {
+                    $this->checkAndUpdateCmd('consommation', $devices['consumption']);
                 }
 
-                if (isset($infos['state'])) {
+                if (isset($infos['online'])) {
                     $this->setConfiguration('online', $devices['online']);
                 }
 
