@@ -18,18 +18,59 @@
 
 require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
 
+
+/**
+ * Plugin installation
+ *
+ * @return void
+ */
 function Meross_install()
 {
+    log::add('meross', 'info', 'Meross installing...');
 
+    cleanPyCache()
+
+    log::add('meross', 'info', 'Meross installation completed.');
 }
 
+
+/**
+ * Plugin update
+ *
+ * @return void
+ */
 function Meross_update()
 {
+    log::add('meross', 'info', 'Meross updating...');
 
+    cleanPyCache()
+
+    log::add('meross', 'info', 'Meross update completed.');
 }
 
 
+/**
+ * Plugin removal
+ *
+ * @return void
+ */
 function Meross_remove()
 {
+    log::add('meross', 'info', 'Meross removing...');
 
+    log::add('meross', 'info', 'Meross removal completed.');
+}
+
+
+/**
+ * Remove __pycache__ from 3rparty folders
+ * 
+ * @return void
+ */
+function cleanPyCache()
+{
+    log::add('meross', 'info', 'Remove __pycache__ from 3rparty folders');
+
+    $3rpartyPath = dirname(__FILE__) . '/../3rparty/';
+    exec('cd ' . $3rpartyPath . '; find . | grep -E "(__pycache__|\.pyc|\.pyo$)" | xargs rm -rf');
 }
