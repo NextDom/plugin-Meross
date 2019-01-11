@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-debug = True
+debug = False
 
 import time
 import sys
@@ -32,7 +32,15 @@ conffile = os.path.join(var_dir, 'config.ini')
 pklfile  = os.path.join(var_dir, 'result.pkl')
 jsonfile = os.path.join(var_dir, 'result.json')
 
+# ---------------------------------------------------------------------
+class WriteLog:
+    def __init__(self):
+        self.debug = debug
 
+    def p(self, txt):
+       if self.debug:
+           print (txt)
+       return
 
 # ---------------------------------------------------------------------
 def ReadConfig(conffile=conffile):
@@ -178,9 +186,15 @@ if __name__=='__main__':
     parser.add_argument('--show_yesterday', action="store_true", default=False)
     parser.add_argument('--show', action="store_true", default=False)
     parser.add_argument('--config', action="store", dest="config")
+    parser.add_argument('--debug', action="store_true", default=False)
 
     args = parser.parse_args()
     #print(args)
+
+    # WriteLog
+    l = WriteLog()
+    l.debug = args.debug
+
 
     # Read config file
     if args.config:
