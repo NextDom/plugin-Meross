@@ -96,58 +96,27 @@ class meross extends eqLogic
                 log::add('meross', 'debug','équipement' . $devices["name"] . ' deja ajouter ');
             }
 
-            $cmd = $device->getCmd(null, "consommation");
 
-            if (!is_object($cmd)) {
-                log::add('meross', 'debug','-- ajout de la commande consommation ');
-                $cmd = new merossCmd();
-                $cmd->setLogicalId("consommation");
-                $cmd->setName(__("consommation", __FILE__));
-                $cmd->setType("info");
-                $cmd->setSubType("numeric");
-                $cmd->setEqLogic_id($device->getId());
-                $cmd->save();
+
+            $dataCmd = file_get_contents(__DIR__ . '/../../core/config/devices/'.$devices["type"].'/parametres.json');
+            $jsonCmd= json_decode($dataCmd, true);
+            foreach($jsonCmd[$devices["type"]]['commands'] as $key=>$commandes){
+
+                $cmd = $device->getCmd(null, $commandes['name']);
+                if (!is_object($cmd)) {
+                    log::add('meross', 'debug','-- Ajout de la commande: ' .$commandes['name']);
+                    $cmd = new merossCmd();
+                    $cmd->setLogicalId($commandes['name']);
+                    $cmd->setName(__($commandes['name'], __FILE__));
+                    $cmd->setType($commandes['type']);
+                    $cmd->setSubType($commandes['subtype']);
+                    $cmd->setEqLogic_id($device->getId());
+                    $cmd->setDisplay('generic_type', $commandes['display']['generic_type']);
+                    $cmd->setTemplate('dashboard', $commandes['template']['dashboard']);
+                    $cmd->setTemplate('mobile', $commandes['template']['mobile']);
+                    $cmd->save();
+                }
             }
-
-
-            $cmd = $device->getCmd(null, "status");
-            if (!is_object($cmd)) {
-                log::add('meross', 'debug','-- ajout de la commande state ');
-
-                $cmd = new merossCmd();
-                $cmd->setLogicalId("status");
-                $cmd->setName(__("status", __FILE__));
-                $cmd->setType("info");
-                $cmd->setSubType("binary");
-                $cmd->setEqLogic_id($device->getId());
-                $cmd->save();
-            }
-
-
-
-            $cmd = $device->getCmd(null, "on");
-            if (!is_object($cmd)) {
-                log::add('meross', 'debug','-- ajout des commandes on et off ');
-                $cmd = new merossCmd();
-                $cmd->setLogicalId("on");
-                $cmd->setName(__("on", __FILE__));
-                $cmd->setType("action");
-                $cmd->setSubType("other");
-                $cmd->setEqLogic_id($device->getId());
-                $cmd->save();
-            }
-            $cmd = $device->getCmd(null, "off");
-            if (!is_object($cmd)) {
-                $cmd = new merossCmd();
-                $cmd->setLogicalId("off");
-                $cmd->setName(__("off", __FILE__));
-                $cmd->setType("action");
-                $cmd->setSubType("other");
-                $cmd->setEqLogic_id($device->getId());
-                $cmd->save();
-            }
-
-
         }
     }
 
