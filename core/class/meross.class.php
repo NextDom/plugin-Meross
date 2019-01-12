@@ -153,6 +153,7 @@ class meross extends eqLogic
 
     public function updateInfo()
     {
+
         try {
             $infos = self::getJson();
         } catch (\Exception $e) {
@@ -166,11 +167,14 @@ class meross extends eqLogic
                     $this->checkAndUpdateCmd('status', $devices['status']);
                 }
                 if (isset($devices['consumption'])) {
+                    log::add('meross', 'debug', 'consommation: ' . $devices['consumption']);
                     $this->checkAndUpdateCmd('consommation', $devices['consumption']);
                 }
 
                 if (isset($devices['online'])) {
+                    log::add('meross', 'debug', 'online: ' . $devices['online']);
                     $this->setConfiguration('online', $devices['online']);
+                    $this->save();
                 }
 
             }

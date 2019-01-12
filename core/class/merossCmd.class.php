@@ -23,11 +23,22 @@ class merossCmd extends cmd
     public function execute($_options = array())
     {
         $eqLogic = $this->getEqLogic();
+        $action = $this->getLogicalId();
+        log::add('meross', 'debug','action'. $action );
+        log::add('meross', 'debug', $eqLogic->getLogicalId() );
 
-        if($this->getLogicalId() == "on") {
-            shell_exec("sh " . __DIR__ . '/../../3rdparty/meross.sh --uuid' . $eqLogic->getLogicalId() . ' --set_on');
-        } elseif ($this->getLogicalId() == "on") {
-            shell_exec("sh " . __DIR__ . '/../../3rdparty/meross.sh --uuid' . $eqLogic->getLogicalId() . ' --set_off');
+        if($action == "on") {
+            $command = 'sh ' . __DIR__ . '/../../3rdparty/meross.sh --uuid ' . $eqLogic->getLogicalId() . ' --set_on';
+            $result=trim(shell_exec($command));
+            log::add('meross','debug','action on');
+            log::add('meross','debug',$result);
+
+        } elseif ($action == "on") {
+            $command = 'sh ' . __DIR__ . '/../../3rdparty/meross.sh --uuid ' . $eqLogic->getLogicalId() . ' --set_off';
+            $result=trim(shell_exec($command));
+            log::add('meross','debug','action off');
+            log::add('meross','debug',$result);
+
         }
     }
 }

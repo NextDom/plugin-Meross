@@ -16,40 +16,44 @@
  */
 
 if (!isConnect('admin')) {
-	throw new Exception('401 Unauthorized');
+    throw new Exception('401 Unauthorized');
 }
 $eqLogics = meross::byType('meross');
 ?>
 
 <table class="table table-condensed tablesorter" id="table_healthmeross">
-	<thead>
-		<tr>
-			<th>{{Image}}</th>
-			<th>{{Module}}</th>
-			<th>{{ID}}</th>
-			<th>{{IP}}</th>
-			<th>{{Modèle}}</th>
-			<th>{{Date création}}</th>
-		</tr>
-	</thead>
-	<tbody>
-	 <?php
-foreach ($eqLogics as $eqLogic) {
-	$opacity = '';
-    if ($eqLogic->getIsEnable() != 1) {
-        $opacity = 'opacity:0.3;';
+    <thead>
+    <tr>
+        <th>{{Image}}</th>
+        <th>{{Nom}}</th>
+        <th>{{ID}}</th>
+        <th>{{Modèle}}</th>
+        <th>{{IP}}</th>
+        <th>{{Online}}</th>
+        <th>{{Date création}}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php
+    foreach ($eqLogics as $eqLogic) {
+        $opacity = '';
+        if ($eqLogic->getIsEnable() != 1) {
+            $opacity = 'opacity:0.3;';
+        }
+        if ($eqLogic->getConfiguration('type', '') != '') {
+            $image = '<img src="plugins/meross/core/config/devices/' . $eqLogic->getConfiguration('type', '') . '/icon.png" height="55" width="55" />';
+        } else {
+            $image = '<img src="plugins/meross/docs/images/meross_icon.png" height="55" width="55" />';
+        }
+        echo '<tr>';
+        echo '<td>' . $image . '</td><td><a href="' . $eqLogic->getLinkToConfiguration() . '" style="text-decoration: none;">' . $eqLogic->getHumanName(true) . '</a></td>';
+        echo '<td><span class="label label-info" style="font-size : 1em;">' . $eqLogic->getId() . '</span></td>';
+        echo '<td><span class="label label-info" style="font-size : 1em;">' . $eqLogic->getConfiguration('type') . '</span></td>';
+        echo '<td><span class="label label-info" style="font-size : 1em;">' . $eqLogic->getConfiguration('ip') . '</span></td>';
+        echo '<td><span class="label label-info" style="font-size : 1em;">' . $eqLogic->getConfiguration('online') . '</span></td>';
+        echo '<td><span class="label label-info" style="font-size : 1em;">' . $eqLogic->getConfiguration('createtime') . '</span></td>';
+        echo '</tr>';
     }
-    if ($eqLogic->getConfiguration('model', '') != '') {
-        $image = '<img src="plugins/meross/doc/images/' . $eqLogic->getConfiguration('model', '') . '.jpg" height="55" width="55" />';
-    } else {
-        $image = '<img src="plugins/meross/doc/images/meross_icon.png" height="55" width="55" />';
-    }
-	echo '<tr><td>' . $image . '</td><td><a href="' . $eqLogic->getLinkToConfiguration() . '" style="text-decoration: none;">' . $eqLogic->getHumanName(true) . '</a></td>';
-	echo '<td><span class="label label-info" style="font-size : 1em;">' . $eqLogic->getId() . '</span></td>';
-	echo '<td><span class="label label-info" style="font-size : 1em;">' . $eqLogic->getConfiguration('ip') . '</span></td>';
-	echo '<td><span class="label label-info" style="font-size : 1em;">' . $eqLogic->getConfiguration('model') . '</span></td>';
-	echo '<td><span class="label label-info" style="font-size : 1em;">' . $eqLogic->getConfiguration('createtime') . '</span></td></tr>';
-}
-?>
-	</tbody>
+    ?>
+    </tbody>
 </table>

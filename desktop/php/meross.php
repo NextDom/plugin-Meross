@@ -71,8 +71,8 @@ $eqLogics = eqLogic::byType($plugin->getId());
                 foreach ($eqLogics as $eqLogic) {
                     $opacity = ($eqLogic->getIsEnable()) ? '' : jeedom::getConfiguration('eqLogic:style:noactive');
                     echo '<div class="eqLogicDisplayCard cursor" data-eqLogic_id="' . $eqLogic->getId() . '" style="text-align: center; background-color : #ffffff; height : 200px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;' . $opacity . '" >';
-                    if (file_exists(dirname(__FILE__) . '/../../core/config/devices/' . $eqLogic->getConfiguration('type') . '/' . $eqLogic->getConfiguration('type') . '.png')) {
-                        echo '<img src="plugins/meross/core/config/devices/' . $eqLogic->getConfiguration('type') . '/' . $eqLogic->getConfiguration('type') . '.png' . '" height="105" width="105" />';
+                    if (file_exists(dirname(__FILE__) . '/../../core/config/devices/' . $eqLogic->getConfiguration('type') . '/icon.png')) {
+                        echo '<img src="plugins/meross/core/config/devices/' . $eqLogic->getConfiguration('type') . '/icon.png' . '" height="105" width="105" />';
                       } else {
                         echo '<img src="' . $plugin->getPathImgIcon() . '" height="105" width="95" />';
                       }
@@ -176,8 +176,8 @@ $eqLogics = eqLogic::byType($plugin->getId());
                                             <li><a href="#">{{ Adresse IP }}<span class="eqLogicAttr pull-right badge bg-default" data-l1key="configuration" data-l2key="ip"></span></a></li>
                                             <li><a href="#">{{ Adresse MAC }}<span class="eqLogicAttr pull-right badge bg-default" data-l1key="configuration" data-l2key="mac"></span></a></li>
                                             <li><a href="#">{{ En ligne }}<span class="eqLogicAttr pull-right badge bg-green" data-l1key="configuration" data-l2key="online"></span></a></li>
-                                            <li><a href="#">{{ Nom sur l'app Meross }}<span class="eqLogicAttr pull-right badge bg-default" data-l1key="configuration" data-l2key="name"></span></a></li>
-                                            <li><a href="#">{{ UUID }}<span class="eqLogicAttr pull-right badge bg-default" data-l1key="configuration" data-l2key="uuid"></span></a></li>
+                                            <li><a href="#">{{ Nom sur l'app Meross }}<span class="eqLogicAttr pull-right badge bg-default" data-l1key="name"></span></a></li>
+                                            <li><a href="#">{{ UUID }}<span class="eqLogicAttr pull-right badge bg-default" data-l1key="logicalId"></span></a></li>
                                         </ul>
                                     </div>
                                 </div>
