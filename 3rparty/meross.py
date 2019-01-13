@@ -101,9 +101,10 @@ def ConnectAndRefreshAll(email, password):
             'ip':       data['all']['system']['firmware']['innerIp'],
             'mac':      data['all']['system']['hardware']['macAddress'],
             'online':   data['all']['system']['online']['status'],
-            'uuid':    data['all']['system']['hardware']['uuid'],
+            'uuid':     device._uuid,
             'type':     data['all']['system']['hardware']['type'],
             'version':  data['all']['system']['firmware']['version'],
+            'onoff':    data['all']['control']['toggle']['onoff'],
             } )
         try:
             electricity = device.get_electricity()
@@ -145,6 +146,36 @@ def ConnectAndRefreshAll(email, password):
     with open(jsonfile, 'w') as fp:
         json.dump(d_devices, fp)
     return d_devices
+
+# ---------------------------------------------------------------------
+def ConnectAndSetOnOff(email, password, name=None, uuid=None, mac=None, set='on'):
+    """ Connect to Meross Cloud and set on or off a smartplug """
+
+    if mac and not name and not uuid: Exit("<F> Error : not implemented !")
+    if not name and not uuid and not mac:
+        Exit("<F> Error : need at least 'name', 'uuid' or 'mac' parameter to set on or off a smartplug !")
+
+    try:
+        httpHandler = MerossHttpClient(email, password)
+    except:
+        Exit("<F> Error : can't connect to Meross Cloud ! Please verify Internet connection, email and password !")
+
+    # Retrieves the list of supported devices
+    devices = httpHandler.list_supported_devices()
+
+    device = None
+    for d in devices:
+       if (d._uuid == uuid) or (d._name == name):
+           break
+    try:
+       if set == 'on':
+           d.turn_on()
+       else:
+            d.turn_off()
+    except:
+        pass
+
+    return        
 
 # ---------------------------------------------------------------------
 def GetByName(d_devices, name):
@@ -254,41 +285,9 @@ if __name__=='__main__':
         if args.show:
             pprint.pprint(d_devices)
 
-
-
-
-    """
-    # Returns most of the info about the power plug
-    data = devices[0].get_sys_data()
-
-    # Turns the power-plug on
-    devices[0].turn_off()
-
-    # Turns the power-plug off
-    devices[0].turn_on()
-
-    # Reads the historical device consumption
-    consumption = devices[0].get_power_consumptionX()
-
-    # Returns the list of WIFI Network available for the plug
-    # (Note. this takes some time to complete)
-    wifi_list = devices[0].get_wifi_list()
-
-    # Info about the device
-    trace = devices[0].get_trace()
-    debug = devices[0].get_debug()
-
-    # Returns the capabilities of this device
-    abilities = devices[0].get_abilities()
-
-    # I still have to figure this out :S
-    report = devices[0].get_report()
-
-    # Returns the current power consumption and voltage from the plug
-    # (Note: this is not really realtime, but close enough)
-    electricity = devices[0].get_electricity()
-
-    current_status = devices[0].get_electricity()
-    print(current_status)
-    """
+    # Set on / off
+    if args.set_on:
+        ConnectAndSetOnOff(email, password, name=args.name, uuid=args.uuid, mac=args.mac, set='on')
+    if args.set_off:
+        ConnectAndSetOnOff(email, password, name=args.name, uuid=args.uuid, mac=args.mac, set='off')
 
