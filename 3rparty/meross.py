@@ -104,7 +104,7 @@ def ConnectAndRefreshAll(email, password):
             'uuid':     device._uuid,
             'type':     data['all']['system']['hardware']['type'],
             'version':  data['all']['system']['firmware']['version'],
-            'onoff':    data['all']['control']['toggle']['onoff'],
+            
             } )
         try:
             electricity = device.get_electricity()
@@ -148,7 +148,7 @@ def ConnectAndRefreshAll(email, password):
     return d_devices
 
 # ---------------------------------------------------------------------
-def ConnectAndSetOnOff(email, password, name=None, uuid=None, mac=None, set='on'):
+def ConnectAndSetOnOff(email, password, name=None, uuid=None, mac=None, action='on'):
     """ Connect to Meross Cloud and set on or off a smartplug """
 
     if mac and not name and not uuid: Exit("<F> Error : not implemented !")
@@ -166,12 +166,15 @@ def ConnectAndSetOnOff(email, password, name=None, uuid=None, mac=None, set='on'
     device = None
     for d in devices:
        if (d._uuid == uuid) or (d._name == name):
+           device = d
            break
+
     try:
-       if set == 'on':
-           d.turn_on()
+       if action == 'on':
+            print('on')
+            device.turn_on()
        else:
-            d.turn_off()
+            device.turn_off()
     except:
         pass
 
@@ -216,26 +219,18 @@ if __name__=='__main__':
     parser.add_argument('--show_power', action="store_true", default=False)
     parser.add_argument('--show_yesterday', action="store_true", default=False)
     parser.add_argument('--show', action="store_true", default=False)
-    parser.add_argument('--config', action="store", dest="config")
+    parser.add_argument('--email', action="store", dest="email")
+    parser.add_argument('--password', action="store", dest="password")
     parser.add_argument('--debug', action="store_true", default=False)
 
     args = parser.parse_args()
     #print(args)
 
+
+
     # WriteLog
     l = WriteLog()
     l.debug = args.debug
-
-
-    # Read config file
-    if args.config:
-        if not os.isfile(args.config):
-            Exit("<F> Error : can't read '%s' config file!")
-        else:
-            conf=args.config
-    else:
-        conf=conffile
-    email, password = ReadConfig(conffile=conf)
 
     # Connect to Meross Cloud and refresh all devices and informations
     refresh = False
@@ -249,7 +244,8 @@ if __name__=='__main__':
         except:
             refresh = True
     if args.refresh or refresh:
-        d_devices = ConnectAndRefreshAll(email, password)
+        if not args.email or not args.password: Exit("<F> Error : Email and password are mandatory !")
+        d_devices = ConnectAndRefreshAll(args.email, args.password)
 
     # Find the Smartplug
     SP = None
@@ -287,7 +283,7 @@ if __name__=='__main__':
 
     # Set on / off
     if args.set_on:
-        ConnectAndSetOnOff(email, password, name=args.name, uuid=args.uuid, mac=args.mac, set='on')
+        ConnectAndSetOnOff(email=args.email, password=args.password, name=args.name, uuid=args.uuid, mac=args.mac, action='on')
     if args.set_off:
-        ConnectAndSetOnOff(email, password, name=args.name, uuid=args.uuid, mac=args.mac, set='off')
+        ConnectAndSetOnOff(email=args.email, password=args.password, name=args.name, uuid=args.uuid, mac=args.mac, action='off')
 

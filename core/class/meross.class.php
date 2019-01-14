@@ -40,7 +40,7 @@ class meross extends eqLogic
 {
 
     private static $_Result = __DIR__ . '/../../3rparty/result.json';
-    private static $_Script = __DIR__ . '/../../3rdparty/meross.sh';
+    private static $_Script = __DIR__ . '/../../3rparty/meross.sh';
 
     public static $_widgetPossibility = array(
         'custom' => true,
@@ -58,7 +58,9 @@ class meross extends eqLogic
 
     public static function cron()
     {
-        self::launchScript('--refresh');
+        $email = config::byKey('merossEmail', 'meross');
+        $password = config::byKey('merossPassword', 'meross');
+        self::launchScript('--email ' . $email . ' --password ' . $password . ' --refresh --show');
         log::add('meross', 'debug', '=== MAJ DES INFOS ===');
         foreach (eqLogic::byType('meross', true) as $eqLogic) {
             $eqLogic->updateInfo();
