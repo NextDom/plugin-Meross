@@ -71,12 +71,11 @@ $eqLogics = eqLogic::byType($plugin->getId());
                 <br>
                 <span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;">{{ Configuration }}</span>
             </div>
-            <div class="cursor" id="bt_healthmeross" style="text-align: center; background-color : #ffffff; height : 120px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;" >
-                <i class="fa fa-medkit" style="font-size : 5em;color:#767676;"></i>
+            <div class="cursor" id="bt_healthmeross" style="text-align: center; background-color : #ffffff; height : 120px;margin-bottom : 10px;padding : 5px; border-radius: 2px;width : 160px;margin-left : 10px;">
+                <i class="fa fa-medkit" style="font-size : 6em;color:#767676;"></i>
                 <br>
-                <span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;color:#767676">{{Santé}}</span>
+                <span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;">{{ Santé }}</span>
             </div>
-
         </div>
 
         <br>
@@ -96,138 +95,151 @@ $eqLogics = eqLogic::byType($plugin->getId());
                     echo '<span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;">' . $eqLogic->getHumanName(true, true) . '</span>';
                     echo '</div>';
                 }
-                ?>
+            ?>
         </div>
     </div>
 
-    <div class="col-lg-10 col-md-9 col-sm-8 eqLogic" style="border-left: solid 1px #EEE; padding-left: 25px;display: none;">
-        <a class="btn btn-success eqLogicAction pull-right" data-action="save">
-            <i class="fa fa-check-circle"></i> {{Sauvegarder}}
-        </a>
-        <a class="btn btn-danger eqLogicAction pull-right" data-action="remove">
-            <i class="fa fa-minus-circle"></i> {{Supprimer}}</a>
-        <a class="btn btn-default eqLogicAction pull-right" data-action="configure">
-            <i class="fa fa-cogs"></i> {{Configuration avancée}}
-        </a>
-        <ul class="nav nav-tabs" role="tablist">
-            <li role="presentation">
-                <a href="#" class="eqLogicAction" aria-controls="home" role="tab" data-toggle="tab" data-action="returnToThumbnailDisplay">
-                    <i class="fa fa-arrow-circle-left"></i>
-                </a>
-            </li>
-            <li role="presentation" class="active">
-                <a href="#eqlogictab" aria-controls="home" role="tab" data-toggle="tab">
-                    <i class="fa fa-tachometer"></i> {{Equipement}}
-                </a>
-            </li>
-            <li role="presentation"><a href="#commandtab" aria-controls="profile" role="tab" data-toggle="tab">
-                    <i class="fa fa-list-alt"></i> {{Commandes}}</a>
-            </li>
-        </ul>
-        <div class="tab-content" style="height:calc(100% - 50px);overflow:auto;overflow-x: hidden;">
-            <div role="tabpanel" class="tab-pane active" id="eqlogictab">
-                <br />
-                <form class="form-horizontal">
-                    <fieldset>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label" for="name">{{Nom de l'équipement Meross}}</label>
-                            <div class="col-sm-3">
-                                <input type="text" class="eqLogicAttr form-control" data-l1key="id" style="display : none;" />
-                                <input type="text" class="eqLogicAttr form-control" data-l1key="name" id="name"
-                                    placeholder="{{Nom de l'équipement Meross}}" />
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label" for="sel_object">{{Objet parent}}</label>
-                            <div class="col-sm-3">
-                                <select id="sel_object" class="eqLogicAttr form-control" data-l1key="object_id">
-                                    <option value="">{{Aucun}}</option>
-                                    <?php
-                                        foreach (object::all() as $object) {
-                                            echo '<option value="' . $object->getId() . '">' . $object->getName() . '</option>';
-                                        }
-                                        ?>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">{{Catégorie}}</label>
-                            <div class="col-sm-9">
-                                <?php
-                                    foreach (jeedom::getConfiguration('eqLogic:category') as $key => $value) {
-                                        echo '<label class="checkbox-inline" for="category-' . $key . '">';
-                                        echo '<input type="checkbox" id="category-' . $key . '" class="eqLogicAttr" data-l1key="category" data-l2key="' . $key . '" />' . $value['name'];
-                                        echo '</label>';
-                                    }
-                                    ?>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label"></label>
-                            <div class="col-sm-9">
-                                <label class="checkbox-inline" for="is-enable">
-                                    <input type="checkbox" class="eqLogicAttr" data-l1key="isEnable" checked="checked"
-                                        id="is-enable" />
-                                    {{Activer}}
-                                </label>
-                                <label class="checkbox-inline" for="is-visible">
-                                    <input type="checkbox" class="eqLogicAttr" data-l1key="isVisible" checked="checked"
-                                        id="is-visible" />
-                                    {{Visible}}
-                                </label>
-                            </div>
-                        </div>
-
-                        <!-- Informations -->
+    <div class="col-lg-10 col-md-9 col-sm-8 eqLogic" style="display: none;">
+        <section class="content-header">
+            <div class="action-bar">
+                <div class="action-group">
+                    <a class="btn btn-danger btn-action-bar eqLogicAction" data-action="returnToThumbnailDisplay"><i class="fas fa-chevron-left">&nbsp;&nbsp;</i>Retour</a>
+                </div>
+                <div class="action-group">
+                    <a class="btn btn-success eqLogicAction pull-right" data-action="save"><i class="fa fa-check-circle">&nbsp;&nbsp;</i>{{Sauvegarder}}</a>
+                    <a class="btn btn-default eqLogicAction pull-right" data-action="configure"><i class="fa fa-cogs">&nbsp;&nbsp;</i>{{Configuration avancée}}</a>
+                    <a class="btn btn-danger eqLogicAction pull-right" data-action="remove"><i class="fa fa-minus-circle">&nbsp;&nbsp;</i>{{Supprimer}}</a>
+                </div>
+            </div>
+        </section>
+        <section class="content">
+            <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs pull-right" role="tablist">
+                    <li role="presentation" class="active">
+                        <a href="#eqlogictab" aria-controls="home" role="tab" data-toggle="tab">
+                            <i class="fa fa-tachometer"></i> {{Equipement}}
+                        </a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#commandtab" aria-controls="profile" role="tab" data-toggle="tab">
+                            <i class="fa fa-list-alt"></i> {{Commandes}}
+                        </a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="eqlogictab">
+                        <br />
                         <div class="row">
-                            <div class="col-md-4 col-md-offset-3">
+                        <!-- Configuration -->
+                            <div class="col-md-8">
                                 <div class="box box-widget widget-user-2">
                                     <div class="widget-user-header backgroundColor">
-                                        <div>
-                                            <img src="core/img/no_image.gif" data-original=".jpg" id="img_device" class="img-responsive" style="max-height : 120px;margin-top: 10px"/>
-                                        </div>
-                                        <h3 class="widget-user-username">{{ Informations Meross Cloud }}</h3>
-                                      </div>
+                                        <h3 class="eqlogic-box-title">{{ Configuration équipement }}</h3>
+                                    </div>
+                                    <div class="box-body">
+                                        <form class="form-horizontal">
+                                            <fieldset>
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" for="name">{{Nom de l'équipement Meross}}</label>
+                                                    <div class="col-sm-3">
+                                                        <input type="text" class="eqLogicAttr form-control" data-l1key="id" style="display : none;" />
+                                                        <input type="text" class="eqLogicAttr form-control" data-l1key="name" id="name" placeholder="{{Nom de l'équipement Meross}}" />
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" for="sel_object">{{Objet parent}}</label>
+                                                    <div class="col-sm-3">
+                                                        <select id="sel_object" class="eqLogicAttr form-control" data-l1key="object_id">
+                                                            <option value="">{{Aucun}}</option>
+                                                            <?php
+                                                                foreach (object::all() as $object) {
+                                                                    echo '<option value="' . $object->getId() . '">' . $object->getName() . '</option>';
+                                                                }
+                                                            ?>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label">{{Catégorie}}</label>
+                                                    <div class="col-sm-9">
+                                                        <?php
+                                                            foreach (jeedom::getConfiguration('eqLogic:category') as $key => $value) {
+                                                                echo '<label class="checkbox-inline" for="category-' . $key . '">';
+                                                                echo '<input type="checkbox" id="category-' . $key . '" class="eqLogicAttr" data-l1key="category" data-l2key="' . $key . '" />' . $value['name'];
+                                                                echo '</label>';
+                                                            }
+                                                        ?>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label"></label>
+                                                    <div class="col-sm-9">
+                                                        <label class="checkbox-inline" for="is-enable">
+                                                            <input type="checkbox" class="eqLogicAttr" data-l1key="isEnable" checked="checked" id="is-enable" />
+                                                            {{Activer}}
+                                                        </label>
+                                                        <label class="checkbox-inline" for="is-visible">
+                                                            <input type="checkbox" class="eqLogicAttr" data-l1key="isVisible" checked="checked" id="is-visible" />
+                                                            {{Visible}}
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        <!-- End Configuration -->
 
+                        <!-- Informations -->
+                            <div class="col-md-4">
+                                <div class="box box-widget widget-user-2">
+                                    <div class="widget-user-header backgroundColor">
+                                        <h3 class="eqlogic-box-title">{{ Informations Meross Cloud }}</h3>
+                                    </div>
                                     <div class="box-footer no-padding">
                                         <ul class="nav nav-stacked">
                                             <li><a href="#">{{ Modèle }}<span class="eqLogicAttr pull-right badge bg-blue" data-l1key="configuration" data-l2key="type"></span></a></li>
                                             <li><a href="#">{{ Adresse IP }}<span class="eqLogicAttr pull-right badge bg-default" data-l1key="configuration" data-l2key="ip"></span></a></li>
                                             <li><a href="#">{{ Adresse MAC }}<span class="eqLogicAttr pull-right badge bg-default" data-l1key="configuration" data-l2key="mac"></span></a></li>
                                             <li><a href="#">{{ En ligne }}<span class="eqLogicAttr pull-right badge bg-green" data-l1key="configuration" data-l2key="online"></span></a></li>
-                                            <li><a href="#">{{ Nom sur l'app Meross }}<span class="eqLogicAttr pull-right badge bg-default" data-l1key="appname"></span></a></li>
-                                            <li><a href="#">{{ Firmware version }}<span class="eqLogicAttr pull-right badge bg-default" data-l1key="firmversion"></span></a></li>
+                                            <li><a href="#">{{ Nom sur l'app Meross }}<span class="eqLogicAttr pull-right badge bg-default" data-l1key="configuration" data-l2key="appname"></span></a></li>
+                                            <li><a href="#">{{ Firmware version }}<span class="eqLogicAttr pull-right badge bg-default" data-l1key="configuration" data-l2key="firmversion"></span></a></li>
                                             <li><a href="#">{{ UUID }}<span class="eqLogicAttr pull-right badge bg-default" data-l1key="logicalId"></span></a></li>
+                                            <li>
+                                                <a href="#">
+                                                    <img src="core/img/no_image.gif" data-original=".jpg" id="img_device" class="img-responsive img-model" />
+                                                </a>
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>
                             </div>
-                        </div>
                         <!-- End Informations -->
+                                                        </div>
 
-                    </fieldset>
-                </form>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="commandtab">
+                        <a class="btn btn-success btn-sm cmdAction pull-right" data-action="add" style="margin-top:5px;">
+                            <i class="fa fa-plus-circle"></i> {{Commandes}}
+                        </a>
+                        <br />
+                        <br />
+                        <table id="table_cmd" class="table table-bordered table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>{{Nom}}</th>
+                                    <th>{{Type}}</th>
+                                    <th>{{Action}}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
-            <div role="tabpanel" class="tab-pane" id="commandtab">
-                <a class="btn btn-success btn-sm cmdAction pull-right" data-action="add" style="margin-top:5px;">
-                    <i class="fa fa-plus-circle"></i> {{Commandes}}
-                </a>
-                <br />
-                <br />
-                <table id="table_cmd" class="table table-bordered table-condensed">
-                    <thead>
-                        <tr>
-                            <th>{{Nom}}</th>
-                            <th>{{Type}}</th>
-                            <th>{{Action}}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
+        </section>                                                
     </div>
 </div>
 

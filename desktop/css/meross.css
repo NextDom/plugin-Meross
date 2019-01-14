@@ -1,6 +1,12 @@
 .img-model{
-    margin-top: -15px;
-    width: 65px;
+    width: 200px;
     height: auto;
-    float: left;
+}
+
+.eqlogic-box-title {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-size: 25px;
+    font-weight: 300;
+    color: white
 }
