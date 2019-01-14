@@ -47,6 +47,7 @@ $('#bt_healthmeross').on('click', function () {
 });
 
 $('.eqLogicAction[data-action=sync]').on('click', function () {
+    $('#div_alert').showAlert({message: '{{Synchronisation avec le cloud Meross en cours...}}', level: 'warning'});
     $.post({
         url: 'plugins/meross/core/ajax/meross.ajax.php',
         data: {
@@ -56,7 +57,11 @@ $('.eqLogicAction[data-action=sync]').on('click', function () {
             // Test si l'appel a échoué
             if (data.state !== 'ok' || status !== 'success') {
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                return;
             }
+            $('#div_alert').showAlert({message: '{{Synchronisation terminée}}', level: 'success'});
+            window.location.reload();
+
         },
         error: function (request, status, error) {
             handleAjaxError(request, status, error);

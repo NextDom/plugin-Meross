@@ -58,9 +58,7 @@ class meross extends eqLogic
 
     public static function cron()
     {
-        $email = config::byKey('merossEmail', 'meross');
-        $password = config::byKey('merossPassword', 'meross');
-        self::launchScript('--email ' . $email . ' --password ' . $password . ' --refresh --show');
+        self::launchScript('--refresh --show');
         log::add('meross', 'debug', '=== MAJ DES INFOS ===');
         foreach (eqLogic::byType('meross', true) as $eqLogic) {
             $eqLogic->updateInfo();
@@ -74,8 +72,10 @@ class meross extends eqLogic
 
     public function launchScript($_args)
     {
+        $email = config::byKey('merossEmail', 'meross');
+        $password = config::byKey('merossPassword', 'meross');
         try {
-            shell_exec("sudo sh " . self::$_Script . ' ' . $_args);
+            shell_exec("sudo sh " . self::$_Script . ' --email ' . $email . ' --password ' . $password . ' ' . $_args);
         } catch (\Exception $e) {
             log::add('meross', 'error', 'pas de fichier script trouvé ' . $e);
         }
@@ -94,6 +94,7 @@ class meross extends eqLogic
     public function syncMeross()
     {
         log::add('meross', 'debug', '=== AJOUT DES EQUIPEMENTS ===');
+        self::launchScript('--refresh --show');
         $json = self::getJson(self::$_Result);
         foreach ($json as $key=>$devices) {
             $device = self::byLogicalId($key, 'meross');
