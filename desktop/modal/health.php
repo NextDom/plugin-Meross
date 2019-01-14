@@ -28,6 +28,7 @@ $eqLogics = meross::byType('meross');
         <th>{{Nom}}</th>
         <th>{{ID}}</th>
         <th>{{Modèle}}</th>
+        <th>{{Firmware}}</th>
         <th>{{IP}}</th>
         <th>{{Online}}</th>
         <th>{{Date création}}</th>
@@ -51,6 +52,7 @@ $eqLogics = meross::byType('meross');
         echo '<td>' . $image . '</td><td><a href="' . $eqLogic->getLinkToConfiguration() . '" style="text-decoration: none;">' . $eqLogic->getHumanName(true) . '</a></td>';
         echo '<td><span class="label label-info" style="font-size : 1em;">' . $eqLogic->getId() . '</span></td>';
         echo '<td><span class="label label-info" style="font-size : 1em;">' . $eqLogic->getConfiguration('type') . '</span></td>';
+        echo '<td><span class="label label-info" style="font-size : 1em;">' . $eqLogic->getConfiguration('firmversion') . '</span></td>';
         echo '<td><span class="label label-info" style="font-size : 1em;">' . $eqLogic->getConfiguration('ip') . '</span></td>';
         echo '<td><span class="label label-info" style="font-size : 1em;">' . $eqLogic->getConfiguration('online') . '</span></td>';
         echo '<td><span class="label label-info" style="font-size : 1em;">' . $eqLogic->getConfiguration('createtime') . '</span></td>';
