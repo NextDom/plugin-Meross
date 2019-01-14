@@ -201,6 +201,8 @@ $eqLogics = eqLogic::byType($plugin->getId());
                                             <li><a href="#">{{ Adresse IP }}<span class="eqLogicAttr pull-right badge bg-default" data-l1key="configuration" data-l2key="ip"></span></a></li>
                                             <li><a href="#">{{ Adresse MAC }}<span class="eqLogicAttr pull-right badge bg-default" data-l1key="configuration" data-l2key="mac"></span></a></li>
                                             <li><a href="#">{{ En ligne }}<span class="eqLogicAttr pull-right badge bg-green" data-l1key="configuration" data-l2key="online"></span></a></li>
+                                            <li><a href="#">{{ Nom sur l'app Meross }}<span class="eqLogicAttr pull-right badge bg-default" data-l1key="appname"></span></a></li>
+                                            <li><a href="#">{{ Firmware version }}<span class="eqLogicAttr pull-right badge bg-default" data-l1key="firmversion"></span></a></li>
                                             <li><a href="#">{{ UUID }}<span class="eqLogicAttr pull-right badge bg-default" data-l1key="logicalId"></span></a></li>
                                         </ul>
                                     </div>
