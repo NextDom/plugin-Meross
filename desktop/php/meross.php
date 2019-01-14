@@ -168,8 +168,18 @@ $eqLogics = eqLogic::byType($plugin->getId());
                             <div class="col-md-4 col-md-offset-3">
                                 <div class="box box-widget widget-user-2">
                                     <div class="widget-user-header bg-aqua-active">
+                                        <div>
+                                            <?php
+                                            if (file_exists(dirname(__FILE__) . '/../../core/config/devices/' . $eqLogic->getConfiguration('type') . '/icon.png')) {
+                                                echo '<img class="img-model" src="plugins/meross/core/config/devices/' . $eqLogic->getConfiguration('type') . '/icon.png' . '" />';
+                                            } else {
+                                                echo '<img class="img-model" src="' . $plugin->getPathImgIcon() . '" />';
+                                            }
+                                            ?>
+                                        </div>
                                         <h3 class="widget-user-username">{{ Informations Meross Cloud }}</h3>
-                                    </div>
+                                      </div>
+
                                     <div class="box-footer no-padding">
                                         <ul class="nav nav-stacked">
                                             <li><a href="#">{{ Modèle }}<span class="eqLogicAttr pull-right badge bg-blue" data-l1key="configuration" data-l2key="type"></span></a></li>
@@ -213,4 +223,5 @@ $eqLogics = eqLogic::byType($plugin->getId());
 
 <?php
 include_file('desktop', 'meross', 'js', 'meross');
+include_file('desktop', 'meross', 'css', 'meross');
 include_file('core', 'plugin.template', 'js');
