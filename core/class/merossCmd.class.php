@@ -30,13 +30,13 @@ class merossCmd extends cmd
         if($action == "on") {
             $command = 'sh ' . __DIR__ . '/../../3rdparty/meross.sh --uuid ' . $eqLogic->getLogicalId() . ' --set_on';
             $result=trim(shell_exec($command));
-            log::add('meross','debug','action on');
+            log::add('meross','debug','action: on');
             log::add('meross','debug',$result);
 
         } elseif ($action == "on") {
             $command = 'sh ' . __DIR__ . '/../../3rdparty/meross.sh --uuid ' . $eqLogic->getLogicalId() . ' --set_off';
             $result=trim(shell_exec($command));
-            log::add('meross','debug','action off');
+            log::add('meross','debug','action: off');
             log::add('meross','debug',$result);
 
         }

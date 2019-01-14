@@ -43,7 +43,7 @@ class meross extends eqLogic
 
     public static function cron()
     {
-        self::launchScript();
+        self::launchScript('--refresh');
         log::add('meross', 'debug', '=== MAJ DES INFOS ===');
         foreach (eqLogic::byType('meross', true) as $eqLogic) {
             $eqLogic->updateInfo();
@@ -55,10 +55,10 @@ class meross extends eqLogic
 
     }
 
-    public function launchScript()
+    public function launchScript($_args)
     {
         try {
-            shell_exec("sudo sh " . self::$_pathScript);
+            shell_exec("sudo sh " . self::$_pathScript . ' ' . $_args);
         } catch (\Exception $e) {
             log::add('meross', 'error', 'pas de fichier script trouvé ' . $e);
         }
