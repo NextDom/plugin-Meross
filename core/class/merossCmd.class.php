@@ -24,21 +24,24 @@ class merossCmd extends cmd
     {
         $eqLogic = $this->getEqLogic();
         $action = $this->getLogicalId();
-        log::add('meross', 'debug','action'. $action );
-        log::add('meross', 'debug', $eqLogic->getLogicalId() );
+        log::add('meross', 'debug','action: '. $action );
 
-        if($action == "on") {
+        if($action == "On") {
             $command = 'sh ' . __DIR__ . '/../../3rdparty/meross.sh --uuid ' . $eqLogic->getLogicalId() . ' --set_on';
             $result=trim(shell_exec($command));
-            log::add('meross','debug','action: on');
+            $eqLogic->cron($eqLogic->getId());
             log::add('meross','debug',$result);
 
-        } elseif ($action == "on") {
+        } elseif ($action == "Off") {
             $command = 'sh ' . __DIR__ . '/../../3rdparty/meross.sh --uuid ' . $eqLogic->getLogicalId() . ' --set_off';
             $result=trim(shell_exec($command));
-            log::add('meross','debug','action: off');
+            $eqLogic->cron($eqLogic->getId());
             log::add('meross','debug',$result);
 
+        }
+
+        if ($action == 'Rafraichir') {
+            $eqLogic->cron($eqLogic->getId());
         }
     }
 }
