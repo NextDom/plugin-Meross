@@ -31,6 +31,8 @@ $eqLogics = meross::byType('meross');
         <th>{{IP}}</th>
         <th>{{Online}}</th>
         <th>{{Date création}}</th>
+        <th>{{Date dernière communication}}</th>
+
     </tr>
     </thead>
     <tbody>
@@ -52,6 +54,7 @@ $eqLogics = meross::byType('meross');
         echo '<td><span class="label label-info" style="font-size : 1em;">' . $eqLogic->getConfiguration('ip') . '</span></td>';
         echo '<td><span class="label label-info" style="font-size : 1em;">' . $eqLogic->getConfiguration('online') . '</span></td>';
         echo '<td><span class="label label-info" style="font-size : 1em;">' . $eqLogic->getConfiguration('createtime') . '</span></td>';
+        echo '<td><span class="label label-info" style="font-size : 1em;cursor:default;">' . $eqLogic->getStatus('lastCommunication') . '</span></td>';
         echo '</tr>';
     }
     ?>
