@@ -182,7 +182,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
                         <div class="row">
                             <div class="col-md-4 col-md-offset-3">
                                 <div class="box box-widget widget-user-2">
-                                    <div class="widget-user-header bg-aqua-active">
+                                    <div class="widget-user-header backgroundColor">
                                         <div>
                                             <?php
                                             if (file_exists(dirname(__FILE__) . '/../../core/config/devices/' . $eqLogic->getConfiguration('type') . '/icon.png')) {
