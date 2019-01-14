@@ -16,6 +16,22 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+/* This file is part of NextDom.
+*
+* NextDom is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* NextDom is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with NextDom. If not, see <http://www.gnu.org/licenses/>.
+*/
+
 if (!isConnect('admin')) {
     throw new \Exception('{{401 - Accès non autorisé}}');
 }
@@ -114,8 +130,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
                 <form class="form-horizontal">
                     <fieldset>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label" for="name">{{Nom de l'équipement
-                                Meross}}</label>
+                            <label class="col-sm-3 control-label" for="name">{{Nom de l'équipement Meross}}</label>
                             <div class="col-sm-3">
                                 <input type="text" class="eqLogicAttr form-control" data-l1key="id" style="display : none;" />
                                 <input type="text" class="eqLogicAttr form-control" data-l1key="name" id="name"
@@ -186,7 +201,6 @@ $eqLogics = eqLogic::byType($plugin->getId());
                                             <li><a href="#">{{ Adresse IP }}<span class="eqLogicAttr pull-right badge bg-default" data-l1key="configuration" data-l2key="ip"></span></a></li>
                                             <li><a href="#">{{ Adresse MAC }}<span class="eqLogicAttr pull-right badge bg-default" data-l1key="configuration" data-l2key="mac"></span></a></li>
                                             <li><a href="#">{{ En ligne }}<span class="eqLogicAttr pull-right badge bg-green" data-l1key="configuration" data-l2key="online"></span></a></li>
-                                            <li><a href="#">{{ Nom sur l'app Meross }}<span class="eqLogicAttr pull-right badge bg-default" data-l1key="name"></span></a></li>
                                             <li><a href="#">{{ UUID }}<span class="eqLogicAttr pull-right badge bg-default" data-l1key="logicalId"></span></a></li>
                                         </ul>
                                     </div>

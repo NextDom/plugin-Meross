@@ -1,10 +1,6 @@
 # FAQ
 
-### Question 1 ?
+### Comment fonctionne le plugin ?
 
-
-Réponse 1.
-
-### Question 2 ?
-
-Réponse 2
+Ce plugin se connect au cloud Meross grace a une librairie python. Le plugin recupere les informations pour créer les équipement sous nextdom/jeedom
+Tout les parametrages se font avec l'application Meross.

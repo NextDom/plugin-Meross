@@ -28,7 +28,7 @@ function Meross_install()
 {
     log::add('meross', 'info', 'Meross installing...');
 
-    cleanPyCache()
+    cleanPyCache();
 
     log::add('meross', 'info', 'Meross installation completed.');
 }
@@ -43,7 +43,7 @@ function Meross_update()
 {
     log::add('meross', 'info', 'Meross updating...');
 
-    cleanPyCache()
+    cleanPyCache();
 
     log::add('meross', 'info', 'Meross update completed.');
 }
@@ -71,6 +71,6 @@ function cleanPyCache()
 {
     log::add('meross', 'info', 'Remove __pycache__ from 3rparty folders');
 
-    $3rpartyPath = dirname(__FILE__) . '/../3rparty/';
-    exec('cd ' . $3rpartyPath . '; find . | grep -E "(__pycache__|\.pyc|\.pyo$)" | xargs rm -rf');
+    $_3rpartyPath = dirname(__FILE__) . '/../3rparty/';
+    exec('cd ' . $_3rpartyPath . '; find . | grep -E "(__pycache__|\.pyc|\.pyo$)" | xargs rm -rf');
 }

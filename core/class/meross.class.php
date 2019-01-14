@@ -16,6 +16,22 @@
  * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
  */
 
+/* This file is part of NextDom.
+*
+* NextDom is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* NextDom is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with NextDom. If not, see <http://www.gnu.org/licenses/>.
+*/
+
 /* * ***************************Includes********************************* */
 require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
 require_once "merossCmd.class.php";
@@ -23,9 +39,8 @@ require_once "merossCmd.class.php";
 class meross extends eqLogic
 {
 
-    private static $_pathJson = __DIR__ . '/../../3rparty/result.json';
-    private static $_pathScript = __DIR__ . '/../../3rdparty/meross.sh';
-
+    private static $_Result = __DIR__ . '/../../3rparty/result.json';
+    private static $_Script = __DIR__ . '/../../3rdparty/meross.sh';
 
     public static $_widgetPossibility = array(
         'custom' => true,
@@ -58,16 +73,16 @@ class meross extends eqLogic
     public function launchScript($_args)
     {
         try {
-            shell_exec("sudo sh " . self::$_pathScript . ' ' . $_args);
+            shell_exec("sudo sh " . self::$_Script . ' ' . $_args);
         } catch (\Exception $e) {
             log::add('meross', 'error', 'pas de fichier script trouvé ' . $e);
         }
     }
 
-    public function getJson()
+    public function getJson($_file)
     {
         try {
-            $data = file_get_contents(self::$_pathJson);
+            $data = file_get_contents($_file);
             $json = json_decode($data, true);
             return $json;
         } catch (\Exception $e) {
@@ -77,8 +92,7 @@ class meross extends eqLogic
     public function syncMeross()
     {
         log::add('meross', 'debug', '=== AJOUT DES EQUIPEMENTS ===');
-
-        $json = self::getJson();
+        $json = self::getJson(self::$_Result);
         foreach ($json as $key=>$devices) {
             $device = self::byLogicalId($key, 'meross');
             if (!is_object($device)) {
@@ -96,17 +110,13 @@ class meross extends eqLogic
                 log::add('meross', 'debug','équipement' . $devices["name"] . ' deja ajouter ');
             }
 
-
-
-            $dataCmd = file_get_contents(__DIR__ . '/../../core/config/devices/'.$devices["type"].'/parametres.json');
-            $jsonCmd= json_decode($dataCmd, true);
+            $jsonCmd = self::getJson(__DIR__ . '/../../core/config/devices/'.$devices["type"].'/def.json');
             foreach($jsonCmd[$devices["type"]]['commands'] as $key=>$commandes){
-
                 $cmd = $device->getCmd(null, $commandes['name']);
                 if (!is_object($cmd)) {
                     log::add('meross', 'debug','-- Ajout de la commande: ' .$commandes['name']);
                     $cmd = new merossCmd();
-                    $cmd->setLogicalId($commandes['name']);
+                    $cmd->setLogicalId($commandes['logicalId']);
                     $cmd->setName(__($commandes['name'], __FILE__));
                     $cmd->setType($commandes['type']);
                     $cmd->setSubType($commandes['subtype']);
@@ -124,20 +134,19 @@ class meross extends eqLogic
     {
 
         try {
-            $infos = self::getJson();
+            $infos = self::getJson(self::$_Result);
         } catch (\Exception $e) {
         }
 
         foreach ($infos as $key=>$devices) {
             if ($key == $this->getLogicalId()) {
-                log::add('meross', 'debug', 'infos de : ' . $devices['name']);
-                if (isset($devices['status'])) {
-                    log::add('meross', 'debug', 'etat: ' . $devices['status']);
-                    $this->checkAndUpdateCmd('status', $devices['status']);
-                }
-                if (isset($devices['consumption'])) {
-                    log::add('meross', 'debug', 'consommation: ' . $devices['consumption']);
-                    $this->checkAndUpdateCmd('consommation', $devices['consumption']);
+                foreach ($devices as $key2=>$Commands) {
+                    log::add('meross', 'debug', 'infos de : ' . $key2);
+                    $cmd = $this->getCmd(null, $key2);
+                    if (!is_array($cmd) || !is_object($cmd) ) {
+                        log::add('meross', 'debug', 'valeur: ' . $devices[$key2]);
+                        $this->checkAndUpdateCmd($key2, $devices[$key2]);
+                    }
                 }
 
                 if (isset($devices['online'])) {

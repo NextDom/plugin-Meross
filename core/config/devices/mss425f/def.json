@@ -1,13 +1,13 @@
 {
-    "mss425f": {
-        "name": "Smart WiFi Surge Protector",
+    "mss310": {
+        "name": "Smart WiFi Plug with Energy Monitor",
         "group": "Connect and Control",
         "configuration": {
-            "type": "mss425f"
+            "type": "mss310"
         },
         "commands": [
             {
-                "name": "Status 0",
+                "name": "Status",
                 "type": "info",
                 "subtype": "binary",
                 "display": {
@@ -15,43 +15,49 @@
                 },
                 "isVisible": 0,
                 "isHistorized": 0,
-                "logicalId": "status_0",
+                "logicalId": "status",
                 "template": {
                     "dashboard": "light",
                     "mobile": "light"
                 }
-            },
-            {
-                "name": "Off 0",
+            },{
+                "name": "Off",
                 "type": "action",
                 "subtype": "other",
                 "display": {
                     "generic_type": "ENERGY_OFF"
                 },
-                "value": "status_0",
                 "isVisible": 1,
-                "logicalId": "off_0",
+                "logicalId": "off",
                 "template": {
                     "dashboard": "prise",
                     "mobile": "prise"
                 }
             },
             {
-                "name": "On 0",
+                "name": "On",
                 "type": "action",
                 "subtype": "other",
                 "display": {
                     "generic_type": "ENERGY_ON"
                 },
-                "value": "status_0",
                 "isVisible": 1,
-                "logicalId": "on_0",
+                "logicalId": "on",
                 "template": {
                     "dashboard": "prise",
                     "mobile": "prise"
                 }
-            },
-            {
+            },{
+                "name": "consommation",
+                "type": "info",
+                "subtype": "numeric",
+                "display": {
+                    "generic_type": "ENERGY_POWER"
+                },
+                "isVisible": 1,
+                "isHistorized": 1,
+                "logicalId": "power"
+            },{
                 "name": "Rafraichir",
                 "type": "action",
                 "subtype": "other",
@@ -62,7 +68,7 @@
                     "switch": "read"
                 },
                 "isVisible": 0,
-                "logicalId": "refresh"
+                    "logicalId": "refresh"
             }
         ]
     }

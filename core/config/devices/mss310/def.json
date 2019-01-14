@@ -1,9 +1,9 @@
 {
-    "mss425e": {
-        "name": "Smart WiFi Surge Protector",
+    "mss310": {
+        "name": "Smart WiFi Plug with Energy Monitor",
         "group": "Connect and Control",
         "configuration": {
-            "type": "mss425e"
+            "type": "mss310"
         },
         "commands": [
             {
@@ -20,15 +20,13 @@
                     "dashboard": "light",
                     "mobile": "light"
                 }
-            },
-            {
+            },{
                 "name": "Off",
                 "type": "action",
                 "subtype": "other",
                 "display": {
                     "generic_type": "ENERGY_OFF"
                 },
-                "value": "Status",
                 "isVisible": 1,
                 "logicalId": "off",
                 "template": {
@@ -43,15 +41,23 @@
                 "display": {
                     "generic_type": "ENERGY_ON"
                 },
-                "value": "Status",
                 "isVisible": 1,
                 "logicalId": "on",
                 "template": {
                     "dashboard": "prise",
                     "mobile": "prise"
                 }
-            },
-            {
+            },{
+                "name": "consommation",
+                "type": "info",
+                "subtype": "numeric",
+                "display": {
+                    "generic_type": "ENERGY_POWER"
+                },
+                "isVisible": 1,
+                "isHistorized": 1,
+                "logicalId": "power"
+            },{
                 "name": "Rafraichir",
                 "type": "action",
                 "subtype": "other",
@@ -62,7 +68,7 @@
                     "switch": "read"
                 },
                 "isVisible": 0,
-                "logicalId": "refresh"
+                    "logicalId": "refresh"
             }
         ]
     }
