@@ -41,6 +41,14 @@ $("#table_cmd").sortable({
     forcePlaceholderSize: true
 });
 
+function printEqLogic(_eqLogic) {
+    if (_eqLogic.id != '') {
+        $('#img_device').attr("src", $('.eqLogicDisplayCard[data-eqLogic_id=' + _eqLogic.id + '] img').attr('src'));
+    } else {
+        $('#img_device').attr("src", 'plugins/meros/plugin_info/meross_icon.png');
+    }
+}
+
 $('#bt_healthmeross').on('click', function () {
     $('#md_modal').dialog({title: "{{Santé Meross}}"});
     $('#md_modal').load('index.php?v=d&plugin=meross&modal=health').dialog('open');

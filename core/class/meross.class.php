@@ -111,26 +111,27 @@ class meross extends eqLogic
                 $device->setConfiguration('appname', $devices["name"]);
                 $device->setConfiguration('firmversion', $devices["version"]);
                 $device->save();
+
+
+                $jsonCmd = self::getJson(__DIR__ . '/../../core/config/devices/'.$devices["type"].'/def.json');
+                foreach($jsonCmd[$devices["type"]]['commands'] as $key=>$commandes){
+                    $cmd = $device->getCmd(null, $commandes['name']);
+                    if (!is_array($cmd) || !is_object($cmd) ) {
+                        log::add('meross', 'debug','-- Ajout de la commande: ' .$commandes['name']);
+                        $cmd = new merossCmd();
+                        $cmd->setLogicalId($commandes['logicalId']);
+                        $cmd->setName(__($commandes['name'], __FILE__));
+                        $cmd->setType($commandes['type']);
+                        $cmd->setSubType($commandes['subtype']);
+                        $cmd->setEqLogic_id($device->getId());
+                        $cmd->setDisplay('generic_type', $commandes['display']['generic_type']);
+                        $cmd->setTemplate('dashboard', $commandes['template']['dashboard']);
+                        $cmd->setTemplate('mobile', $commandes['template']['mobile']);
+                        $cmd->save();
+                    }
+                }
             } else {
                 log::add('meross', 'debug','équipement' . $devices["name"] . ' deja ajouter ');
-            }
-
-            $jsonCmd = self::getJson(__DIR__ . '/../../core/config/devices/'.$devices["type"].'/def.json');
-            foreach($jsonCmd[$devices["type"]]['commands'] as $key=>$commandes){
-                $cmd = $device->getCmd(null, $commandes['name']);
-                if (!is_object($cmd)) {
-                    log::add('meross', 'debug','-- Ajout de la commande: ' .$commandes['name']);
-                    $cmd = new merossCmd();
-                    $cmd->setLogicalId($commandes['logicalId']);
-                    $cmd->setName(__($commandes['name'], __FILE__));
-                    $cmd->setType($commandes['type']);
-                    $cmd->setSubType($commandes['subtype']);
-                    $cmd->setEqLogic_id($device->getId());
-                    $cmd->setDisplay('generic_type', $commandes['display']['generic_type']);
-                    $cmd->setTemplate('dashboard', $commandes['template']['dashboard']);
-                    $cmd->setTemplate('mobile', $commandes['template']['mobile']);
-                    $cmd->save();
-                }
             }
         }
     }

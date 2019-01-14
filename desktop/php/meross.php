@@ -183,6 +183,9 @@ $eqLogics = eqLogic::byType($plugin->getId());
                             <div class="col-md-4 col-md-offset-3">
                                 <div class="box box-widget widget-user-2">
                                     <div class="widget-user-header backgroundColor">
+                                        <div>
+                                            <img src="core/img/no_image.gif" data-original=".jpg" id="img_device" class="img-responsive" style="max-height : 120px;margin-top: 10px"/>
+                                        </div>
                                         <h3 class="widget-user-username">{{ Informations Meross Cloud }}</h3>
                                       </div>
 
