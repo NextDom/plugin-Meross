@@ -39,8 +39,8 @@ require_once "merossCmd.class.php";
 class meross extends eqLogic
 {
 
-    private static $_Result = __DIR__ . '/../../3rparty/result.json';
-    private static $_Script = __DIR__ . '/../../3rparty/meross.sh';
+    private static $_Result = __DIR__ . '/../../3rdparty/result.json';
+    private static $_Script = __DIR__ . '/../../3rdparty/meross.sh';
 
     public static $_widgetPossibility = array(
         'custom' => true,

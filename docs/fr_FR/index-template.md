@@ -582,7 +582,7 @@ par : plugin\_id
 
 Contient les fichiers PHP annexes, j’ai pris l’habitude de mettre par
 exemple un fichier d’inclusion si, bien sur, vous avez plusieurs
-fichiers de class ou des 3rparty à inclure
+fichiers de class ou des 3rdparty à inclure
 
 ### Meross
 

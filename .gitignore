@@ -8,6 +8,6 @@ vendor
 \.idea
 .vscode
 tests/mocked_Jeedom_env/plugins/*
-3rparty/config.ini
-3rparty/result*
+3rdparty/config.ini
+3rdparty/result*
 __pycache__*

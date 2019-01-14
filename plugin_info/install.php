@@ -63,14 +63,14 @@ function Meross_remove()
 
 
 /**
- * Remove __pycache__ from 3rparty folders
+ * Remove __pycache__ from 3rdparty folders
  * 
  * @return void
  */
 function cleanPyCache()
 {
-    log::add('meross', 'info', 'Remove __pycache__ from 3rparty folders');
+    log::add('meross', 'info', 'Remove __pycache__ from 3rdparty folders');
 
-    $_3rpartyPath = dirname(__FILE__) . '/../3rparty/';
-    exec('cd ' . $_3rpartyPath . '; find . | grep -E "(__pycache__|\.pyc|\.pyo$)" | xargs rm -rf');
+    $_3rdpartyPath = dirname(__FILE__) . '/../3rdparty/';
+    exec('cd ' . $_3rdpartyPath . '; find . | grep -E "(__pycache__|\.pyc|\.pyo$)" | xargs rm -rf');
 }
