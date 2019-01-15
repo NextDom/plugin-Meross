@@ -21,4 +21,4 @@ Retrouvez le sur le [Market](https://www.jeedom.com/market/index.php?v=d&p=marke
 
 # Forum
 
-Lien vers le [Forum](https://www.nextdom.com/forum/viewtopic.php?t=xxxx)
+Lien vers le [Forum](https://www.nextdom.org/forum/plugins-nextdom/plugin-meross)
