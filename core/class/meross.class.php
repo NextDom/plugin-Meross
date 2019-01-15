@@ -109,7 +109,8 @@ class meross extends eqLogic
                 $device->setConfiguration('mac', $devices["mac"]);
                 $device->setConfiguration('online', $devices["online"]);
                 $device->setConfiguration('appname', $devices["name"]);
-                $device->setConfiguration('firmversion', $devices["version"]);
+                $device->setConfiguration('firmversion', $devices["firmversion"]);
+                $device->setConfiguration('hardversion', $devices["hardversion"]);
                 $device->save();
 
 
@@ -158,7 +159,8 @@ class meross extends eqLogic
                 log::add('meross', 'debug', 'Update eqLogic informations');
                 $this->setConfiguration('ip', $devices['ip']);
                 $this->setConfiguration('online', $devices['online']);
-                $this->setConfiguration('firmversion', $devices['version']);
+                $this->setConfiguration('firmversion', $devices['firmversion']);
+                $this->setConfiguration('hardversion', $devices['hardversion']);
                 $this->setConfiguration('appname', $devices['name']);
                 $this->save();
 

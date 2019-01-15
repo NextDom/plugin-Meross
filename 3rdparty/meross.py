@@ -107,7 +107,8 @@ def ConnectAndRefreshAll(email, password):
             'online':   data['all']['system']['online']['status'],
             'uuid':     uuid,
             'type':     data['all']['system']['hardware']['type'],
-            'version':  data['all']['system']['firmware']['version'],
+            'firmversion':  data['all']['system']['firmware']['version'],
+            'hardversion':  data['all']['system']['hardware']['version']
             } )
 
         # on/off status
