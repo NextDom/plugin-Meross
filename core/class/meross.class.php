@@ -56,12 +56,20 @@ class meross extends eqLogic
         ),
     );
 
-    public static function cron()
+    public static function cron($_eqlogic_id = null)
     {
+        if($_eqlogic_id !== null){
+            $eqLogics = array(eqLogic::byId($_eqlogic_id));
+        }else{
+            $eqLogics = eqLogic::byType('meross');
+        }
+
         self::launchScript('--refresh --show');
         log::add('meross', 'debug', '=== MAJ DES INFOS ===');
         foreach (eqLogic::byType('meross', true) as $eqLogic) {
-            $eqLogic->updateInfo();
+            if ($eqLogic->getIsEnable() == 1) {
+                $eqLogic->updateInfo();
+            }
         }
     }
 
