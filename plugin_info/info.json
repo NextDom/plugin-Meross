@@ -3,7 +3,7 @@
   "name": "Meross",
   "description": "Plugin permettant de gérer les prises Meross",
   "licence": "AGPL",
-  "author": "NextDom",
+  "author": "NextDom (Astral0, Byackee, DanoneKid)",
   "require": "3.0",
   "category": "automation protocol",
   "hasDependency": 0,
