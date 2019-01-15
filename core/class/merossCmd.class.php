@@ -41,15 +41,18 @@ class merossCmd extends cmd
         $eqLogic = $this->getEqLogic();
         $action = $this->getLogicalId();
         log::add('meross', 'debug','action: '. $action );
+        $email = config::byKey('merossEmail', 'meross');
+        $password = config::byKey('merossPassword', 'meross');
+        $command = 'sh ' . __DIR__ . '/../../3rdparty/meross.sh' . ' --email ' . $email . ' --password ' . $password . ' --uuid ' . $eqLogic->getLogicalId();
 
-        if($action == "On") {
-            $command = 'sh ' . __DIR__ . '/../../3rdparty/meross.sh --uuid ' . $eqLogic->getLogicalId() . ' --set_on';
+        if($action == "on") {
+            $command = $command . ' --set_on';
             $result=trim(shell_exec($command));
             $eqLogic->cron($eqLogic->getId());
             log::add('meross','debug',$result);
 
-        } elseif ($action == "Off") {
-            $command = 'sh ' . __DIR__ . '/../../3rdparty/meross.sh --uuid ' . $eqLogic->getLogicalId() . ' --set_off';
+        } elseif ($action == "off") {
+            $command = $command . ' --set_off';
             $result=trim(shell_exec($command));
             $eqLogic->cron($eqLogic->getId());
             log::add('meross','debug',$result);
