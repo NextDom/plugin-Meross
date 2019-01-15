@@ -92,35 +92,52 @@ def ConnectAndRefreshAll(email, password):
     for num in range(len(devices)):
         if debug: print(50*'=' + '\nnum=', num)
         device = devices[num]
+        #if not device._name == 'Meross multi 1':
+        #pprint.pprint(device)
+        #print (device._name)
         data = device.get_sys_data()
-        #pprint.pprint(data)
+        if debug: pprint.pprint(data)
         #pprint.pprint(device)
         uuid = device._uuid
+
         d_devices[uuid] = dict( {
             'name':     device._name,
             'ip':       data['all']['system']['firmware']['innerIp'],
             'mac':      data['all']['system']['hardware']['macAddress'],
             'online':   data['all']['system']['online']['status'],
-            'uuid':     device._uuid,
+            'uuid':     uuid,
             'type':     data['all']['system']['hardware']['type'],
             'version':  data['all']['system']['firmware']['version'],
-            
             } )
+
+        # on/off status
+        onoff = []
+        try:
+            onoff = [ data['all']['control']['toggle']['onoff'] ]
+        except:
+            try:
+                ll = data['all']['digest']['togglex']
+                onoff = [ x['onoff'] for x in ll ]
+            except:
+                pass
+        d_devices[uuid]['onoff'] = onoff
+
+        # Current power
         try:
             electricity = device.get_electricity()
             d_devices[uuid]['power'] = electricity['electricity']['power']
         except:
             d_devices[uuid]['power'] = '-1'
 
+        # Historical consumption
         try:
             l_consumption = device.get_power_consumptionX()['consumptionx']
         except:
             l_consumption = []
 
-        d_devices[uuid]['consumption'] = []
+        d_devices[uuid]['consumption'] = []   # on decide de ne pas la stocker
 
-        #now = datetime.datetime.now()
-        #yesterday = now.strftime("%Y-%m-%d")
+        # Yesterday consumption
         today = datetime.today()
         yesterday = (today - timedelta(1) ).strftime("%Y-%m-%d")
         d_devices[uuid]['consumption_yesterday'] = -1
@@ -221,18 +238,17 @@ if __name__=='__main__':
     parser.add_argument('--show', action="store_true", default=False)
     parser.add_argument('--email', action="store", dest="email")
     parser.add_argument('--password', action="store", dest="password")
+    parser.add_argument('--config', action="store", dest="config")
     parser.add_argument('--debug', action="store_true", default=False)
 
     args = parser.parse_args()
     #print(args)
 
-
-
     # WriteLog
     l = WriteLog()
     l.debug = args.debug
 
-    # Connect to Meross Cloud and refresh all devices and informations
+    # Refresh all devices and informations from local file
     refresh = False
     if not args.refresh:
         try:
@@ -243,9 +259,38 @@ if __name__=='__main__':
             #pprint.pprint(d_devices)
         except:
             refresh = True
+
+    # Get email / password (only if necessary : refresh or action)
+    if args.refresh or args.set_on or args.set_off:
+        email = None
+        password = None
+        # Get from commandline argument        
+        if args.email and args.password:
+            email = args.email
+            password = args.password
+        # Get from config file (commandline argument)
+        elif args.config:
+            if not os.isfile(args.config):
+                Exit("<F> Error : can't read '%s' config file!" % args.config)
+            else:
+                try:
+                    email, password = ReadConfig(conffile=args.config)
+                except:
+                    Exit("<F> Error : can't read '%s' config file!" % args.config)
+        # Get from local config file
+        elif os.path.isfile(conffile):
+            try:
+                email, password = ReadConfig(conffile=conffile)
+            except:
+                Exit("<F> Error : can't read '%s' config file!" % args.config)
+
+        # If not defined --> error
+        if not email or not password:
+            Exit("<F> Error : Can't get email and password !")
+
+    # Connect to Meross Cloud and Refresh
     if args.refresh or refresh:
-        if not args.email or not args.password: Exit("<F> Error : Email and password are mandatory !")
-        d_devices = ConnectAndRefreshAll(args.email, args.password)
+        d_devices = ConnectAndRefreshAll(email, password)
 
     # Find the Smartplug
     SP = None
@@ -283,7 +328,6 @@ if __name__=='__main__':
 
     # Set on / off
     if args.set_on:
-        ConnectAndSetOnOff(email=args.email, password=args.password, name=args.name, uuid=args.uuid, mac=args.mac, action='on')
+        ConnectAndSetOnOff(email=email, password=password, name=args.name, uuid=args.uuid, mac=args.mac, action='on')
     if args.set_off:
-        ConnectAndSetOnOff(email=args.email, password=args.password, name=args.name, uuid=args.uuid, mac=args.mac, action='off')
-
+        ConnectAndSetOnOff(email=email, password=password, name=args.name, uuid=args.uuid, mac=args.mac, action='off')
