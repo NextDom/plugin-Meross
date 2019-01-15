@@ -1,6 +1,10 @@
+# Idées pour les versions suivantes :
+
+- Remplacer le cron par un deamon pour plus de réactivité du plugin. (Dépend également de la lib python)
+
 # Prochaine release
 
-Ajout de la multiprise
+- Ajout d'autres équipements
 
 # Changelog
 
