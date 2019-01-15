@@ -15,12 +15,11 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="Icone.svg"
-   inkscape:export-filename="C:\Users\RFRA1025\Documents\Dev\Perso\Jeedom\jeeWunderlist\Assets\jeeWunderlist_icon.png"
+   sodipodi:docname="meross_icon.svg"
    inkscape:export-xdpi="71.220001"
    inkscape:export-ydpi="71.220001">
   <title
-     id="title4136">jeeCube</title>
+     id="title3048">plugin-Meross</title>
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -31,7 +30,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.70710678"
-     inkscape:cx="396.61475"
+     inkscape:cx="5.5846993"
      inkscape:cy="252.45933"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -54,7 +53,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title>jeeCube</dc:title>
+        <dc:title>plugin-Meross</dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
