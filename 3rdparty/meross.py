@@ -189,7 +189,6 @@ def ConnectAndSetOnOff(email, password, name=None, uuid=None, mac=None, action='
 
     try:
        if action == 'on':
-            print('on')
             device.turn_on()
        else:
             device.turn_off()

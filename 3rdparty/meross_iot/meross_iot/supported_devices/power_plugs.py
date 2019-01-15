@@ -42,8 +42,11 @@ class Device:
     _client_id = None
     _app_id = None
 
-    # AA
+    # Device informations
     _name = None
+    _type = None
+    _hwversion = None
+    _fwversion = None
 
     # Topic name where the client should publish to its commands. Every client should have a dedicated one.
     _client_request_topic = None
@@ -96,11 +99,15 @@ class Device:
         if "channels" in kwords:
             self._channels = kwords['channels']
 
-            # AA
+        # Informations about device
         if "devName" in kwords:
             self._name = kwords['devName']
-        else:
-            self._name = ""
+        if "deviceType" in kwords:
+            self._type = kwords['deviceType']
+        if "fmwareVersion" in kwords:
+            self._fwversion = kwords['fmwareVersion']
+        if "hdwareVersion" in kwords:
+            self._hwversion = kwords['hdwareVersion']
 
         self._generate_client_and_app_id()
 
@@ -291,7 +298,7 @@ class Device:
         try:
             return 'from' in message['header'] and message['header']['from'].split('/')[2] == self._uuid
         except:
-            return false
+            return False
 
     def _handle_toggle(self, message):
         if 'onoff' in message['payload']['toggle']:
@@ -342,6 +349,22 @@ class Mss310(Device):
 
     def get_electricity(self):
         return self._execute_cmd("GET", "Appliance.Control.Electricity", {})
+
+    def turn_on(self):
+        if self._hwversion.split(".")[0] == "2":
+            payload = {'togglex':{"onoff":1}}
+            return self._execute_cmd("SET", "Appliance.Control.ToggleX", payload)
+        else:
+            payload = {"channel":0,"toggle":{"onoff":1}}
+            return self._execute_cmd("SET", "Appliance.Control.Toggle", payload)
+
+    def turn_off(self):
+        if self._hwversion.split(".")[0] == "2":
+            payload = {'togglex':{"onoff":0}}
+            return self._execute_cmd("SET", "Appliance.Control.ToggleX", payload)
+        else:
+            payload = {"channel":0,"toggle":{"onoff":1}}
+            return self._execute_cmd("SET", "Appliance.Control.Toggle", payload)
 
 class Mss425e(Device):
     # TODO Implement for all channels
