@@ -9,9 +9,7 @@
 
 Plugin permettant de controller les prises Meross.
 
-Consulter la documentation pour la liste des périphériques comptibles
-
-
+Consulter la documentation pour la liste des périphériques compatibles.
 
 # Documentation du plugin:
 [![Read the Docs](https://img.shields.io/readthedocs/pip.svg)](docs/fr_FR/presentation.md)
@@ -19,7 +17,4 @@ Consulter la documentation pour la liste des périphériques comptibles
 
 # Documentation complète:
 
-[![Read the Docs](plugin_info/Meross_icon.png)](https://NextDom.github.io/plugin-Meross)
-
-
-[![Support via PayPal](https://cdn.rawgit.com/twolfson/paypal-github-button/1.0.0/dist/button.svg)](https://www.paypal.me/_USERNAME/)
+[<img src="plugin_info/meross_icon.png" width="150" />](https://NextDom.github.io/plugin-Meross)
