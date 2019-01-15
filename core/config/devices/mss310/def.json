@@ -48,7 +48,7 @@
                     "mobile": "prise"
                 }
             },{
-                "name": "consommation",
+                "name": "Consommation",
                 "type": "info",
                 "subtype": "numeric",
                 "display": {
