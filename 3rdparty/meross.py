@@ -102,14 +102,56 @@ def ConnectAndRefreshAll(email, password):
 
         d_devices[uuid] = dict( {
             'name':     device._name,
-            'ip':       data['all']['system']['firmware']['innerIp'],
-            'mac':      data['all']['system']['hardware']['macAddress'],
-            'online':   data['all']['system']['online']['status'],
             'uuid':     uuid,
-            'type':     data['all']['system']['hardware']['type'],
-            'firmversion':  data['all']['system']['firmware']['version'],
-            'hardversion':  data['all']['system']['hardware']['version']
+            'ip':       '',
+            'mac':      '',
+            'online':   '',
+            'type':     '',
+            'firmversion': '',
+            'hardversion': '',
             } )
+
+
+#        d_devices[uuid] = dict( {
+#            'name':     device._name,
+#            'ip':       data['all']['system']['firmware']['innerIp'],
+#            'mac':      data['all']['system']['hardware']['macAddress'],
+#            'online':   data['all']['system']['online']['status'],
+#            'uuid':     uuid,
+#            'type':     data['all']['system']['hardware']['type'],
+#            'firmversion':  data['all']['system']['firmware']['version'],
+#            'hardversion':  data['all']['system']['hardware']['version']
+#            } )
+
+        try:
+            d_devices[uuid]['ip'] = data['all']['system']['firmware']['innerIp']
+        except:
+            pass
+
+        try:
+            d_devices[uuid]['mac'] = data['all']['system']['hardware']['macAddress']
+        except:
+            pass
+
+        try:
+            d_devices[uuid]['online'] = data['all']['system']['online']['status']
+        except:
+            pass
+
+        try:
+            d_devices[uuid]['type'] = data['all']['system']['hardware']['type']
+        except:
+            pass
+
+        try:
+            d_devices[uuid]['firmversion'] = data['all']['system']['firmware']['version']
+        except:
+            pass
+
+        try:
+            d_devices[uuid]['hardversion'] = data['all']['system']['hardware']['version']
+        except:
+            pass
 
         # on/off status
         onoff = []
@@ -163,6 +205,7 @@ def ConnectAndRefreshAll(email, password):
     #print(l_devices)
     with open(jsonfile, 'w') as fp:
         json.dump(d_devices, fp)
+
     return d_devices
 
 # ---------------------------------------------------------------------
@@ -195,7 +238,7 @@ def ConnectAndSetOnOff(email, password, name=None, uuid=None, mac=None, action='
     except:
         pass
 
-    return        
+    return
 
 # ---------------------------------------------------------------------
 def GetByName(d_devices, name):
@@ -264,7 +307,7 @@ if __name__=='__main__':
     if args.refresh or args.set_on or args.set_off:
         email = None
         password = None
-        # Get from commandline argument        
+        # Get from commandline argument
         if args.email and args.password:
             email = args.email
             password = args.password
@@ -324,7 +367,11 @@ if __name__=='__main__':
 
     else:
         if args.show:
-            pprint.pprint(d_devices)
+            #pprint.pprint(d_devices)
+            jsonarray = json.dumps(d_devices)
+            #pprint.pprint(jsonarray)
+            print (jsonarray)
+
 
     # Set on / off
     if args.set_on:
