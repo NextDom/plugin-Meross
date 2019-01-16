@@ -121,10 +121,10 @@ class meross extends eqLogic
                 $device->setConfiguration('hardversion', $devices["hardversion"]);
                 $device->save();
 
-
+                // Charge la définition du device
                 $jsonCmd = self::getJson(__DIR__ . '/../../core/config/devices/'.$devices["type"].'/def.json');
-                foreach($jsonCmd[$devices["type"]]['commands'] as $key=>$commandes){
-                    $cmd = $device->getCmd(null, $commandes['name']);
+                foreach($jsonCmd['commands'] as $key=>$commandes){
+                    $cmd = $device->getCmd(null, $commandes['logicalId']);
                     if (!is_array($cmd) || !is_object($cmd) ) {
                         log::add('meross', 'debug','-- Ajout de la commande: ' .$commandes['name']);
                         log::add('meross', 'debug','-- set value : ' .$commandes["value"]);
@@ -135,20 +135,27 @@ class meross extends eqLogic
                         $cmd->setSubType($commandes['subtype']);
                         $cmd->setEqLogic_id($device->getId());
                         $cmd->setIsVisible($commandes['isVisible']);
-                        $cmd->setIsHistorized($commandes['isHistorized']);
+                        if(isset($commandes['isHistorized']) && $commandes['type'] == 'info')
+                        {
+                            $cmd->setIsHistorized($commandes['isHistorized']);
+                        } else {
+                            $cmd->setIsHistorized(false);
+                        }
                         $cmd->setDisplay('generic_type', $commandes['display']['generic_type']);
                         $cmd->setTemplate('dashboard', $commandes['template']['dashboard']);
                         $cmd->setTemplate('mobile', $commandes['template']['mobile']);
-                        $splitCommandes = explode("_", $commandes['name']);
 
                         $cmd->save();
+                        
+                        $splitCommandes = explode("_", $commandes['logicalId']);
                         if ($splitCommandes[0] == 'onoff'){
-                            log::add('meross', 'debug','test : ' . $cmd->getId());
+                            // Mémorise l'ID de la cmd onoff_x pour affecter aux cmd "on_x" & "off_x" 
                             $etatid =  $cmd->getId();
-                        } else{
+                        } elseif ($splitCommandes[0] == 'on' || $splitCommandes[0] == 'off' )
+                        {
+                            // Affecte l'ID de la cmd onoff_x en value
                             $cmd->setValue($etatid);
                             $cmd->save();
-
                         }
                     }
                 }
