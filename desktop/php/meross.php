@@ -45,8 +45,11 @@ $eqLogics = eqLogic::byType($plugin->getId());
     <div class="col-lg-2 col-md-3 col-sm-4">
         <div class="bs-sidebar">
             <ul id="ul_eqLogic" class="nav nav-list bs-sidenav">
-                <li class="filter" style="margin-bottom: 5px;">
-                    <input class="filter form-control input-sm" placeholder="{{Rechercher}}" style="width: 100%" />
+                <li class="filter">
+                    <div class="input-group">
+                        <div class="input-group-addon"><i class="fas fa-search"></i></div>
+                        <input class="filter form-control" placeholder="{{Rechercher...}}">
+                    </div>
                 </li>
                 <?php
                     foreach ($eqLogics as $eqLogic) {
@@ -58,7 +61,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
         </div>
     </div>
 
-    <div class="col-lg-10 col-md-9 col-sm-8 eqLogicThumbnailDisplay" style="border-left: solid 1px #EEE; padding-left: 25px;">
+    <div class="col-lg-10 col-md-9 col-sm-8 eqLogicThumbnailDisplay" style="border-left: solid 1px #EEE;">
         <legend><i class="fa fa-cog">&nbsp;&nbsp;</i>{{Gestion}}</legend>
         <div class="eqLogicThumbnailContainer">
             <div class="cursor eqLogicAction" data-action="sync" style="text-align: center; background-color : #ffffff; height : 120px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;">
@@ -99,7 +102,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
         </div>
     </div>
 
-    <div class="col-lg-10 col-md-9 col-sm-8 eqLogic" style="display: none;">
+    <div class="col-lg-10 col-md-9 col-sm-8 eqLogic" style="display: none;padding-left:0px">
         <section class="content-header" style="padding-top:0px">
             <div class="action-bar">
                 <div class="action-group">
@@ -126,7 +129,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
                         </a>
                     </li>
                     <h4 class="label label-primary pull-right label-sticker">{{ID : }}<span class="eqLogicAttr" data-l1key="id"></span></h4>
-                    <li class="header pull-left"><i class="fas fa-film">&nbsp;&nbsp;</i>{{Edition équipement}}</li>
+                    <li class="header pull-left"><i class="fas fa-pencil-alt">&nbsp;&nbsp;</i>{{Edition équipement}}</li>
                 </ul>
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="eqlogictab">
