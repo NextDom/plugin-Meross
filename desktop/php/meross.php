@@ -88,6 +88,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
     <div class="col-lg-2 col-md-3 col-sm-4" id="ListEqlogiq" style="display: none;">
         <div class="bs-sidebar">
             <ul id="ul_eqLogic" class="nav nav-list bs-sidenav">
+                <legend><i class="fa fa-table">&nbsp;&nbsp;</i>{{Mes Meross}}</legend>
                 <li class="filter">
                     <div class="input-group">
                         <div class="input-group-addon"><i class="fas fa-search"></i></div>
