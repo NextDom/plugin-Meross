@@ -169,7 +169,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
                                                         <?php
                                                             foreach (jeedom::getConfiguration('eqLogic:category') as $key => $value) {
                                                                 echo '<label class="checkbox-inline" for="category-' . $key . '" style="padding-top: 0px">';
-                                                                echo '<input type="checkbox" id="category-' . $key . '" class="eqLogicAttr" data-l1key="category" data-l2key="' . $key . '" />&nbsp;&nbsp;' . $value['name'];
+                                                                echo '<input type="checkbox" id="category-' . $key . '" class="eqLogicAttr" data-l1key="category" data-l2key="' . $key . '" />&nbsp;' . $value['name'];
                                                                 echo '</label>';
                                                             }
                                                         ?>
