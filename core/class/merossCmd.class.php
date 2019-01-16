@@ -45,17 +45,19 @@ class merossCmd extends cmd
         $password = config::byKey('merossPassword', 'meross');
         $command = 'sh ' . __DIR__ . '/../../3rdparty/meross.sh' . ' --email ' . $email . ' --password ' . $password . ' --uuid ' . $eqLogic->getLogicalId();
 
-        if($action == "on") {
-            $command = $command . ' --set_on';
-            $result=trim(shell_exec($command));
-            $eqLogic->cron($eqLogic->getId());
-            log::add('meross','debug',$result);
+        $splitAction = explode("_", $action);
 
-        } elseif ($action == "off") {
-            $command = $command . ' --set_off';
+        if($splitAction[0] == "On") {
+            $command = $command . ' --set_on --channel ' . $splitAction[1] ;
             $result=trim(shell_exec($command));
             $eqLogic->cron($eqLogic->getId());
-            log::add('meross','debug',$result);
+            log::add('meross','debug','sh ' . __DIR__ . '/../../3rdparty/meross.sh' . ' --email ' . xxxxx . ' --password ' . yyyyy . ' --uuid ' . $eqLogic->getLogicalId() . ' --set_on --channel ' . $splitAction[1]);
+
+        } elseif ($splitAction[0] == "Off") {
+            $command = $command . ' --set_off --channel ' . $splitAction[1];
+            $result=trim(shell_exec($command));
+            $eqLogic->cron($eqLogic->getId());
+            log::add('meross','debug','sh ' . __DIR__ . '/../../3rdparty/meross.sh' . ' --email ' . xxxxx . ' --password ' . yyyyy . ' --uuid ' . $eqLogic->getLogicalId() . ' --set_off --channel ' . $splitAction[1]);
 
         }
 

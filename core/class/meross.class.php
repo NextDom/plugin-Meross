@@ -127,16 +127,29 @@ class meross extends eqLogic
                     $cmd = $device->getCmd(null, $commandes['name']);
                     if (!is_array($cmd) || !is_object($cmd) ) {
                         log::add('meross', 'debug','-- Ajout de la commande: ' .$commandes['name']);
+                        log::add('meross', 'debug','-- set value : ' .$commandes["value"]);
                         $cmd = new merossCmd();
                         $cmd->setLogicalId($commandes['logicalId']);
                         $cmd->setName(__($commandes['name'], __FILE__));
                         $cmd->setType($commandes['type']);
                         $cmd->setSubType($commandes['subtype']);
                         $cmd->setEqLogic_id($device->getId());
+                        $cmd->setIsVisible($commandes['isVisible']);
+                        $cmd->setIsHistorized($commandes['isHistorized']);
                         $cmd->setDisplay('generic_type', $commandes['display']['generic_type']);
                         $cmd->setTemplate('dashboard', $commandes['template']['dashboard']);
                         $cmd->setTemplate('mobile', $commandes['template']['mobile']);
+                        $splitCommandes = explode("_", $commandes['name']);
+
                         $cmd->save();
+                        if ($splitCommandes[0] == 'onoff'){
+                            log::add('meross', 'debug','test : ' . $cmd->getId());
+                            $etatid =  $cmd->getId();
+                        } else{
+                            $cmd->setValue($etatid);
+                            $cmd->save();
+
+                        }
                     }
                 }
             } else {
@@ -156,11 +169,17 @@ class meross extends eqLogic
         foreach ($infos as $key=>$devices) {
             if ($key == $this->getLogicalId()) {
                 foreach ($devices as $key2=>$Commands) {
-                    log::add('meross', 'debug', 'infos de : ' . $key2);
                     $cmd = $this->getCmd(null, $key2);
                     if (!is_array($cmd) || !is_object($cmd) ) {
-                        log::add('meross', 'debug', 'valeur: ' . $devices[$key2]);
-                        $this->checkAndUpdateCmd($key2, $devices[$key2]);
+                        if($key2 == "onoff") {
+                            foreach ($Commands as $key3=>$value) {
+                                log::add('meross', 'debug', '-- Maj infos du channel ' . $key3 .' avec la valeur  : ' .  $value);
+                                $this->checkAndUpdateCmd("onoff_".$key3, $value);
+                            }
+                        }else{
+                            log::add('meross', 'debug', '-- Maj infos de ' . $key2 .' avec la valeur: ' . $devices[$key2]);
+                            $this->checkAndUpdateCmd($key2, $devices[$key2]);
+                        }
                     }
                 }
 
