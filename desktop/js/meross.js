@@ -77,6 +77,10 @@ $('.eqLogicAction[data-action=sync]').on('click', function () {
     });
 });
 
+$("#bt_displayListEqlogiq").on('click', function () {
+   $('#ListEqlogiq').toggle();
+});
+
 /*
  * Fonction pour l'ajout de commande, appellé automatiquement par plugin.Meross
  */

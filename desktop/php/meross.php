@@ -42,7 +42,50 @@ $eqLogics = eqLogic::byType($plugin->getId());
 ?>
 
 <div class="row row-overflow">
-    <div class="col-lg-2 col-md-3 col-sm-4">
+    <div class="col-lg-12 col-md-9 col-sm-8 eqLogicThumbnailDisplay" style="border-left: solid 1px #EEE;">
+        <legend><i class="fa fa-cog">&nbsp;&nbsp;</i>{{Gestion}}</legend>
+        <div class="eqLogicThumbnailContainer form-group">
+            <div class="cursor eqLogicAction" data-action="sync" style="text-align: center; background-color : #ffffff; height : 120px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;">
+                <i class="fa fa-sync" style="font-size : 6em;color:#33b8cc;"></i>
+                <br>
+                <span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;">{{ Synchroniser }}</span>
+            </div>
+            <div class="cursor eqLogicAction" data-action="gotoPluginConf" style="text-align: center; background-color : #ffffff; height : 120px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;">
+                <i class="fa fa-wrench" style="font-size : 6em;color:#767676;"></i>
+                <br>
+                <span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;">{{ Configuration }}</span>
+            </div>
+            <div class="cursor" id="bt_healthmeross" style="text-align: center; background-color : #ffffff; height : 120px;margin-bottom : 10px;padding : 5px; border-radius: 2px;width : 160px;margin-left : 10px;">
+                <i class="fa fa-medkit" style="font-size : 6em;color:#767676;"></i>
+                <br>
+                <span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;">{{ Santé }}</span>
+            </div>
+        </div>
+
+        <legend><i class="fa fa-table">&nbsp;&nbsp;</i>{{Mes Meross}}</legend>
+        <div class="eqLogicThumbnailContainer">
+            <div class="input-group">
+                <div class="input-group-addon"><i class="fas fa-search"></i></div>
+                <input class="filter form-control" placeholder="{{Rechercher...}}" id="in_searchEq">
+            </div>
+            <?php
+                foreach ($eqLogics as $eqLogic) {
+                    $opacity = ($eqLogic->getIsEnable()) ? '' : jeedom::getConfiguration('eqLogic:style:noactive');
+                    echo '<div class="eqLogicDisplayCard cursor" data-eqLogic_id="' . $eqLogic->getId() . '" style="text-align: center; background-color : #ffffff; height : 200px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;' . $opacity . '" >';
+                    if (file_exists(dirname(__FILE__) . '/../../core/config/devices/' . $eqLogic->getConfiguration('type') . '/icon.png')) {
+                        echo '<img src="plugins/meross/core/config/devices/' . $eqLogic->getConfiguration('type') . '/icon.png' . '" height="105" width="105" />';
+                      } else {
+                        echo '<img src="' . $plugin->getPathImgIcon() . '" height="105" width="95" />';
+                      }
+                    echo "<br>";
+                    echo '<span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;">' . $eqLogic->getHumanName(true, true) . '</span>';
+                    echo '</div>';
+                }
+            ?>
+        </div>
+    </div>
+
+    <div class="col-lg-2 col-md-3 col-sm-4" id="ListEqlogiq" style="display: none;">
         <div class="bs-sidebar">
             <ul id="ul_eqLogic" class="nav nav-list bs-sidenav">
                 <li class="filter">
@@ -61,52 +104,12 @@ $eqLogics = eqLogic::byType($plugin->getId());
         </div>
     </div>
 
-    <div class="col-lg-10 col-md-9 col-sm-8 eqLogicThumbnailDisplay" style="border-left: solid 1px #EEE;">
-        <legend><i class="fa fa-cog">&nbsp;&nbsp;</i>{{Gestion}}</legend>
-        <div class="eqLogicThumbnailContainer">
-            <div class="cursor eqLogicAction" data-action="sync" style="text-align: center; background-color : #ffffff; height : 120px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;">
-                <i class="fa fa-sync" style="font-size : 6em;color:#33b8cc;"></i>
-                <br>
-                <span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;">{{ Synchroniser }}</span>
-            </div>
-            <div class="cursor eqLogicAction" data-action="gotoPluginConf" style="text-align: center; background-color : #ffffff; height : 120px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;">
-                <i class="fa fa-wrench" style="font-size : 6em;color:#767676;"></i>
-                <br>
-                <span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;">{{ Configuration }}</span>
-            </div>
-            <div class="cursor" id="bt_healthmeross" style="text-align: center; background-color : #ffffff; height : 120px;margin-bottom : 10px;padding : 5px; border-radius: 2px;width : 160px;margin-left : 10px;">
-                <i class="fa fa-medkit" style="font-size : 6em;color:#767676;"></i>
-                <br>
-                <span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;">{{ Santé }}</span>
-            </div>
-        </div>
-
-        <br>
-
-        <legend><i class="fa fa-table">&nbsp;&nbsp;</i>{{Mes Meross}}</legend>
-        <div class="eqLogicThumbnailContainer">
-            <?php
-                foreach ($eqLogics as $eqLogic) {
-                    $opacity = ($eqLogic->getIsEnable()) ? '' : jeedom::getConfiguration('eqLogic:style:noactive');
-                    echo '<div class="eqLogicDisplayCard cursor" data-eqLogic_id="' . $eqLogic->getId() . '" style="text-align: center; background-color : #ffffff; height : 200px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;' . $opacity . '" >';
-                    if (file_exists(dirname(__FILE__) . '/../../core/config/devices/' . $eqLogic->getConfiguration('type') . '/icon.png')) {
-                        echo '<img src="plugins/meross/core/config/devices/' . $eqLogic->getConfiguration('type') . '/icon.png' . '" height="105" width="105" />';
-                      } else {
-                        echo '<img src="' . $plugin->getPathImgIcon() . '" height="105" width="95" />';
-                      }
-                    echo "<br>";
-                    echo '<span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;">' . $eqLogic->getHumanName(true, true) . '</span>';
-                    echo '</div>';
-                }
-            ?>
-        </div>
-    </div>
-
-    <div class="col-lg-10 col-md-9 col-sm-8 eqLogic" style="display: none;padding-left:0px">
+    <div class="eqLogic" style="display: none;padding-left:0px">
         <section class="content-header" style="padding-top:0px">
             <div class="action-bar">
                 <div class="action-group">
                     <a class="btn btn-danger btn-action-bar eqLogicAction" data-action="returnToThumbnailDisplay"><i class="fas fa-chevron-left">&nbsp;&nbsp;</i>Retour</a>
+                    <a class="btn btn-action btn-action-bar eqLogicAction" id="bt_displayListEqlogiq"><i class="fas fa-list">&nbsp;&nbsp;</i>Liste</a>
                 </div>
                 <div class="action-group">
                     <a class="btn btn-success eqLogicAction pull-right" data-action="save"><i class="fa fa-check-circle">&nbsp;&nbsp;</i>{{Sauvegarder}}</a>
