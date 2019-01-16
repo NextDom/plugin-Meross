@@ -6,7 +6,7 @@
     },
     "commands": [
         {
-            "name": "onoff_0",
+            "name": "Status",
             "type": "info",
             "subtype": "binary",
             "display": {
@@ -14,12 +14,13 @@
             },
             "isVisible": 0,
             "isHistorized": 0,
-            "logicalId": "status",
+            "logicalId": "onoff_0",
             "template": {
                 "dashboard": "light",
                 "mobile": "light"
             }
-        },{
+        },
+        {
             "name": "Off",
             "type": "action",
             "subtype": "other",
@@ -28,7 +29,7 @@
             },
             "isVisible": 1,
             "value": "onoff_0",
-            "logicalId": "off",
+            "logicalId": "off_0",
             "template": {
                 "dashboard": "prise",
                 "mobile": "prise"
@@ -43,12 +44,13 @@
             },
             "isVisible": 1,
             "value": "onoff_0",
-            "logicalId": "on",
+            "logicalId": "on_0",
             "template": {
                 "dashboard": "prise",
                 "mobile": "prise"
             }
-        },{
+        },
+        {
             "name": "Consommation",
             "type": "info",
             "subtype": "numeric",
@@ -58,7 +60,8 @@
             "isVisible": 1,
             "isHistorized": 1,
             "logicalId": "power"
-        },{
+        },
+        {
             "name": "Rafraichir",
             "type": "action",
             "subtype": "other",
