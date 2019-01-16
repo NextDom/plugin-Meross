@@ -45,7 +45,7 @@ function printEqLogic(_eqLogic) {
     if (_eqLogic.id != '') {
         $('#img_device').attr("src", $('.eqLogicDisplayCard[data-eqLogic_id=' + _eqLogic.id + '] img').attr('src'));
     } else {
-        $('#img_device').attr("src", 'plugins/meros/plugin_info/meross_icon.png');
+        $('#img_device').attr("src", 'plugins/meross/plugin_info/meross_icon.png');
     }
 }
 
