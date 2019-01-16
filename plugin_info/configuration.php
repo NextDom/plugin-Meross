@@ -30,6 +30,7 @@ if (!isConnect()) {
 
 <form class="form-horizontal">
 <fieldset>
+    <legend>{{Connexion au Cloud Meross}}</legend>
     <div class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-xs-12">
       <div class="form-group">
         <label for="merossEmail">{{Email}}</label>
@@ -53,4 +54,3 @@ if (!isConnect()) {
     </div>
   </fieldset>
 </form>
-
