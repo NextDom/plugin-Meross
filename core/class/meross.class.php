@@ -59,19 +59,26 @@ class meross extends eqLogic
     public static function cron($_eqlogic_id = null)
     {
         if($_eqlogic_id !== null){
+            log::add('meross', 'debug', 'cron: update informations for eqLogic=' . $_eqlogic_id);
             $eqLogics = array(eqLogic::byId($_eqlogic_id));
         }else{
-            $eqLogics = eqLogic::byType('meross');
+            log::add('meross', 'debug', 'cron: update informations for all eqLogics');
+            $eqLogics = eqLogic::byType('meross', true);
         }
 
-        log::add('meross', 'debug', '=== MAJ DES INFOS ===');
-        self::launchScript('--refresh --show');
 
-        foreach (eqLogic::byType('meross', true) as $eqLogic) {
-            if ($eqLogic->getIsEnable() == 1) {
-                $eqLogic->updateInfo();
+        $stdout = self::launchScript('--refresh --show');
+        if ($stdout != null)
+        {
+            foreach ($eqLogics as $eqLogic) {
+                if ($eqLogic->getIsEnable() == 1) {
+                    $eqLogic->updateInfo($stdout);
+                }
             }
+        }else{
+            log::add('meross', 'error', 'cron: no output from script');
         }
+
     }
 
     public function postSave()
@@ -87,27 +94,59 @@ class meross extends eqLogic
             $command = "sudo sh " . self::$_Script . ' --email ' . $email . ' --password ' . $password . ' ' . $_args;
             $log = str_replace($password,'xxx',str_replace($email,'xxx',$command));
             log::add('meross', 'debug', 'shell_exec:' . $log);
-            shell_exec($command);
+            $stdout = shell_exec($command);
+            return $stdout;
+
         } catch (\Exception $e) {
-            log::add('meross', 'error', 'pas de fichier script trouvé ' . $e);
+            log::add('meross', 'error', 'unable to launch script. ' . $e);
         }
+        return null;
     }
 
-    public function getJson($_file)
+    
+    /**
+     * Decode JSON from stdout
+     *
+     * @param  mixed $_stdout
+     *
+     * @return void
+     */
+    public function getJson($_stdout)
+    {
+        try {
+            $json = json_decode($_stdout, true);
+            return $json;
+        } catch (\Exception $e) {
+            log::add('meross', 'error', 'unable to decode json. ' . $e);
+        }
+        return null;
+    }
+
+    
+    /**
+     * Decode JSON from file
+     *
+     * @param  mixed $_file
+     *
+     * @return void
+     */
+    public function getJsonFromFile($_file)
     {
         try {
             $data = file_get_contents($_file);
             $json = json_decode($data, true);
             return $json;
         } catch (\Exception $e) {
-            log::add('meross', 'error', 'pas de fichier json trouvé ' . $e);
+            log::add('meross', 'error', 'unable to decode json from ' . $_file . '. ' .  $e);
         }
+        return null;
     }
+
     public function syncMeross()
     {
         log::add('meross', 'debug', '=== AJOUT DES EQUIPEMENTS ===');
-        self::launchScript('--refresh --show');
-        $json = self::getJson(self::$_Result);
+        $stdout = self::launchScript('--refresh --show');
+        $json = self::getJson($stdout);
         foreach ($json as $key=>$devices) {
             $device = self::byLogicalId($key, 'meross');
             if (!is_object($device)) {
@@ -126,7 +165,7 @@ class meross extends eqLogic
                 $device->save();
 
                 // Charge la définition du device
-                $jsonCmd = self::getJson(__DIR__ . '/../../core/config/devices/'.$devices["type"].'/def.json');
+                $jsonCmd = self::getJsonFromFile(__DIR__ . '/../../core/config/devices/'.$devices["type"].'/def.json');
                 foreach($jsonCmd['commands'] as $key=>$commandes){
                     $cmd = $device->getCmd(null, $commandes['logicalId']);
                     if (!is_array($cmd) || !is_object($cmd) ) {
@@ -169,12 +208,13 @@ class meross extends eqLogic
         }
     }
 
-    public function updateInfo()
+    public function updateInfo($_stdout)
     {
 
         try {
-            $infos = self::getJson(self::$_Result);
+            $infos = self::getJson($_stdout);
         } catch (\Exception $e) {
+            log::add('meross', 'error', $e);
         }
 
         foreach ($infos as $key=>$devices) {
