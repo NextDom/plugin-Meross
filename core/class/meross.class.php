@@ -64,8 +64,9 @@ class meross extends eqLogic
             $eqLogics = eqLogic::byType('meross');
         }
 
-        self::launchScript('--refresh --show');
         log::add('meross', 'debug', '=== MAJ DES INFOS ===');
+        self::launchScript('--refresh --show');
+
         foreach (eqLogic::byType('meross', true) as $eqLogic) {
             if ($eqLogic->getIsEnable() == 1) {
                 $eqLogic->updateInfo();
@@ -83,7 +84,10 @@ class meross extends eqLogic
         $email = config::byKey('merossEmail', 'meross');
         $password = config::byKey('merossPassword', 'meross');
         try {
-            shell_exec("sudo sh " . self::$_Script . ' --email ' . $email . ' --password ' . $password . ' ' . $_args);
+            $command = "sudo sh " . self::$_Script . ' --email ' . $email . ' --password ' . $password . ' ' . $_args;
+            $log = str_replace($password,'xxx',str_replace($email,'xxx',$command));
+            log::add('meross', 'debug', 'shell_exec:' . $log);
+            shell_exec($command);
         } catch (\Exception $e) {
             log::add('meross', 'error', 'pas de fichier script trouvé ' . $e);
         }
