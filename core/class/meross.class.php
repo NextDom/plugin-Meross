@@ -56,16 +56,10 @@ class meross extends eqLogic
         ),
     );
 
-    public static function cron($_eqlogic_id = null)
+    public static function cron15()
     {
-        if($_eqlogic_id !== null){
-            log::add('meross', 'debug', 'cron: Update informations for eqLogic=' . $_eqlogic_id);
-            $eqLogics = array(eqLogic::byId($_eqlogic_id));
-        }else{
-            log::add('meross', 'debug', 'cron: Update informations for all eqLogics');
-            $eqLogics = eqLogic::byType('meross', true);
-        }
-
+        log::add('meross', 'debug', 'cron: Update informations for all eqLogics');
+        $eqLogics = eqLogic::byType('meross', true);
 
         $stdout = self::launchScript('--refresh --show');
         if ($stdout != null)
@@ -228,8 +222,12 @@ class meross extends eqLogic
         }
     }
 
+
+
     public function updateInfo($_stdout)
     {
+        
+        log::add('meross', 'debug','updateInfo: ' . $_stdout );
 
         try {
             $infos = self::getJson($_stdout);
@@ -245,26 +243,27 @@ class meross extends eqLogic
                     if (!is_array($cmd) || !is_object($cmd) ) {
                         if($key2 == "onoff") {
                             foreach ($Commands as $key3=>$value) {
-                                log::add('meross', 'debug', '-- Maj infos du channel ' . $key3 .' avec la valeur  : ' .  $value);
+                                log::add('meross', 'debug', 'updateInfo: -channel_' . $key3 .'=' .  $value);
                                 $this->checkAndUpdateCmd("onoff_".$key3, $value);
                             }
                         }else{
-                            log::add('meross', 'debug', '-- Maj infos de ' . $key2 .' avec la valeur: ' . $devices[$key2]);
+                            log::add('meross', 'debug', 'updateInfo: -' . $key2 .'=' . $devices[$key2]);
                             $this->checkAndUpdateCmd($key2, $devices[$key2]);
                         }
                     }
                 }
 
-                log::add('meross', 'debug', 'Update eqLogic informations');
+                log::add('meross', 'debug', 'updateInfo: -Update eqLogic informations');
                 $this->setConfiguration('ip', $devices['ip']);
                 $this->setConfiguration('online', $devices['online']);
                 $this->setConfiguration('firmversion', $devices['firmversion']);
                 $this->setConfiguration('hardversion', $devices['hardversion']);
                 $this->setConfiguration('appname', $devices['name']);
                 $this->save();
-
             }
         }
+
+        log::add('meross', 'debug', 'updateInfo: Update completed');
     }
 
 }

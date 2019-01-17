@@ -43,26 +43,41 @@ class merossCmd extends cmd
         log::add('meross', 'debug','action: '. $action );
         $email = config::byKey('merossEmail', 'meross');
         $password = config::byKey('merossPassword', 'meross');
-        $command = 'sudo sh ' . __DIR__ . '/../../3rdparty/meross.sh' . ' --email ' . $email . ' --password ' . $password . ' --uuid ' . $eqLogic->getLogicalId();
-        $log = str_replace($password,'xxx',str_replace($email,'xxx',$command));
+        
+        // Base cmd
+        $command = 'sudo sh ' . __DIR__ . '/../../3rdparty/meross.sh' . ' --email ' . $email . ' --password ' . $password . ' --uuid ' . $eqLogic->getLogicalId() . ' --show ';
 
+        // If action need to be executed
+        $execute = false;
+
+        // Handle actions like on_x off_x
         $splitAction = explode("_", $action);
 
         if($splitAction[0] == "on") {
-            $command = $command . ' --set_on --channel ' . $splitAction[1] ;
-            log::add('meross','debug','shell_exec:' . $log);
-            $result=trim(shell_exec($command));
-            $eqLogic->cron($eqLogic->getId());
-
+            $command = $command . '--set_on --channel ' . $splitAction[1] ;
+            $execute = true;
         } elseif ($splitAction[0] == "off") {
-            $command = $command . ' --set_off --channel ' . $splitAction[1];
-            log::add('meross','debug','shell_exec:' . $log);
-            $result=trim(shell_exec($command));
-            $eqLogic->cron($eqLogic->getId());
+            $command = $command . '--set_off --channel ' . $splitAction[1];
+            $execute = true;
         }
 
+        // Handle direct actions
         if ($action == 'refresh') {
-            $eqLogic->cron($eqLogic->getId());
+            $command = $command . '--refresh';
+            $execute = true;
         }
+
+        if( $execute == true)
+        {
+            $log = str_replace($password,'xxx',str_replace($email,'xxx',$command));
+            log::add('meross','debug','shell_exec: ' . $log);
+            $result = trim(shell_exec($command));
+            log::add('meross','debug','shell_exec: result: ' . $result);
+            $eqLogic->updateInfo($result);
+        }else{
+            log::add('meross','debug','action: Action=' . $action . ' not implemented. ');
+        }
+
+
     }
 }
