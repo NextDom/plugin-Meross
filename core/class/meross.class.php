@@ -39,7 +39,7 @@ require_once "merossCmd.class.php";
 class meross extends eqLogic
 {
 
-    private static $_Result = __DIR__ . '/../../3rdparty/result.json';
+    private static $_FakeJson = __DIR__ . '/../../3rdparty/fakedevices.json';
     private static $_Script = __DIR__ . '/../../3rdparty/meross.sh';
 
     public static $_widgetPossibility = array(
@@ -59,10 +59,10 @@ class meross extends eqLogic
     public static function cron($_eqlogic_id = null)
     {
         if($_eqlogic_id !== null){
-            log::add('meross', 'debug', 'cron: update informations for eqLogic=' . $_eqlogic_id);
+            log::add('meross', 'debug', 'cron: Update informations for eqLogic=' . $_eqlogic_id);
             $eqLogics = array(eqLogic::byId($_eqlogic_id));
         }else{
-            log::add('meross', 'debug', 'cron: update informations for all eqLogics');
+            log::add('meross', 'debug', 'cron: Update informations for all eqLogics');
             $eqLogics = eqLogic::byType('meross', true);
         }
 
@@ -76,7 +76,7 @@ class meross extends eqLogic
                 }
             }
         }else{
-            log::add('meross', 'error', 'cron: no output from script');
+            log::add('meross', 'error', 'cron: No output from script');
         }
 
     }
@@ -90,15 +90,20 @@ class meross extends eqLogic
     {
         $email = config::byKey('merossEmail', 'meross');
         $password = config::byKey('merossPassword', 'meross');
+        if ($email == '' || $password == '')
+        {
+            log::add('meross', 'error', 'shell_exec: Email or password not provided. Please go to plugin configuration.');
+            return null;
+        }
         try {
             $command = "sudo sh " . self::$_Script . ' --email ' . $email . ' --password ' . $password . ' ' . $_args;
             $log = str_replace($password,'xxx',str_replace($email,'xxx',$command));
-            log::add('meross', 'debug', 'shell_exec:' . $log);
+            log::add('meross', 'debug', 'shell_exec: ' . $log);
             $stdout = shell_exec($command);
             return $stdout;
 
         } catch (\Exception $e) {
-            log::add('meross', 'error', 'unable to launch script. ' . $e);
+            log::add('meross', 'error', 'shell_exec: Unable to launch script. ' . $e);
         }
         return null;
     }
@@ -142,11 +147,26 @@ class meross extends eqLogic
         return null;
     }
 
-    public function syncMeross()
+    
+    /**
+     * Launch synchronisation rom Meross cloud
+     *
+     * @param  boolean $_fakeDevices True if you want to load fake devices
+     *
+     * @return void
+     */
+    public function syncMeross($_fakeDevices = false)
     {
         log::add('meross', 'debug', '=== AJOUT DES EQUIPEMENTS ===');
-        $stdout = self::launchScript('--refresh --show');
-        $json = self::getJson($stdout);
+        if ($_fakeDevices == false){
+            $stdout = self::launchScript('--refresh --show');
+            $json = self::getJson($stdout);
+        }else{
+            log::add('meross', 'debug', 'Load fake devices for developement');
+            $json = self::getJsonFromFile(self::$_FakeJson);
+        }
+        
+        log::add('meross', 'debug', $json);
         foreach ($json as $key=>$devices) {
             $device = self::byLogicalId($key, 'meross');
             if (!is_object($device)) {
@@ -215,6 +235,7 @@ class meross extends eqLogic
             $infos = self::getJson($_stdout);
         } catch (\Exception $e) {
             log::add('meross', 'error', $e);
+            return;
         }
 
         foreach ($infos as $key=>$devices) {

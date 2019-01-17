@@ -2,7 +2,7 @@
     "name": "Smart WiFi Plug with Energy Monitor",
     "group": "Connect and Control",
     "configuration": {
-        "type": "mss425f"
+        "type": "mss425e"
     },
     "commands": [
         {
@@ -19,7 +19,8 @@
                 "dashboard": "light",
                 "mobile": "light"
             }
-        },{
+        },
+        {
             "name": "Off 0",
             "type": "action",
             "subtype": "other",
@@ -33,7 +34,8 @@
                 "dashboard": "prise",
                 "mobile": "prise"
             }
-        },{
+        },
+        {
             "name": "On 0",
             "type": "action",
             "subtype": "other",
@@ -47,7 +49,8 @@
                 "dashboard": "prise",
                 "mobile": "prise"
             }
-        },{
+        },
+        {
             "name": "Status 1",
             "type": "info",
             "subtype": "binary",
@@ -61,7 +64,8 @@
                 "dashboard": "light",
                 "mobile": "light"
             }
-        },{
+        },
+        {
             "name": "Off 1",
             "type": "action",
             "subtype": "other",
@@ -75,7 +79,8 @@
                 "dashboard": "prise",
                 "mobile": "prise"
             }
-        },{
+        },
+        {
             "name": "On 1",
             "type": "action",
             "subtype": "other",
@@ -89,7 +94,8 @@
                 "dashboard": "prise",
                 "mobile": "prise"
             }
-        },{
+        },
+        {
             "name": "Status 2",
             "type": "info",
             "subtype": "binary",
@@ -103,7 +109,8 @@
                 "dashboard": "light",
                 "mobile": "light"
             }
-        },{
+        },
+        {
             "name": "Off 2",
             "type": "action",
             "subtype": "other",
@@ -117,7 +124,8 @@
                 "dashboard": "prise",
                 "mobile": "prise"
             }
-        },{
+        },
+        {
             "name": "On 2",
             "type": "action",
             "subtype": "other",
@@ -131,7 +139,8 @@
                 "dashboard": "prise",
                 "mobile": "prise"
             }
-        },{
+        },
+        {
             "name": "Status 3",
             "type": "info",
             "subtype": "binary",
@@ -145,7 +154,8 @@
                 "dashboard": "light",
                 "mobile": "light"
             }
-        },{
+        },
+        {
             "name": "Off 3",
             "type": "action",
             "subtype": "other",
@@ -159,7 +169,8 @@
                 "dashboard": "prise",
                 "mobile": "prise"
             }
-        },{
+        },
+        {
             "name": "On_3",
             "type": "action",
             "subtype": "other",
@@ -173,7 +184,8 @@
                 "dashboard": "prise",
                 "mobile": "prise"
             }
-        },{
+        },
+        {
             "name": "Status 4",
             "type": "info",
             "subtype": "binary",
@@ -187,7 +199,8 @@
                 "dashboard": "light",
                 "mobile": "light"
             }
-        },{
+        },
+        {
             "name": "Off 4",
             "type": "action",
             "subtype": "other",
@@ -201,7 +214,8 @@
                 "dashboard": "prise",
                 "mobile": "prise"
             }
-        },{
+        },
+        {
             "name": "On 4",
             "type": "action",
             "subtype": "other",
@@ -215,7 +229,8 @@
                 "dashboard": "prise",
                 "mobile": "prise"
             }
-        },{
+        },
+        {
             "name": "Status 5",
             "type": "info",
             "subtype": "binary",
@@ -229,7 +244,8 @@
                 "dashboard": "light",
                 "mobile": "light"
             }
-        },{
+        },
+        {
             "name": "Off 5",
             "type": "action",
             "subtype": "other",
@@ -243,7 +259,8 @@
                 "dashboard": "prise",
                 "mobile": "prise"
             }
-        },{
+        },
+        {
             "name": "On 5",
             "type": "action",
             "subtype": "other",
@@ -257,7 +274,8 @@
                 "dashboard": "prise",
                 "mobile": "prise"
             }
-        },{
+        },
+        {
             "name": "Rafraichir",
             "type": "action",
             "subtype": "other",

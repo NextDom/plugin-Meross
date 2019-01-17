@@ -54,7 +54,14 @@ try {
     ajax::init();
 
     if (init('action') == 'syncMeross') {
-        meross::syncMeross();
+        
+        if(config::byKey('merossEmail', 'meross') == 'NextDom4Ever')
+        {
+            // Create fake device for developpement
+            meross::syncMeross(true);
+        }else{
+            meross::syncMeross(false);
+        }
         ajax::success();
     }
 
