@@ -139,7 +139,7 @@ def RefreshOneDevice(device):
     # Current power
     try:
         electricity = device.get_electricity()
-        d['power'] = electricity['electricity']['power']
+        d['power'] = float(electricity['electricity']['power'] / 1000.)
     except:
         d['power'] = '-1'
 
