@@ -370,7 +370,8 @@ if __name__=='__main__':
     elif args.show:
         #pprint.pprint(SP)
         #jsonarray = json.dumps(SP)
-        jsonarray = json.dumps(SP, indent=4, sort_keys=True)
+        d = dict( { SP['uuid'] : SP } )
+        jsonarray = json.dumps(d, indent=4, sort_keys=True)
         print (jsonarray)
 
     # Save dictionnary into JSON file
