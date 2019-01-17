@@ -42,23 +42,20 @@ $eqLogics = eqLogic::byType($plugin->getId());
 ?>
 
 <div class="row row-overflow">
-    <div class="col-lg-12 col-md-9 col-sm-8 eqLogicThumbnailDisplay" style="border-left: solid 1px #EEE;">
+    <div class="col-lg-12 col-md-9 col-sm-8 eqLogicThumbnailDisplay">
         <legend><i class="fa fa-cog">&nbsp;&nbsp;</i>{{Gestion}}</legend>
         <div class="eqLogicThumbnailContainer form-group">
-            <div class="cursor eqLogicAction" data-action="sync" style="text-align: center; background-color : #ffffff; height : 120px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;">
-                <i class="fa fa-sync" style="font-size : 6em;color:#33b8cc;"></i>
-                <br>
-                <span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;">{{ Synchroniser }}</span>
+            <div class="cursor eqLogicAction eqlogicConfigBtn" data-action="sync">
+                <div class="fa fa-sync icon_theme_color"></div>
+                <div class="eqlogicConfigBtnTitle">{{ Synchroniser }}</div>
             </div>
-            <div class="cursor eqLogicAction" data-action="gotoPluginConf" style="text-align: center; background-color : #ffffff; height : 120px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;">
-                <i class="fa fa-wrench" style="font-size : 6em;color:#767676;"></i>
-                <br>
-                <span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;">{{ Configuration }}</span>
+            <div class="cursor eqLogicAction eqlogicConfigBtn" data-action="gotoPluginConf" >
+                <div class="fa fa-wrench"></div>
+                <div class="eqlogicConfigBtnTitle">{{ Configuration }}</div>
             </div>
-            <div class="cursor" id="bt_healthmeross" style="text-align: center; background-color : #ffffff; height : 120px;margin-bottom : 10px;padding : 5px; border-radius: 2px;width : 160px;margin-left : 10px;">
-                <i class="fa fa-medkit" style="font-size : 6em;color:#767676;"></i>
-                <br>
-                <span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;">{{ Santé }}</span>
+            <div class="cursor eqlogicConfigBtn" id="bt_healthmeross">
+                <div class="fa fa-medkit"></div>
+                <div class="eqlogicConfigBtnTitle">{{ Santé }}</div>
             </div>
         </div>
 
@@ -142,7 +139,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
                             <div class="col-md-8">
                                 <div class="box box-widget widget-user-2">
                                     <div class="widget-user-header backgroundColor">
-                                        <h3 class="eqlogic-box-title">{{Configuration équipement}}</h3>
+                                        <h3 class="eqlogicBoxTitle">{{Configuration équipement}}</h3>
                                     </div>
                                     <div class="box-body" style="margin-top:10px">
                                         <form class="form-horizontal">
@@ -203,7 +200,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
                             <div class="col-md-4">
                                 <div class="box box-widget widget-user-2">
                                     <div class="widget-user-header backgroundColor">
-                                        <h3 class="eqlogic-box-title">{{ Informations Meross Cloud }}</h3>
+                                        <h3 class="eqlogicBoxTitle">{{ Informations Meross Cloud }}</h3>
                                     </div>
                                     <div class="box-footer no-padding">
                                         <ul class="nav nav-stacked">
