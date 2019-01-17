@@ -207,7 +207,7 @@ def ConnectAndRefreshAll(email, password):
     return d_devices
 
 # ---------------------------------------------------------------------
-def ConnectAndSetOnOff(devices, email, password, name=None, uuid=None, mac=None, action='on'):
+def ConnectAndSetOnOff(devices, email, password, name=None, uuid=None, mac=None, action='on', channel='0'):
     """ Connect to Meross Cloud and set on or off a smartplug """
 
     if mac and not name and not uuid: Exit("<F> Error : not implemented !")
@@ -228,21 +228,38 @@ def ConnectAndSetOnOff(devices, email, password, name=None, uuid=None, mac=None,
            device = d
            break
 
-    try:
-       if action == 'on':
-            device.turn_on()
-       else:
-            device.turn_off()
-    except:
-        pass
-
+    uuid = d._uuid
+    #pprint.pprint( devices[uuid] )
+    if len(devices[uuid]['onoff']) == 1:
+        try:
+            if action == 'on':
+                device.turn_on()
+            else:
+                device.turn_off()
+        except:
+            pass
+    else:
+        try:
+            if action == 'on':
+                if channel == '0':
+                    device.turn_on()
+                else:
+                    device.turn_on_channel(channel)
+            else:
+                if channel == '0':
+                    device.turn_off()
+                else:
+                    device.turn_off_channel(channel)
+        except:
+            pass
+        
     devices[d._uuid] = RefreshOneDevice(device)
 
     return devices
 
 # ---------------------------------------------------------------------
 def GetByName(d_devices, name):
-    """ Find a Meross Smartplug with name """
+    """ Find a Meross Smartplug from name """
     for k in d_devices.keys():
         if (d_devices[k]['name'] == name ):
             return d_devices[k]
@@ -250,7 +267,7 @@ def GetByName(d_devices, name):
 
 # ---------------------------------------------------------------------
 def GetByUuid(d_devices, uuid):
-    """ Find a Meross Smartplug with uuid """
+    """ Find a Meross Smartplug from uuid """
     for k in d_devices.keys():
         if (d_devices[k]['uuid'] == uuid ):
             return d_devices[k]
@@ -258,7 +275,7 @@ def GetByUuid(d_devices, uuid):
 
 # ---------------------------------------------------------------------
 def GetByMAC(d_devices, mac):
-    """ Find a Meross Smartplug with MAC """
+    """ Find a Meross Smartplug from MAC """
     for k in d_devices.keys():
         if (d_devices[k]['mac'] == mac ):
             return d_devices[k]
@@ -273,7 +290,7 @@ if __name__=='__main__':
     parser.add_argument('--uuid', action="store", dest="uuid")
     parser.add_argument('--name', action="store", dest="name")
     parser.add_argument('--mac', action="store", dest="mac")
-    parser.add_argument('--channel', action="store", dest="channel")
+    parser.add_argument('--channel', action="store", dest="channel", default="0")
     parser.add_argument('--set_on', action="store_true", default=False)
     parser.add_argument('--set_off', action="store_true", default=False)
     parser.add_argument('--show_power', action="store_true", default=False)
@@ -338,9 +355,9 @@ if __name__=='__main__':
 
     # Set on / off
     if args.set_on:
-        d_devices = ConnectAndSetOnOff(devices=d_devices, email=email, password=password, name=args.name, uuid=args.uuid, mac=args.mac, action='on')
+        d_devices = ConnectAndSetOnOff(devices=d_devices, email=email, password=password, name=args.name, uuid=args.uuid, mac=args.mac, action='on', channel=args.channel)
     if args.set_off:
-        d_devices = ConnectAndSetOnOff(devices=d_devices, email=email, password=password, name=args.name, uuid=args.uuid, mac=args.mac, action='off')
+        d_devices = ConnectAndSetOnOff(devices=d_devices, email=email, password=password, name=args.name, uuid=args.uuid, mac=args.mac, action='off', channel=args.channel)
 
 
     # Find the Smartplug
