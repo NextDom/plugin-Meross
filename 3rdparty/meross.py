@@ -56,7 +56,7 @@ def ReadConfig(conffile=conffile):
 >>>> Error : wrong file 'config.ini' ! Please create this file with this contents :
 
 [secret]
-email = your-meros-email-account
+email = your-meross-email-account
 password = your-meross-password
 
 """)
@@ -69,6 +69,102 @@ def Exit(txt=""):
     print(txt)
     sys.exit(1)
 
+
+# ---------------------------------------------------------------------
+def RefreshOneDevice(device):
+    """ Connect to Meross Cloud and refresh only the device 'device' """
+
+    data = device.get_sys_data()
+    if debug: pprint.pprint(data)
+    #pprint.pprint(device)
+
+    d = dict( {
+        'name':     device._name,
+        'uuid':     device._uuid,
+        'ip':       '',
+        'mac':      '',
+        'online':   '',
+        'type':     '',
+        'firmversion': '',
+        'hardversion': '',
+        } )
+
+    try:
+        d['ip'] = data['all']['system']['firmware']['innerIp']
+    except:
+        pass
+
+    try:
+        d['mac'] = data['all']['system']['hardware']['macAddress']
+    except:
+        pass
+
+    try:
+        d['online'] = data['all']['system']['online']['status']
+    except:
+        pass
+
+    try:
+        d['type'] = data['all']['system']['hardware']['type']
+    except:
+        pass
+
+    try:
+        d['firmversion'] = data['all']['system']['firmware']['version']
+    except:
+        pass
+
+    try:
+        d['hardversion'] = data['all']['system']['hardware']['version']
+    except:
+        pass
+
+    # on/off status
+    onoff = []
+    try:
+        #print (data)
+        #val = str(data['all']['control']['toggle']['onoff'])
+        #print (val)
+        #val = ''.join(val.split())   # suppress all blank, new lines, ..
+        #print (val)
+        onoff = [ data['all']['control']['toggle']['onoff'] ]
+    except:
+        try:
+           ll = data['all']['digest']['togglex']
+           onoff = [ x['onoff'] for x in ll ]
+        except:
+           pass
+    d['onoff'] = onoff
+
+    # Current power
+    try:
+        electricity = device.get_electricity()
+        d['power'] = electricity['electricity']['power']
+    except:
+        d['power'] = '-1'
+
+    # Historical consumption
+    try:
+        l_consumption = device.get_power_consumptionX()['consumptionx']
+    except:
+        l_consumption = []
+
+    d['consumption'] = []   # on decide de ne pas la stocker
+
+    # Yesterday consumption
+    today = datetime.today()
+    yesterday = (today - timedelta(1) ).strftime("%Y-%m-%d")
+    d['consumption_yesterday'] = -1
+
+    for c in l_consumption:
+        if c['date'] == yesterday:
+            try:
+                d['consumption_yesterday'] = c['value']
+            except:
+                d['consumption_yesterday'] = -1
+            break
+
+    return d
 
 
 # ---------------------------------------------------------------------
@@ -83,115 +179,17 @@ def ConnectAndRefreshAll(email, password):
     # Retrieves the list of supported devices
     devices = httpHandler.list_supported_devices()
 
-    #print(devices)
-    #print(50*'=')
-
     # Build dict of devices informations
     d_devices = {}
 
     for num in range(len(devices)):
         if debug: print(50*'=' + '\nnum=', num)
         device = devices[num]
-        #if not device._name == 'Meross multi 1':
-        #pprint.pprint(device)
-        #print (device._name)
-        data = device.get_sys_data()
-        if debug: pprint.pprint(data)
-        #pprint.pprint(device)
+
+        d = RefreshOneDevice(device=device)
+
         uuid = device._uuid
-
-        d_devices[uuid] = dict( {
-            'name':     device._name,
-            'uuid':     uuid,
-            'ip':       '',
-            'mac':      '',
-            'online':   '',
-            'type':     '',
-            'firmversion': '',
-            'hardversion': '',
-            } )
-
-
-#        d_devices[uuid] = dict( {
-#            'name':     device._name,
-#            'ip':       data['all']['system']['firmware']['innerIp'],
-#            'mac':      data['all']['system']['hardware']['macAddress'],
-#            'online':   data['all']['system']['online']['status'],
-#            'uuid':     uuid,
-#            'type':     data['all']['system']['hardware']['type'],
-#            'firmversion':  data['all']['system']['firmware']['version'],
-#            'hardversion':  data['all']['system']['hardware']['version']
-#            } )
-
-        try:
-            d_devices[uuid]['ip'] = data['all']['system']['firmware']['innerIp']
-        except:
-            pass
-
-        try:
-            d_devices[uuid]['mac'] = data['all']['system']['hardware']['macAddress']
-        except:
-            pass
-
-        try:
-            d_devices[uuid]['online'] = data['all']['system']['online']['status']
-        except:
-            pass
-
-        try:
-            d_devices[uuid]['type'] = data['all']['system']['hardware']['type']
-        except:
-            pass
-
-        try:
-            d_devices[uuid]['firmversion'] = data['all']['system']['firmware']['version']
-        except:
-            pass
-
-        try:
-            d_devices[uuid]['hardversion'] = data['all']['system']['hardware']['version']
-        except:
-            pass
-
-        # on/off status
-        onoff = []
-        try:
-            onoff = [ data['all']['control']['toggle']['onoff'] ]
-        except:
-            try:
-                ll = data['all']['digest']['togglex']
-                onoff = [ x['onoff'] for x in ll ]
-            except:
-                pass
-        d_devices[uuid]['onoff'] = onoff
-
-        # Current power
-        try:
-            electricity = device.get_electricity()
-            d_devices[uuid]['power'] = electricity['electricity']['power']
-        except:
-            d_devices[uuid]['power'] = '-1'
-
-        # Historical consumption
-        try:
-            l_consumption = device.get_power_consumptionX()['consumptionx']
-        except:
-            l_consumption = []
-
-        d_devices[uuid]['consumption'] = []   # on decide de ne pas la stocker
-
-        # Yesterday consumption
-        today = datetime.today()
-        yesterday = (today - timedelta(1) ).strftime("%Y-%m-%d")
-        d_devices[uuid]['consumption_yesterday'] = -1
-
-        for c in l_consumption:
-            if c['date'] == yesterday:
-                try:
-                    d_devices[uuid]['consumption_yesterday'] = c['value']
-                except:
-                    d_devices[uuid]['consumption_yesterday'] = -1
-                break
+        d_devices[uuid] = d
 
     if debug: pprint.pprint(d_devices)
 
@@ -200,16 +198,16 @@ def ConnectAndRefreshAll(email, password):
     pickle.dump(d_devices,f)
     f.close()
 
-    # Save dictionnary into JSON file
-    l_devices = list(d_devices.values())
-    #print(l_devices)
-    with open(jsonfile, 'w') as fp:
-        json.dump(d_devices, fp)
+#    # Save dictionnary into JSON file
+#    l_devices = list(d_devices.values())
+#    #print(l_devices)
+#    with open(jsonfile, 'w') as fp:
+#        json.dump(d_devices, fp)
 
     return d_devices
 
 # ---------------------------------------------------------------------
-def ConnectAndSetOnOff(email, password, name=None, uuid=None, mac=None, action='on'):
+def ConnectAndSetOnOff(devices, email, password, name=None, uuid=None, mac=None, action='on'):
     """ Connect to Meross Cloud and set on or off a smartplug """
 
     if mac and not name and not uuid: Exit("<F> Error : not implemented !")
@@ -222,10 +220,10 @@ def ConnectAndSetOnOff(email, password, name=None, uuid=None, mac=None, action='
         Exit("<F> Error : can't connect to Meross Cloud ! Please verify Internet connection, email and password !")
 
     # Retrieves the list of supported devices
-    devices = httpHandler.list_supported_devices()
+    ldevices = httpHandler.list_supported_devices()
 
     device = None
-    for d in devices:
+    for d in ldevices:
        if (d._uuid == uuid) or (d._name == name):
            device = d
            break
@@ -238,7 +236,9 @@ def ConnectAndSetOnOff(email, password, name=None, uuid=None, mac=None, action='
     except:
         pass
 
-    return
+    devices[d._uuid] = RefreshOneDevice(device)
+
+    return devices
 
 # ---------------------------------------------------------------------
 def GetByName(d_devices, name):
@@ -304,7 +304,7 @@ if __name__=='__main__':
             refresh = True
 
     # Get email / password (only if necessary : refresh or action)
-    if args.refresh or args.set_on or args.set_off:
+    if args.refresh or refresh or args.set_on or args.set_off:
         email = None
         password = None
         # Get from commandline argument
@@ -335,6 +335,14 @@ if __name__=='__main__':
     if args.refresh or refresh:
         d_devices = ConnectAndRefreshAll(email, password)
 
+
+    # Set on / off
+    if args.set_on:
+        d_devices = ConnectAndSetOnOff(devices=d_devices, email=email, password=password, name=args.name, uuid=args.uuid, mac=args.mac, action='on')
+    if args.set_off:
+        d_devices = ConnectAndSetOnOff(devices=d_devices, email=email, password=password, name=args.name, uuid=args.uuid, mac=args.mac, action='off')
+
+
     # Find the Smartplug
     SP = None
     if args.name:
@@ -346,35 +354,27 @@ if __name__=='__main__':
     elif args.mac:
         if debug: print("<I> Getting informations for Smartplug with MAC '%s' ..." % args.mac)
         SP = GetByMAC(d_devices=d_devices, mac=args.mac)
-
-    #if not SP:
-    #    Exit("<F> Error : can't find the Smartplug ... Please specify --uuid, --name or --mac parameter !")
-
-
-    # Affichage sur la stdout
-    if SP:
-        if debug: pprint.pprint(SP)
-        if args.show:
-            pprint.pprint(SP)
-
-        # Return only Power value
-        if args.show_power:
-            print (str(int(float(SP['power']/1000.))))
-
-        # Return only yesterday Consumption value
-        if args.show_yesterday:
-            print (str(int(float(SP['consumption_yesterday']/100.))/10.))
-
     else:
-        if args.show:
-            #pprint.pprint(d_devices)
-            jsonarray = json.dumps(d_devices)
-            #pprint.pprint(jsonarray)
-            print (jsonarray)
+        SP = d_devices
 
 
-    # Set on / off
-    if args.set_on:
-        ConnectAndSetOnOff(email=email, password=password, name=args.name, uuid=args.uuid, mac=args.mac, action='on')
-    if args.set_off:
-        ConnectAndSetOnOff(email=email, password=password, name=args.name, uuid=args.uuid, mac=args.mac, action='off')
+    # Return only Power value
+    if args.show_power:
+        print (str(int(float(SP['power']/1000.))))
+
+    # Return only yesterday Consumption value
+    elif args.show_yesterday:
+        print (str(int(float(SP['consumption_yesterday']/100.))/10.))
+
+    # Return the JSON output
+    elif args.show:
+        #pprint.pprint(SP)
+        #jsonarray = json.dumps(SP)
+        jsonarray = json.dumps(SP, indent=4, sort_keys=True)
+        print (jsonarray)
+
+    # Save dictionnary into JSON file
+    l_devices = list(d_devices.values())
+    #print(l_devices)
+    with open(jsonfile, 'w') as fp:
+        json.dump(d_devices, fp)
