@@ -370,7 +370,10 @@ if __name__=='__main__':
     elif args.show:
         #pprint.pprint(SP)
         #jsonarray = json.dumps(SP)
-        d = dict( { SP['uuid'] : SP } )
+        if args.name or args.uuid or args.mac:
+            d = dict( { SP['uuid'] : SP } )
+        else:
+            d = d_devices
         jsonarray = json.dumps(d, indent=4, sort_keys=True)
         print (jsonarray)
 
