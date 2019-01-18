@@ -58,7 +58,7 @@ class meross extends eqLogic
 
     public static function cron15()
     {
-        log::add('meross', 'debug', 'cron: Update informations for all eqLogics');
+        log::add('meross', 'debug', 'cron15: Update informations for all eqLogics...');
         $eqLogics = eqLogic::byType('meross', true);
 
         $stdout = self::launchScript('--refresh --show');
@@ -70,8 +70,9 @@ class meross extends eqLogic
                 }
             }
         }else{
-            log::add('meross', 'error', 'cron: No output from script');
+            log::add('meross', 'error', 'cron15: No output from script');
         }
+        log::add('meross', 'debug', 'cron15: Cron completed.');
 
     }
 
@@ -143,7 +144,7 @@ class meross extends eqLogic
 
     
     /**
-     * Launch synchronisation rom Meross cloud
+     * Launch synchronization from Meross cloud
      *
      * @param  boolean $_fakeDevices True if you want to load fake devices
      *
@@ -151,12 +152,12 @@ class meross extends eqLogic
      */
     public function syncMeross($_fakeDevices = false)
     {
-        log::add('meross', 'debug', '=== AJOUT DES EQUIPEMENTS ===');
+        log::add('meross', 'debug', 'syncMeross: Load devices from Meross Cloud');
         if ($_fakeDevices == false){
             $stdout = self::launchScript('--refresh --show');
             $json = self::getJson($stdout);
         }else{
-            log::add('meross', 'debug', 'Load fake devices for developement');
+            log::add('meross', 'debug', 'syncMeross: Load fake devices for developement');
             $json = self::getJsonFromFile(self::$_FakeJson);
         }
         
@@ -164,7 +165,7 @@ class meross extends eqLogic
         foreach ($json as $key=>$devices) {
             $device = self::byLogicalId($key, 'meross');
             if (!is_object($device)) {
-                log::add('meross', 'debug','Ajout de l\'équipement ' . $devices["name"]);
+                log::add('meross', 'debug','syncMeross: Add device=' . $devices["name"]);
                 $device = new self();
                 $device->setName($devices["name"]);
                 $device->setEqType_name("meross");
@@ -183,8 +184,7 @@ class meross extends eqLogic
                 foreach($jsonCmd['commands'] as $key=>$commandes){
                     $cmd = $device->getCmd(null, $commandes['logicalId']);
                     if (!is_array($cmd) || !is_object($cmd) ) {
-                        log::add('meross', 'debug','-- Ajout de la commande: ' .$commandes['name']);
-                        log::add('meross', 'debug','-- set value : ' .$commandes["value"]);
+                        log::add('meross', 'debug','syncMeross: - Add cmd=' .$commandes['logicalId']);
                         $cmd = new merossCmd();
                         $cmd->setLogicalId($commandes['logicalId']);
                         $cmd->setName(__($commandes['name'], __FILE__));
@@ -211,15 +211,18 @@ class meross extends eqLogic
                         } elseif ($splitCommandes[0] == 'on' || $splitCommandes[0] == 'off' )
                         {
                             // Affecte l'ID de la cmd onoff_x en value
+                            log::add('meross', 'debug','syncMeross: - Set value : ' .$commandes["value"]);
                             $cmd->setValue($etatid);
                             $cmd->save();
                         }
                     }
                 }
             } else {
-                log::add('meross', 'debug','équipement' . $devices["name"] . ' deja ajouter ');
+                log::add('meross', 'debug','syncMeross: ' . $devices["name"] . ' already exist.');
             }
         }
+
+        log::add('meross', 'debug', 'syncMeross: synchronization completed.');
     }
 
 
