@@ -39,7 +39,7 @@
 
 try {
     // Ajoute le fichier du core qui se charge d'inclure tous les fichiers nécessaires
-    require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
+    require_once __DIR__ . '/../../../../core/php/core.inc.php';
 
     // Ajoute le fichier de gestion des authentifications
     include_file('core', 'authentification', 'php');
@@ -59,7 +59,7 @@ try {
         {
             // Create fake device for developpement
             meross::syncMeross(true);
-        }else{
+        } else {
             meross::syncMeross(false);
         }
         ajax::success();
