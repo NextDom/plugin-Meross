@@ -32,7 +32,7 @@
 * along with NextDom. If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
+require_once __DIR__ . '/../../../../core/php/core.inc.php';
 
 class merossCmd extends cmd
 {
@@ -67,17 +67,16 @@ class merossCmd extends cmd
             $execute = true;
         }
 
-        if( $execute == true)
+        if( $execute === true)
         {
             $log = str_replace($password,'xxx',str_replace($email,'xxx',$command));
             log::add('meross','debug','shell_exec: ' . $log);
             $result = trim(shell_exec($command));
             log::add('meross','debug','shell_exec: result: ' . $result);
             $eqLogic->updateInfo($result);
-        }else{
+        } else {
             log::add('meross','debug','action: Action=' . $action . ' not implemented. ');
         }
-
 
     }
 }
