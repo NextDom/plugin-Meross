@@ -33,7 +33,7 @@
 */
 
 /* * ***************************Includes********************************* */
-require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
+require_once __DIR__ . '/../../../../core/php/core.inc.php';
 require_once "merossCmd.class.php";
 
 class meross extends eqLogic
@@ -69,15 +69,10 @@ class meross extends eqLogic
                     $eqLogic->updateInfo($stdout);
                 }
             }
-        }else{
+        } else {
             log::add('meross', 'error', 'cron15: No output from script');
         }
         log::add('meross', 'debug', 'cron15: Cron completed.');
-
-    }
-
-    public function postSave()
-    {
 
     }
 
@@ -229,7 +224,6 @@ class meross extends eqLogic
 
     public function updateInfo($_stdout)
     {
-        
         log::add('meross', 'debug','updateInfo: ' . $_stdout );
 
         try {
