@@ -1,48 +1,53 @@
 #!/usr/bin/python3
 
+from meross_iot.api import MerossHttpClient
+from datetime import datetime, timedelta
+import argparse
+import pickle
+import json
+import pprint
+import os
+import sys
+import time
 debug = False
 
-import time
-import sys
-import os
-import pprint
-import json
-import pickle
-import argparse
-from datetime import datetime, timedelta
 
 if sys.version_info[0] < 3:
     raise Exception("Must be using Python 3")
 
 # Get Python version
-pver=str(sys.version_info.major) + '.' + str(sys.version_info.minor)
+pver = str(sys.version_info.major) + '.' + str(sys.version_info.minor)
 
 # Add Meross-iot lib to Pythonpath
-current_dir=os.path.normpath(os.path.dirname(os.path.abspath(os.path.realpath(sys.argv[0]))))
+current_dir = os.path.normpath(os.path.dirname(
+    os.path.abspath(os.path.realpath(sys.argv[0]))))
 #sys.path.append(os.path.abspath(os.path.join(current_dir, 'meross_iot', 'lib', 'python' + pver, 'site-packages')))
 
 # Var dir
 var_dir = current_dir
 
 # Meross lib
-from meross_iot.api import MerossHttpClient
 
 # data files
 conffile = os.path.join(var_dir, 'config.ini')
-pklfile  = os.path.join(var_dir, 'result.pkl')
-jsonfile = os.path.join(var_dir, 'result.json')
+# pklfile  = os.path.join(var_dir, 'result.pkl')
+# jsonfile = os.path.join(var_dir, 'result.json')
 
 # ---------------------------------------------------------------------
+
+
 class WriteLog:
     def __init__(self):
         self.debug = debug
 
     def p(self, txt):
-       if self.debug:
-           print (txt)
-       return
+        if self.debug:
+            print(txt)
+        return
 
 # ---------------------------------------------------------------------
+
+
 def ReadConfig(conffile=conffile):
     """ Read config (secrets) """
     import configparser
@@ -75,10 +80,11 @@ def RefreshOneDevice(device):
     """ Connect to Meross Cloud and refresh only the device 'device' """
 
     data = device.get_sys_data()
-    if debug: pprint.pprint(data)
-    #pprint.pprint(device)
+    if debug:
+        pprint.pprint(data)
+    # pprint.pprint(device)
 
-    d = dict( {
+    d = dict({
         'name':     device._name,
         'uuid':     device._uuid,
         'ip':       '',
@@ -87,7 +93,7 @@ def RefreshOneDevice(device):
         'type':     '',
         'firmversion': '',
         'hardversion': '',
-        } )
+    })
 
     try:
         d['ip'] = data['all']['system']['firmware']['innerIp']
@@ -125,15 +131,15 @@ def RefreshOneDevice(device):
         #print (data)
         #val = str(data['all']['control']['toggle']['onoff'])
         #print (val)
-        #val = ''.join(val.split())   # suppress all blank, new lines, ..
+        # val = ''.join(val.split())   # suppress all blank, new lines, ..
         #print (val)
-        onoff = [ data['all']['control']['toggle']['onoff'] ]
+        onoff = [data['all']['control']['toggle']['onoff']]
     except:
         try:
-           ll = data['all']['digest']['togglex']
-           onoff = [ x['onoff'] for x in ll ]
+            ll = data['all']['digest']['togglex']
+            onoff = [x['onoff'] for x in ll]
         except:
-           pass
+            pass
     d['onoff'] = onoff
 
     # Current power
@@ -153,7 +159,7 @@ def RefreshOneDevice(device):
 
     # Yesterday consumption
     today = datetime.today()
-    yesterday = (today - timedelta(1) ).strftime("%Y-%m-%d")
+    yesterday = (today - timedelta(1)).strftime("%Y-%m-%d")
     d['consumption_yesterday'] = -1
 
     for c in l_consumption:
@@ -183,7 +189,8 @@ def ConnectAndRefreshAll(email, password):
     d_devices = {}
 
     for num in range(len(devices)):
-        if debug: print(50*'=' + '\nnum=', num)
+        if debug:
+            print(50*'=' + '\nnum=', num)
         device = devices[num]
 
         d = RefreshOneDevice(device=device)
@@ -191,26 +198,30 @@ def ConnectAndRefreshAll(email, password):
         uuid = device._uuid
         d_devices[uuid] = d
 
-    if debug: pprint.pprint(d_devices)
+    if debug:
+        pprint.pprint(d_devices)
 
     # Save dictionnary into Pickle file
-    f = open(pklfile,"wb")
-    pickle.dump(d_devices,f)
-    f.close()
+    # f = open(pklfile,"wb")
+    # pickle.dump(d_devices,f)
+    # f.close()
 
-#    # Save dictionnary into JSON file
-#    l_devices = list(d_devices.values())
-#    #print(l_devices)
-#    with open(jsonfile, 'w') as fp:
-#        json.dump(d_devices, fp)
+    # Save dictionnary into JSON file
+    # l_devices = list(d_devices.values())
+    # print(l_devices)
+    # with open(jsonfile, 'w') as fp:
+    #   json.dump(d_devices, fp)
 
     return d_devices
 
 # ---------------------------------------------------------------------
+
+
 def ConnectAndSetOnOff(devices, email, password, name=None, uuid=None, mac=None, action='on', channel='0'):
     """ Connect to Meross Cloud and set on or off a smartplug """
 
-    if mac and not name and not uuid: Exit("<F> Error : not implemented !")
+    if mac and not name and not uuid:
+        Exit("<F> Error : not implemented !")
     if not name and not uuid and not mac:
         Exit("<F> Error : need at least 'name', 'uuid' or 'mac' parameter to set on or off a smartplug !")
 
@@ -224,9 +235,9 @@ def ConnectAndSetOnOff(devices, email, password, name=None, uuid=None, mac=None,
 
     device = None
     for d in ldevices:
-       if (d._uuid == uuid) or (d._name == name):
-           device = d
-           break
+        if (d._uuid == uuid) or (d._name == name):
+            device = d
+            break
 
     uuid = d._uuid
     #pprint.pprint( devices[uuid] )
@@ -252,45 +263,54 @@ def ConnectAndSetOnOff(devices, email, password, name=None, uuid=None, mac=None,
                     device.turn_off_channel(channel)
         except:
             pass
-        
+
     devices[d._uuid] = RefreshOneDevice(device)
 
     return devices
 
 # ---------------------------------------------------------------------
+
+
 def GetByName(d_devices, name):
     """ Find a Meross Smartplug from name """
     for k in d_devices.keys():
-        if (d_devices[k]['name'] == name ):
+        if (d_devices[k]['name'] == name):
             return d_devices[k]
     return {}
 
 # ---------------------------------------------------------------------
+
+
 def GetByUuid(d_devices, uuid):
     """ Find a Meross Smartplug from uuid """
     for k in d_devices.keys():
-        if (d_devices[k]['uuid'] == uuid ):
+        if (d_devices[k]['uuid'] == uuid):
             return d_devices[k]
     return {}
 
 # ---------------------------------------------------------------------
+
+
 def GetByMAC(d_devices, mac):
     """ Find a Meross Smartplug from MAC """
     for k in d_devices.keys():
-        if (d_devices[k]['mac'] == mac ):
+        if (d_devices[k]['mac'] == mac):
             return d_devices[k]
     return {}
 
+
 # ---------------------------------------------------------------------
-if __name__=='__main__':
+if __name__ == '__main__':
 
     # Arguments
-    parser = argparse.ArgumentParser(description='Meross Python lib for Nextdom')
+    parser = argparse.ArgumentParser(
+        description='Meross Python lib for Nextdom')
     parser.add_argument('--refresh', action="store_true", default=False)
     parser.add_argument('--uuid', action="store", dest="uuid")
     parser.add_argument('--name', action="store", dest="name")
     parser.add_argument('--mac', action="store", dest="mac")
-    parser.add_argument('--channel', action="store", dest="channel", default="0")
+    parser.add_argument('--channel', action="store",
+                        dest="channel", default="0")
     parser.add_argument('--set_on', action="store_true", default=False)
     parser.add_argument('--set_off', action="store_true", default=False)
     parser.add_argument('--show_power', action="store_true", default=False)
@@ -302,7 +322,7 @@ if __name__=='__main__':
     parser.add_argument('--debug', action="store_true", default=False)
 
     args = parser.parse_args()
-    #print(args)
+    # print(args)
 
     # WriteLog
     l = WriteLog()
@@ -313,10 +333,10 @@ if __name__=='__main__':
     if not args.refresh:
         try:
             # Read local saved data
-            f = open(pklfile,"rb")
+            f = open(pklfile, "rb")
             d_devices = pickle.load(f)
             f.close()
-            #pprint.pprint(d_devices)
+            # pprint.pprint(d_devices)
         except:
             refresh = True
 
@@ -352,50 +372,52 @@ if __name__=='__main__':
     if args.refresh or refresh:
         d_devices = ConnectAndRefreshAll(email, password)
 
-
     # Set on / off
     if args.set_on:
-        d_devices = ConnectAndSetOnOff(devices=d_devices, email=email, password=password, name=args.name, uuid=args.uuid, mac=args.mac, action='on', channel=args.channel)
+        d_devices = ConnectAndSetOnOff(devices=d_devices, email=email, password=password,
+                                       name=args.name, uuid=args.uuid, mac=args.mac, action='on', channel=args.channel)
     if args.set_off:
-        d_devices = ConnectAndSetOnOff(devices=d_devices, email=email, password=password, name=args.name, uuid=args.uuid, mac=args.mac, action='off', channel=args.channel)
-
+        d_devices = ConnectAndSetOnOff(devices=d_devices, email=email, password=password,
+                                       name=args.name, uuid=args.uuid, mac=args.mac, action='off', channel=args.channel)
 
     # Find the Smartplug
     SP = None
     if args.name:
-        if debug: print("<I> Getting informations for Smartplug named '%s' ..." % args.name)
+        if debug:
+            print("<I> Getting informations for Smartplug named '%s' ..." % args.name)
         SP = GetByName(d_devices=d_devices, name=args.name)
     elif args.uuid:
-        if debug: print("<I> Getting informations for Smartplug with uuid '%s' ..." % args.uuid)
+        if debug:
+            print("<I> Getting informations for Smartplug with uuid '%s' ..." % args.uuid)
         SP = GetByUuid(d_devices=d_devices, uuid=args.uuid)
     elif args.mac:
-        if debug: print("<I> Getting informations for Smartplug with MAC '%s' ..." % args.mac)
+        if debug:
+            print("<I> Getting informations for Smartplug with MAC '%s' ..." % args.mac)
         SP = GetByMAC(d_devices=d_devices, mac=args.mac)
     else:
         SP = d_devices
 
-
     # Return only Power value
     if args.show_power:
-        print (str(int(float(SP['power']/1000.))))
+        print(str(int(float(SP['power']/1000.))))
 
     # Return only yesterday Consumption value
     elif args.show_yesterday:
-        print (str(int(float(SP['consumption_yesterday']/100.))/10.))
+        print(str(int(float(SP['consumption_yesterday']/100.))/10.))
 
     # Return the JSON output
     elif args.show:
-        #pprint.pprint(SP)
+        # pprint.pprint(SP)
         #jsonarray = json.dumps(SP)
         if args.name or args.uuid or args.mac:
-            d = dict( { SP['uuid'] : SP } )
+            d = dict({SP['uuid']: SP})
         else:
             d = d_devices
         jsonarray = json.dumps(d, indent=4, sort_keys=True)
-        print (jsonarray)
+        print(jsonarray)
 
     # Save dictionnary into JSON file
-    l_devices = list(d_devices.values())
-    #print(l_devices)
-    with open(jsonfile, 'w') as fp:
-        json.dump(d_devices, fp)
+    # l_devices = list(d_devices.values())
+    # print(l_devices)
+    # with open(jsonfile, 'w') as fp:
+    #    json.dump(d_devices, fp)
