@@ -1,36 +1,20 @@
 <?php
 
-/* This file is part of Jeedom.
+/*
+ * This file is part of the NextDom software (https://github.com/NextDom or http://nextdom.github.io).
  *
- * Jeedom is free software: you can redistribute it and/or modify
+ * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * the Free Software Foundation, version 2.
  *
- * Jeedom is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
-/* This file is part of NextDom.
-*
-* NextDom is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* NextDom is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with NextDom. If not, see <http://www.gnu.org/licenses/>.
-*/
 
 require_once __DIR__ . '/../../../../core/php/core.inc.php';
 
@@ -45,7 +29,7 @@ class merossCmd extends cmd
         $password = config::byKey('merossPassword', 'meross');
         
         // Base cmd
-        $command = 'sudo sh ' . __DIR__ . '/../../3rdparty/meross.sh' . ' --email ' . $email . ' --password ' . $password . ' --uuid ' . $eqLogic->getLogicalId() . ' --show ';
+        $command = 'sh ' . __DIR__ . '/../../3rdparty/meross.sh' . ' --email ' . $email . ' --password ' . $password . ' --uuid ' . $eqLogic->getLogicalId() . ' --show ';
 
         // If action need to be executed
         $execute = false;
@@ -73,7 +57,7 @@ class merossCmd extends cmd
             log::add('meross','debug','shell_exec: ' . $log);
             $result = trim(shell_exec($command));
             log::add('meross','debug','shell_exec: result: ' . $result);
-            $eqLogic->updateInfo($result);
+            meross::updateInfo($eqLogic, $result);
         } else {
             log::add('meross','debug','action: Action=' . $action . ' not implemented. ');
         }
