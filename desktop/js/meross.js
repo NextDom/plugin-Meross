@@ -68,48 +68,61 @@ function addCmdToTable(_cmd) {
         var _cmd = {configuration: {}};
     }
     var tr = '<tr class="cmd" data-cmd_id="' + init(_cmd.id) + '">';
+    // ID
     tr += '<td>';
-    tr += '<div class="row">';
-    tr += '<div class="col-sm-6">';
-    tr += '<a class="cmdAction btn btn-default btn-sm" data-l1key="chooseIcon"><i class="fa fa-flag"></i> {{Icône}}</a>';
-    tr += '<span class="cmdAttr" data-l1key="display" data-l2key="icon" style="margin-left : 10px;"></span>';
-    tr += '</div>';
-    tr += '<div class="col-sm-6">';
-    tr += '<input class="cmdAttr form-control input-sm" data-l1key="name">';
-    tr += '</div>';
-    tr += '</div>';
-    tr += '<select class="cmdAttr form-control input-sm" data-l1key="value" style="display : none;margin-top : 5px;" title="{{La valeur de la commande vaut par défaut la commande}}">';
-    tr += '<option value="">Aucune</option>';
-    tr += '</select>';
+    tr += '  <span class="cmdAttr" data-l1key="id"></span>';
     tr += '</td>';
+    // Icon + Name
     tr += '<td>';
-    tr += '<input class="cmdAttr form-control input-sm" data-l1key="id" style="display : none;">';
-    tr += '<span class="type" type="' + init(_cmd.type) + '">' + jeedom.cmd.availableType() + '</span>';
-    tr += '<span class="subType" subType="' + init(_cmd.subType) + '"></span>';
+    tr += '  <div class="row">';
+    tr += '    <div class="col-sm-3">';
+    tr += '      <a class="cmdAction btn btn-default btn-sm" data-l1key="chooseIcon"><i class="fa fa-flag"></i> {{Icône}}</a>';
+    tr += '      <span class="cmdAttr" data-l1key="display" data-l2key="icon" style="margin-left : 10px;"></span>';
+    tr += '    </div>';
+    tr += '    <div class="col-sm-9">';
+    tr += '      <input class="cmdAttr form-control input-sm" data-l1key="name">';
+    tr += '    </div>';
+    tr += '  </div>';
     tr += '</td>';
-    tr += '<td>';
+    //
+    tr += '<td style="display : none;">';
+    tr += '  <select class="cmdAttr form-control input-sm" data-l1key="value" style="display : none;margin-top : 5px;" title="{{La valeur de la commande vaut par défaut la commande}}">';
+    tr += '     <option value="">Aucune</option>';
+    tr += '  </select>';
+    tr += '  <span class="type" type="' + init(_cmd.type) + '">' + jeedom.cmd.availableType() + '</span>';
+    tr += '  <span class="subType" subType="' + init(_cmd.subType) + '"></span>';
     if (init(_cmd.type) == 'action'){
         tr += '<input class="cmdAttr form-control input-sm" data-l1key="configuration" data-l2key="value" placeholder="{{Commande}}" >';
     }
-    tr += '<input class="cmdAttr form-control input-sm" data-l1key="configuration" data-l2key="returnStateValue" placeholder="{{Valeur retour d\'état}}" style="margin-top : 5px;">';
-    tr += '<input class="cmdAttr form-control input-sm" data-l1key="configuration" data-l2key="returnStateTime" placeholder="{{Durée avant retour d\'état (min)}}" style="margin-top : 5px;">';
+    tr += '  <input class="cmdAttr form-control input-sm" data-l1key="configuration" data-l2key="returnStateValue" placeholder="{{Valeur retour d\'état}}" style="margin-top : 5px;">';
+    tr += '  <input class="cmdAttr form-control input-sm" data-l1key="configuration" data-l2key="returnStateTime" placeholder="{{Durée avant retour d\'état (min)}}" style="margin-top : 5px;">';
     tr += '</td>';
+    // Visible + Historized + Inverted
     tr += '<td>';
-    tr += '<span><label class="checkbox-inline"><input type="checkbox" class="cmdAttr checkbox-inline" data-l1key="isVisible" checked/>{{Afficher}}</label></span> ';
-    tr += '<span><label class="checkbox-inline"><input type="checkbox" class="cmdAttr checkbox-inline" data-l1key="isHistorized" checked/>{{Historiser}}</label></span> ';
-    tr += '<span><label class="checkbox-inline"><input type="checkbox" class="cmdAttr" data-l1key="display" data-l2key="invertBinary"/>{{Inverser}}</label></span> ';
+    tr += '   <span><label class="checkbox-inline"><input type="checkbox" class="cmdAttr" data-l1key="isVisible" checked/>{{Afficher}}</label></span> ';
+    tr += '   <span><label class="checkbox-inline"><input type="checkbox" class="cmdAttr" data-l1key="isHistorized" checked/>{{Historiser}}</label></span> ';
+    tr += '   <span><label class="checkbox-inline"><input type="checkbox" class="cmdAttr" data-l1key="display" data-l2key="invertBinary"/>{{Inverser}}</label></span> ';
     tr += '</td>';
+    // Unit + Min + Max
     tr += '<td>';
-    tr += '<input class="cmdAttr form-control input-sm" data-l1key="unite" placeholder="Unité" title="{{Unité}}">';
-    tr += '<input class="cmdAttr form-control input-sm" data-l1key="configuration" data-l2key="minValue" placeholder="{{Min}}" title="{{Min}}" style="margin-top : 5px;"> ';
-    tr += '<input class="cmdAttr form-control input-sm" data-l1key="configuration" data-l2key="maxValue" placeholder="{{Max}}" title="{{Max}}" style="margin-top : 5px;">';
+    tr += '  <div class="row">';
+    tr += '    <div class="col-xs-12 col-lg-4">';
+    tr += '      <input class="cmdAttr form-control" data-l1key="unite" placeholder="Unité" title="{{Unité}}">';
+    tr += '    </div>';
+    tr += '    <div class="col-xs-12 col-lg-4">';
+    tr += '      <input class="cmdAttr form-control" data-l1key="configuration" data-l2key="minValue" placeholder="{{Min}}" title="{{Min}}">';
+    tr += '    </div>';
+    tr += '    <div class="col-xs-12 col-lg-4">';
+    tr += '      <input class="cmdAttr form-control" data-l1key="configuration" data-l2key="maxValue" placeholder="{{Max}}" title="{{Max}}">';
+    tr += '    </div>';
+    tr += '  </div>';
     tr += '</td>';
+    // Actions
     tr += '<td>';
     if (is_numeric(_cmd.id)) {
         tr += '<a class="btn btn-default btn-xs cmdAction" data-action="configure"><i class="fa fa-cogs"></i></a> ';
         tr += '<a class="btn btn-default btn-xs cmdAction" data-action="test"><i class="fa fa-rss"></i> {{Tester}}</a>';
     }
-    tr += '<i class="fa fa-minus-circle pull-right cmdAction cursor" data-action="remove"></i></td>';
     tr += '</tr>';
     $('#table_cmd tbody').append(tr);
     var tr = $('#table_cmd tbody tr:last');

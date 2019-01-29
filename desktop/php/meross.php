@@ -204,19 +204,14 @@ $eqLogics = eqLogic::byType($plugin->getId());
 
                     </div>
                     <div role="tabpanel" class="tab-pane" id="commandtab">
-                        <a class="btn btn-success btn-sm cmdAction pull-right" data-action="add" style="margin-top:5px;">
-                            <i class="fa fa-plus-circle"></i> {{Commandes}}
-                        </a>
-                        <br />
-                        <br />
-                        <table id="table_cmd" class="table table-bordered table-condensed">
+                        <table id="table_cmd" class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th style="width: 300px;">{{Nom}}</th>
-                                    <th style="width: 130px;">{{Type}}</th>
-                                    <th>{{Commande}}</th>
-                                    <th style="width: 200px;">{{Paramètres}}</th>
-                                    <th style="width: 100px;">{{Options}}</th>
+                                    <th style="width:10%">{{#}}</th>
+                                    <th style="width:40%">{{Nom}}</th>
+                                    <th style="width:20%">{{Paramètres}}</th>
+                                    <th style="width:20%">{{Options}}</th>
+                                    <th style="width:10%">{{Actions}}</th>
                                 </tr>
                             </thead>
                             <tbody>
