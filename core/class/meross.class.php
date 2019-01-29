@@ -254,13 +254,30 @@ class meross extends eqLogic
     public static function updateEqLogicConfig($_eqLogic, $_device)
     {
         log::add('meross', 'debug', 'updateEqLogicConfig: Update eqLogic informations');
-        $_eqLogic->setConfiguration('type', $_device["type"]);
-        $_eqLogic->setConfiguration('ip', $_device['ip']);
-        $_eqLogic->setConfiguration('mac', $_device["mac"]);
-        $_eqLogic->setConfiguration('online', $_device['online']);
-        $_eqLogic->setConfiguration('firmversion', $_device['firmversion']);
-        $_eqLogic->setConfiguration('hardversion', $_device['hardversion']);
-        $_eqLogic->setConfiguration('appname', $_device['name']);
+        if ($_device["type"] != '') {
+            $_eqLogic->setConfiguration('type', $_device["type"]);
+        }
+        if ($_device['ip'] != '') {
+            $_eqLogic->setConfiguration('ip', $_device['ip']);
+        }
+        if ($_device["mac"] != '') {
+            $_eqLogic->setConfiguration('mac', $_device["mac"]);
+        }
+        if ($_device['firmversion'] != '') {
+            $_eqLogic->setConfiguration('firmversion', $_device['firmversion']);
+        }
+        if ($_device['hardversion'] != '') {
+            $_eqLogic->setConfiguration('hardversion', $_device['hardversion']);
+        }
+        if ($_device['name'] != '') {
+            $_eqLogic->setConfiguration('appname', $_device['name']);
+        }
+        if ($_device['online'] != '') {
+            $_eqLogic->setConfiguration('online', $_device['online']);
+        } else {
+            $_eqLogic->setConfiguration('online', '0');
+        }
+
         $_eqLogic->save();
         log::add('meross', 'debug', 'updateEqLogicConfig: Completed');
     }
