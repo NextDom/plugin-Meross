@@ -160,18 +160,17 @@ def RefreshOneDevice(device):
     # Yesterday consumption
     today = datetime.today()
     yesterday = (today - timedelta(1)).strftime("%Y-%m-%d")
-    d['consumption_yesterday'] = -1
+    d['consumption_yesterday'] = 0
 
     for c in l_consumption:
         if c['date'] == yesterday:
             try:
-                d['consumption_yesterday'] = c['value']
+                d['consumption_yesterday'] = float(c['value'] / 1000.) 
             except:
-                d['consumption_yesterday'] = -1
+                d['consumption_yesterday'] = 0
             break
 
     return d
-
 
 # ---------------------------------------------------------------------
 def ConnectAndRefreshAll(email, password):
@@ -303,14 +302,12 @@ def GetByMAC(d_devices, mac):
 if __name__ == '__main__':
 
     # Arguments
-    parser = argparse.ArgumentParser(
-        description='Meross Python lib for Nextdom')
+    parser = argparse.ArgumentParser(description='Meross Python lib for Nextdom')
     parser.add_argument('--refresh', action="store_true", default=False)
     parser.add_argument('--uuid', action="store", dest="uuid")
     parser.add_argument('--name', action="store", dest="name")
     parser.add_argument('--mac', action="store", dest="mac")
-    parser.add_argument('--channel', action="store",
-                        dest="channel", default="0")
+    parser.add_argument('--channel', action="store", dest="channel", default="0")
     parser.add_argument('--set_on', action="store_true", default=False)
     parser.add_argument('--set_off', action="store_true", default=False)
     parser.add_argument('--show_power', action="store_true", default=False)
@@ -329,16 +326,16 @@ if __name__ == '__main__':
     l.debug = args.debug
 
     # Refresh all devices and informations from local file
-    refresh = False
-    if not args.refresh:
-        try:
-            # Read local saved data
-            f = open(pklfile, "rb")
-            d_devices = pickle.load(f)
-            f.close()
-            # pprint.pprint(d_devices)
-        except:
-            refresh = True
+    refresh = True
+    # if not args.refresh:
+    #    try:
+    #        # Read local saved data
+    #        f = open(pklfile, "rb")
+    #        d_devices = pickle.load(f)
+    #        f.close()
+    #        # pprint.pprint(d_devices)
+    #    except:
+    #        refresh = True
 
     # Get email / password (only if necessary : refresh or action)
     if args.refresh or refresh or args.set_on or args.set_off:
@@ -403,7 +400,7 @@ if __name__ == '__main__':
 
     # Return only yesterday Consumption value
     elif args.show_yesterday:
-        print(str(int(float(SP['consumption_yesterday']/100.))/10.))
+        print(str(int(float(SP['consumption_yesterday']/1000.))))
 
     # Return the JSON output
     elif args.show:
