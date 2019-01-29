@@ -285,7 +285,7 @@
             "configuration": {
                 "switch": "read"
             },
-            "isVisible": 0,
+            "isVisible": 1,
             "logicalId": "refresh"
         }
     ]

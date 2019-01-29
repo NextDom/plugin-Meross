@@ -51,15 +51,28 @@
             }
         },
         {
-            "name": "Consommation",
+            "name": "Puissance",
             "type": "info",
             "subtype": "numeric",
+            "unite": "W",
             "display": {
-                "generic_type": "ENERGY_POWER"
+                "generic_type": "POWER"
             },
             "isVisible": 1,
             "isHistorized": 1,
             "logicalId": "power"
+        },
+        {
+            "name": "Consommation Hier",
+            "type": "info",
+            "subtype": "numeric",
+            "unite": "kWh",
+            "display": {
+                "generic_type": "CONSUMPTION"
+            },
+            "isVisible": 1,
+            "isHistorized": 1,
+            "logicalId": "consumption_yesterday"
         },
         {
             "name": "Rafraichir",
@@ -71,7 +84,7 @@
             "configuration": {
                 "switch": "read"
             },
-            "isVisible": 0,
+            "isVisible": 1,
             "logicalId": "refresh"
         }
     ]
