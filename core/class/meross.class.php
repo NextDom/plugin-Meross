@@ -159,6 +159,9 @@ class meross extends eqLogic
                     $cmd = new merossCmd();
                     $cmd->setName(__($commandes['name'], __FILE__));
                     $cmd->setIsVisible($commandes['isVisible']);
+                    // Widget for cmd
+                    $cmd->setTemplate('dashboard', $commandes['template']['dashboard']);
+                    $cmd->setTemplate('mobile', $commandes['template']['mobile']);
                     if (isset($commandes['isHistorized']) && $commandes['type'] == 'info') {
                         $cmd->setIsHistorized($commandes['isHistorized']);
                     } else {
@@ -179,9 +182,6 @@ class meross extends eqLogic
                 if (isset($commandes['unite']) && $commandes['type'] == 'info') {
                     $cmd->setUnite($commandes['unite']);
                 }
-                    
-                //$cmd->setTemplate('dashboard', $commandes['template']['dashboard']);
-                //$cmd->setTemplate('mobile', $commandes['template']['mobile']);
 
                 $cmd->save();
                     
@@ -229,7 +229,7 @@ class meross extends eqLogic
                                 $_eqLogic->checkAndUpdateCmd("onoff_".$key3, $value);
                             }
                         } else {
-                            log::add('meross', 'debug', 'updateInfo: -' . $key2 .'=' . $devices[$key2]);
+                            log::add('meross', 'debug', 'updateInfo: -' . $key2 .'=' . json_encode($devices[$key2]));
                             $_eqLogic->checkAndUpdateCmd($key2, $devices[$key2]);
                         }
                     }
