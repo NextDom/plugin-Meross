@@ -8,7 +8,7 @@
 
 # Changelog
 
-### Version 0.1:  (14/01/2019 - Version en cours sur le market)
+### 14/01/2019 - Version en cours sur le market
 
 * Création du plugin
 
