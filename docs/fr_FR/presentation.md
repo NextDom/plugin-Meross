@@ -1,5 +1,5 @@
 # Description
-![screenshot1](../images/meross_icon.png){:height="64px" width="64px"}
+![icon](../images/meross_icon.png){:height="64px" width="64px"}
 
 Plugin permettant de contrôler les équipements Meross
 
@@ -10,9 +10,9 @@ Liste des équipements compatibles
 
 # Prévisualisation
 
-![screenshot2](../images/meross1.png)
-![screenshot3](../images/meross2.png)
-![screenshot4](../images/meross3.png)
+![screenshot_1549387114](../images/screenshot_1549387114.png)
+![screenshot_1549387176](../images/screenshot_1549387176.png)
+![screenshot_1549387176](../images/screenshot_1549387308.png)
 
 # Forum
 
