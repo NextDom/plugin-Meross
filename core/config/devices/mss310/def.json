@@ -13,11 +13,7 @@
             "generic_type": "ENERGY_STATE",
             "isVisible": 0,
             "isHistorized": 0,
-            "logicalId": "onoff_0",
-            "template": {
-                "dashboard": "light",
-                "mobile": "light"
-            }
+            "logicalId": "onoff_0"
         },
         {
             "name": "Off",
