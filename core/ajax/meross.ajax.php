@@ -36,6 +36,7 @@ try {
     // Initialise la gestion des requêtes Ajax
     ajax::init();
 
+    
     if (init('action') == 'syncMeross') {
         
         if(config::byKey('merossEmail', 'meross') == 'NextDom4Ever')
@@ -47,6 +48,21 @@ try {
         }
         ajax::success();
     }
+
+    if (init('action') == 'applyDef') {
+		$eqLogic = meross::byId(init('id'));
+		if (!is_object($eqLogic)) {
+			throw new Exception(__('Meross unknown eqLogic=', __FILE__) . init('id'));
+        }
+        // If you want to recreate all cmds
+		if (init('deleteCommand') == 1){
+			foreach ($eqLogic->getCmd() as $cmd) {
+				$cmd->remove();
+			}
+        }
+        meross::applyDef($eqLogic,$eqLogic->getConfiguration('type'),true);
+		ajax::success();
+	}
 
     // Lève une exception si la requête n'a pas été traitée avec succès (Appel de la fonction ajax::success());
     throw new \Exception(__('Aucune méthode correspondante à : ', __FILE__) . init('action'));

@@ -155,52 +155,7 @@ class meross extends eqLogic
                 self::updateEqLogicConfig($eqLogic, $devices);
 
                 // Load device def from json
-                $jsonCmd = self::getJsonFromFile(__DIR__ . '/../../core/config/devices/'.$devices["type"].'/def.json');
-                foreach ($jsonCmd['commands'] as $key=>$commandes) {
-                    $cmd = $eqLogic->getCmd(null, $commandes['logicalId']);
-                    if (!is_object($cmd)) {
-                        // Add cmd to eqLogic
-                        log::add('meross', 'debug', 'syncMeross: - Add cmd=' .$commandes['logicalId']);
-                        $cmd = new merossCmd();
-                        $cmd->setName(__($commandes['name'], __FILE__));
-                        $cmd->setIsVisible($commandes['isVisible']);
-                        // Widget for cmd
-                        $cmd->setTemplate('dashboard', $commandes['template']['dashboard']);
-                        $cmd->setTemplate('mobile', $commandes['template']['mobile']);
-                        if (isset($commandes['isHistorized']) && $commandes['type'] == 'info') {
-                            $cmd->setIsHistorized($commandes['isHistorized']);
-                        } else {
-                            $cmd->setIsHistorized(false);
-                        }
-                        $cmd->setLogicalId($commandes['logicalId']);
-                        $cmd->setEqLogic_id($eqLogic->getId());
-                    } else {
-                        // cmd already exist
-                        log::add('meross', 'debug', 'syncMeross: - Update cmd=' .$commandes['logicalId']);
-                    }
-
-                    // Update cmd def
-                    $cmd->setType($commandes['type']);
-                    $cmd->setSubType($commandes['subtype']);
-                    $cmd->setGeneric_type($commandes['generic_type']);
-                    $cmd->setOrder($commandes['order']);
-                    if (isset($commandes['unite']) && $commandes['type'] == 'info') {
-                        $cmd->setUnite($commandes['unite']);
-                    }
-
-                    $cmd->save();
-                    
-                    $splitCommandes = explode("_", $commandes['logicalId']);
-                    if ($splitCommandes[0] == 'onoff') {
-                        // Mémorise l'ID de la cmd onoff_x pour affecter aux cmd "on_x" & "off_x"
-                        $etatid =  $cmd->getId();
-                    } elseif ($splitCommandes[0] == 'on' || $splitCommandes[0] == 'off') {
-                        // Affecte l'ID de la cmd onoff_x en value
-                        log::add('meross', 'debug', 'syncMeross: - Set value : ' .$commandes["value"]);
-                        $cmd->setValue($etatid);
-                        $cmd->save();
-                    }
-                }
+                self::applyDef($eqLogic, $devices["type"]);
 
                 // For Update all cmds values
                 log::add('meross', 'debug', 'syncMeross: Update cmds values for eqLogic=' . $eqLogic->getLogicalId());
@@ -211,6 +166,98 @@ class meross extends eqLogic
         log::add('meross', 'debug', 'syncMeross: synchronization completed.');
     }
 
+
+    /**
+     * Load device definition from def.json and apply to cmds
+     *
+     * @param  mixed $_eqlogic
+     * @param  mixed $_type
+     * @param  boolean $_force
+     *
+     * @return void
+     */
+    public static function applyDef($_eqlogic, $_type, $_force = false)
+    {
+        log::add('meross', 'debug', 'syncMeross: Load device definition from def.json and apply to cmds for eqLogic=' . $_eqlogic->getLogicalId());
+        // Load device def from json
+        $jsonCmd = self::getJsonFromFile(__DIR__ . '/../../core/config/devices/' . $_type . '/def.json');
+        foreach ($jsonCmd['commands'] as $key=>$commandes) {
+            $cmd = $_eqlogic->getCmd(null, $commandes['logicalId']);
+            if (!is_object($cmd)) {
+                // Add cmd to eqLogic
+                log::add('meross', 'debug', 'syncMeross: - Add cmd=' .$commandes['logicalId']);
+                $cmd = new merossCmd();
+                $cmd->setName(__($commandes['name'], __FILE__));
+                $cmd->setIsVisible($commandes['isVisible']);
+                // Widget for cmd
+                if (isset($commandes['template']['dashboard'])) {
+                    $cmd->setTemplate('dashboard', $commandes['template']['dashboard']);
+                } else {
+                    $cmd->setTemplate('dashboard', 'default');
+                }
+                if (isset($commandes['template']['mobile'])) {
+                    $cmd->setTemplate('mobile', $commandes['template']['mobile']);
+                } else {
+                    $cmd->setTemplate('mobile', 'default');
+                }
+                if (isset($commandes['isHistorized']) && $commandes['type'] == 'info') {
+                    $cmd->setIsHistorized($commandes['isHistorized']);
+                } else {
+                    $cmd->setIsHistorized(false);
+                }
+                $cmd->setLogicalId($commandes['logicalId']);
+                $cmd->setEqLogic_id($_eqlogic->getId());
+            } else {
+                // cmd already exist
+                log::add('meross', 'debug', 'syncMeross: - Update cmd=' .$commandes['logicalId']);
+            }
+    
+            // Update cmd def
+            $cmd->setType($commandes['type']);
+            $cmd->setSubType($commandes['subtype']);
+            $cmd->setGeneric_type($commandes['generic_type']);
+            $cmd->setOrder($commandes['order']);
+            if (isset($commandes['unite']) && $commandes['type'] == 'info') {
+                $cmd->setUnite($commandes['unite']);
+            }
+    
+            // If force update cmd from def
+            if ($_force) {
+                log::add('meross', 'debug', 'syncMeross: - Force update from def');
+                $cmd->setName(__($commandes['name'], __FILE__));
+                $cmd->setIsVisible($commandes['isVisible']);
+                if (isset($commandes['template']['dashboard'])) {
+                    $cmd->setTemplate('dashboard', $commandes['template']['dashboard']);
+                } else {
+                    $cmd->setTemplate('dashboard', 'default');
+                }
+                if (isset($commandes['template']['mobile'])) {
+                    $cmd->setTemplate('mobile', $commandes['template']['mobile']);
+                } else {
+                    $cmd->setTemplate('mobile', 'default');
+                }
+                if (isset($commandes['isHistorized']) && $commandes['type'] == 'info') {
+                    $cmd->setIsHistorized($commandes['isHistorized']);
+                } else {
+                    $cmd->setIsHistorized(false);
+                }
+            }
+
+            // Save to DB
+            $cmd->save();
+                        
+            $splitCommandes = explode("_", $commandes['logicalId']);
+            if ($splitCommandes[0] == 'onoff') {
+                // Mémorise l'ID de la cmd onoff_x pour affecter aux cmd "on_x" & "off_x"
+                $etatid =  $cmd->getId();
+            } elseif ($splitCommandes[0] == 'on' || $splitCommandes[0] == 'off') {
+                // Affecte l'ID de la cmd onoff_x en value
+                log::add('meross', 'debug', 'syncMeross: - Set value : ' .$commandes["value"]);
+                $cmd->setValue($etatid);
+                $cmd->save();
+            }
+        }
+    }
 
 
     public static function updateInfo($_eqLogic, $_stdout)
