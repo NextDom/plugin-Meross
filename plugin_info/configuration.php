@@ -22,8 +22,8 @@ require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
 include_file('core', 'authentification', 'php');
 
 if (!isConnect()) {
-  include_file('desktop', '404', 'php');
-   die();
+    include_file('desktop', '404', 'php');
+    die();
 }
 
 ?>
@@ -38,19 +38,22 @@ if (!isConnect()) {
           <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
           <input type="email" class="configKey form-control" placeholder="{{Email de votre compte Meross}}" data-l1key="merossEmail" id="merossEmail">
         </div>
-      </div>
-    </div>
 
-    <br>
+        <br>
 
-    <div class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-xs-12">
-      <div class="form-group">
-        <label for="merossPassword">{{Mot de passe}}</label>
-        <div class="input-group">
-          <span class="input-group-addon"><i class="fas fa-key"></i></span>
-          <input type="password" class="configKey form-control" placeholder="{{Mot de passe associé}}"data-l1key="merossPassword" id="merossPassword">
+        <div class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-xs-12">
+            <div class="form-group">
+                <label for="merossPassword">{{Mot de passe}}</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fas fa-key"></i></span>
+                    <input type="password" class="configKey form-control" placeholder="{{Mot de passe associé}}"
+                        data-l1key="merossPassword" id="merossPassword">
+                </div>
+            </div>
         </div>
+
       </div>
     </div>
   </fieldset>
 </form>
+

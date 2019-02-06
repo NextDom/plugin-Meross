@@ -1,7 +1,6 @@
 <?php
 /*
  * This file is part of the NextDom software (https://github.com/NextDom or http://nextdom.github.io).
- * Copyright (c) 2018 NextDom.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,22 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
-/* This file is part of NextDom.
-*
-* NextDom is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* NextDom is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with NextDom. If not, see <http://www.gnu.org/licenses/>.
-*/
 
 if (!isConnect('admin')) {
     throw new \Exception('{{401 - Accès non autorisé}}');
@@ -226,12 +209,14 @@ $eqLogics = eqLogic::byType($plugin->getId());
 
                     </div>
                     <div role="tabpanel" class="tab-pane" id="commandtab">
-                        <table id="table_cmd" class="table table-bordered table-condensed">
+                        <table id="table_cmd" class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th>{{Nom}}</th>
-                                    <th>{{Type}}</th>
-                                    <th>{{Action}}</th>
+                                    <th style="width:10%">{{#}}</th>
+                                    <th style="width:40%">{{Nom}}</th>
+                                    <th style="width:20%">{{Paramètres}}</th>
+                                    <th style="width:20%">{{Options}}</th>
+                                    <th style="width:10%">{{Actions}}</th>
                                 </tr>
                             </thead>
                             <tbody>

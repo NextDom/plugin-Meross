@@ -2,7 +2,6 @@
 
 /*
  * This file is part of the NextDom software (https://github.com/NextDom or http://nextdom.github.io).
- * Copyright (c) 2018 NextDom.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,29 +16,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* This file is part of NextDom.
-*
-* NextDom is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* NextDom is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with NextDom. If not, see <http://www.gnu.org/licenses/>.
-*/
-
 /**
  * Fichier appelé lorsque le plugin effectue une requête Ajax
  */
 
 try {
     // Ajoute le fichier du core qui se charge d'inclure tous les fichiers nécessaires
-    require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
+    require_once __DIR__ . '/../../../../core/php/core.inc.php';
 
     // Ajoute le fichier de gestion des authentifications
     include_file('core', 'authentification', 'php');
@@ -54,7 +37,14 @@ try {
     ajax::init();
 
     if (init('action') == 'syncMeross') {
-        meross::syncMeross();
+        
+        if(config::byKey('merossEmail', 'meross') == 'NextDom4Ever')
+        {
+            // Create fake device for developpement
+            meross::syncMeross(true);
+        } else {
+            meross::syncMeross(false);
+        }
         ajax::success();
     }
 

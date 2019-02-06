@@ -283,16 +283,20 @@ class Device:
     def _execute_cmd(self, method, namespace, payload):
         with self._waiting_subscribers_queue:
             while self._client_status != ClientStatus.SUBSCRIBED:
-                self._waiting_subscribers_queue.wait()
+                self._waiting_subscribers_queue.wait(timeout=self._command_timeout)
 
             # Execute the command and retrieve the message-id
             self._waiting_message_id = self._mqtt_message(method, namespace, payload)
 
             # Wait synchronously until we get the ACK.
             with self._waiting_message_ack_queue:
-                self._waiting_message_ack_queue.wait()
+                self._waiting_message_ack_queue.wait(timeout=self._command_timeout)
 
-            return self._ack_response['payload']
+            #print (self._ack_response)
+            if self._ack_response:
+                return self._ack_response['payload']
+            else:
+                return []
 
     def _message_from_self(self, message):
         try:
