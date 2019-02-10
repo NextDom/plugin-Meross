@@ -13,11 +13,7 @@
             "generic_type": "ENERGY_STATE",
             "isVisible": 0,
             "isHistorized": 0,
-            "logicalId": "onoff_0",
-            "template": {
-                "dashboard": "light",
-                "mobile": "light"
-            }
+            "logicalId": "onoff_0"
         },
         {
             "name": "Off 0",
@@ -55,11 +51,7 @@
             "generic_type": "ENERGY_STATE",
             "isVisible": 0,
             "isHistorized": 0,
-            "logicalId": "onoff_1",
-            "template": {
-                "dashboard": "light",
-                "mobile": "light"
-            }
+            "logicalId": "onoff_1"
         },
         {
             "name": "Off 1",
@@ -97,11 +89,7 @@
             "generic_type": "ENERGY_STATE",
             "isVisible": 0,
             "isHistorized": 0,
-            "logicalId": "onoff_2",
-            "template": {
-                "dashboard": "light",
-                "mobile": "light"
-            }
+            "logicalId": "onoff_2"
         },
         {
             "name": "Off 2",
@@ -139,11 +127,7 @@
             "generic_type": "ENERGY_STATE",
             "isVisible": 0,
             "isHistorized": 0,
-            "logicalId": "onoff_3",
-            "template": {
-                "dashboard": "light",
-                "mobile": "light"
-            }
+            "logicalId": "onoff_3"
         },
         {
             "name": "Off 3",
@@ -181,11 +165,7 @@
             "generic_type": "ENERGY_STATE",
             "isVisible": 0,
             "isHistorized": 0,
-            "logicalId": "onoff_4",
-            "template": {
-                "dashboard": "light",
-                "mobile": "light"
-            }
+            "logicalId": "onoff_4"
         },
         {
             "name": "Off 4",
@@ -223,11 +203,7 @@
             "generic_type": "ENERGY_STATE",
             "isVisible": 0,
             "isHistorized": 0,
-            "logicalId": "onoff_5",
-            "template": {
-                "dashboard": "light",
-                "mobile": "light"
-            }
+            "logicalId": "onoff_5"
         },
         {
             "name": "Off 5",
@@ -265,11 +241,7 @@
             "generic_type": "ENERGY_STATE",
             "isVisible": 0,
             "isHistorized": 0,
-            "logicalId": "onoff_6",
-            "template": {
-                "dashboard": "light",
-                "mobile": "light"
-            }
+            "logicalId": "onoff_6"
         },
         {
             "name": "Off 6",

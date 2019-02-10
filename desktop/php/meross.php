@@ -92,6 +92,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
                     <a class="btn btn-success eqLogicAction pull-right" data-action="save"><i class="fa fa-check-circle">&nbsp;&nbsp;</i>{{Sauvegarder}}</a>
                     <a class="btn btn-default eqLogicAction pull-right" data-action="configure"><i class="fa fa-cogs">&nbsp;&nbsp;</i>{{Configuration avancée}}</a>
                     <a class="btn btn-danger eqLogicAction pull-right" data-action="remove"><i class="fa fa-minus-circle">&nbsp;&nbsp;</i>{{Supprimer}}</a>
+                    <a class="btn btn-warning eqLogicAction pull-right" data-action="applydef"><i class="fa fa-refresh">&nbsp;&nbsp;</i>{{Recréer les commandes}}</a>
                 </div>
             </div>
         </section>
