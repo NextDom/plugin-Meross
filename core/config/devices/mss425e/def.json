@@ -9,9 +9,8 @@
             "name": "Status 0",
             "type": "info",
             "subtype": "binary",
-            "display": {
-                "generic_type": "ENERGY_STATE"
-            },
+            "order": 1,
+            "generic_type": "ENERGY_STATE",
             "isVisible": 0,
             "isHistorized": 0,
             "logicalId": "onoff_0",
@@ -24,9 +23,8 @@
             "name": "Off 0",
             "type": "action",
             "subtype": "other",
-            "display": {
-                "generic_type": "ENERGY_OFF"
-            },
+            "order": 2,
+            "generic_type": "ENERGY_OFF",
             "isVisible": 1,
             "value": "onoff_0",
             "logicalId": "off_0",
@@ -39,9 +37,8 @@
             "name": "On 0",
             "type": "action",
             "subtype": "other",
-            "display": {
-                "generic_type": "ENERGY_ON"
-            },
+            "order": 3,
+            "generic_type": "ENERGY_ON",
             "isVisible": 1,
             "value": "onoff_0",
             "logicalId": "on_0",
@@ -54,9 +51,8 @@
             "name": "Status 1",
             "type": "info",
             "subtype": "binary",
-            "display": {
-                "generic_type": "ENERGY_STATE"
-            },
+            "order": 4,
+            "generic_type": "ENERGY_STATE",
             "isVisible": 0,
             "isHistorized": 0,
             "logicalId": "onoff_1",
@@ -69,9 +65,8 @@
             "name": "Off 1",
             "type": "action",
             "subtype": "other",
-            "display": {
-                "generic_type": "ENERGY_OFF"
-            },
+            "order": 5,
+            "generic_type": "ENERGY_OFF",
             "isVisible": 1,
             "value": "onoff_1",
             "logicalId": "off_1",
@@ -84,9 +79,8 @@
             "name": "On 1",
             "type": "action",
             "subtype": "other",
-            "display": {
-                "generic_type": "ENERGY_ON"
-            },
+            "order": 6,
+            "generic_type": "ENERGY_ON",
             "isVisible": 1,
             "value": "onoff_1",
             "logicalId": "on_1",
@@ -99,9 +93,8 @@
             "name": "Status 2",
             "type": "info",
             "subtype": "binary",
-            "display": {
-                "generic_type": "ENERGY_STATE"
-            },
+            "order": 7,
+            "generic_type": "ENERGY_STATE",
             "isVisible": 0,
             "isHistorized": 0,
             "logicalId": "onoff_2",
@@ -114,9 +107,8 @@
             "name": "Off 2",
             "type": "action",
             "subtype": "other",
-            "display": {
-                "generic_type": "ENERGY_OFF"
-            },
+            "order": 8,
+            "generic_type": "ENERGY_OFF",
             "isVisible": 1,
             "value": "onoff_2",
             "logicalId": "off_2",
@@ -129,9 +121,8 @@
             "name": "On 2",
             "type": "action",
             "subtype": "other",
-            "display": {
-                "generic_type": "ENERGY_ON"
-            },
+            "order": 9,
+            "generic_type": "ENERGY_ON",
             "isVisible": 1,
             "value": "onoff_2",
             "logicalId": "on_2",
@@ -144,9 +135,8 @@
             "name": "Status 3",
             "type": "info",
             "subtype": "binary",
-            "display": {
-                "generic_type": "ENERGY_STATE"
-            },
+            "order": 10,
+            "generic_type": "ENERGY_STATE",
             "isVisible": 0,
             "isHistorized": 0,
             "logicalId": "onoff_3",
@@ -159,9 +149,8 @@
             "name": "Off 3",
             "type": "action",
             "subtype": "other",
-            "display": {
-                "generic_type": "ENERGY_OFF"
-            },
+            "order": 11,
+            "generic_type": "ENERGY_OFF",
             "isVisible": 1,
             "value": "onoff_3",
             "logicalId": "off_3",
@@ -174,9 +163,8 @@
             "name": "On_3",
             "type": "action",
             "subtype": "other",
-            "display": {
-                "generic_type": "ENERGY_ON"
-            },
+            "order": 12,
+            "generic_type": "ENERGY_ON",
             "isVisible": 1,
             "value": "onoff_3",
             "logicalId": "on_3",
@@ -189,9 +177,8 @@
             "name": "Status 4",
             "type": "info",
             "subtype": "binary",
-            "display": {
-                "generic_type": "ENERGY_STATE"
-            },
+            "order": 13,
+            "generic_type": "ENERGY_STATE",
             "isVisible": 0,
             "isHistorized": 0,
             "logicalId": "onoff_4",
@@ -204,9 +191,8 @@
             "name": "Off 4",
             "type": "action",
             "subtype": "other",
-            "display": {
-                "generic_type": "ENERGY_OFF"
-            },
+            "order": 14,
+            "generic_type": "ENERGY_OFF",
             "isVisible": 1,
             "value": "onoff_4",
             "logicalId": "off_4",
@@ -219,9 +205,8 @@
             "name": "On 4",
             "type": "action",
             "subtype": "other",
-            "display": {
-                "generic_type": "ENERGY_ON"
-            },
+            "order": 15,
+            "generic_type": "ENERGY_ON",
             "isVisible": 1,
             "value": "onoff_4",
             "logicalId": "on_4",
@@ -234,9 +219,8 @@
             "name": "Status 5",
             "type": "info",
             "subtype": "binary",
-            "display": {
-                "generic_type": "ENERGY_STATE"
-            },
+            "order": 16,
+            "generic_type": "ENERGY_STATE",
             "isVisible": 0,
             "isHistorized": 0,
             "logicalId": "onoff_5",
@@ -249,9 +233,8 @@
             "name": "Off 5",
             "type": "action",
             "subtype": "other",
-            "display": {
-                "generic_type": "ENERGY_OFF"
-            },
+            "order": 17,
+            "generic_type": "ENERGY_OFF",
             "isVisible": 1,
             "value": "onoff_5",
             "logicalId": "off_5",
@@ -264,9 +247,8 @@
             "name": "On 5",
             "type": "action",
             "subtype": "other",
-            "display": {
-                "generic_type": "ENERGY_ON"
-            },
+            "order": 18,
+            "generic_type": "ENERGY_ON",
             "isVisible": 1,
             "value": "onoff_5",
             "logicalId": "on_5",
@@ -279,9 +261,8 @@
             "name": "Rafraichir",
             "type": "action",
             "subtype": "other",
-            "display": {
-                "generic_type": "DONT"
-            },
+            "order": 19,
+            "generic_type": "DONT",
             "configuration": {
                 "switch": "read"
             },

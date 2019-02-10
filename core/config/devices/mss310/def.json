@@ -9,9 +9,8 @@
             "name": "Status",
             "type": "info",
             "subtype": "binary",
-            "display": {
-                "generic_type": "ENERGY_STATE"
-            },
+            "order": 1,
+            "generic_type": "ENERGY_STATE",
             "isVisible": 0,
             "isHistorized": 0,
             "logicalId": "onoff_0",
@@ -24,9 +23,8 @@
             "name": "Off",
             "type": "action",
             "subtype": "other",
-            "display": {
-                "generic_type": "ENERGY_OFF"
-            },
+            "order": 2,
+            "generic_type": "ENERGY_OFF",
             "isVisible": 1,
             "value": "onoff_0",
             "logicalId": "off_0",
@@ -39,9 +37,8 @@
             "name": "On",
             "type": "action",
             "subtype": "other",
-            "display": {
-                "generic_type": "ENERGY_ON"
-            },
+            "order": 3,
+            "generic_type": "ENERGY_ON",
             "isVisible": 1,
             "value": "onoff_0",
             "logicalId": "on_0",
@@ -55,9 +52,8 @@
             "type": "info",
             "subtype": "numeric",
             "unite": "W",
-            "display": {
-                "generic_type": "POWER"
-            },
+            "order": 4,
+            "generic_type": "POWER",
             "isVisible": 1,
             "isHistorized": 1,
             "logicalId": "power"
@@ -67,9 +63,8 @@
             "type": "info",
             "subtype": "numeric",
             "unite": "kWh",
-            "display": {
-                "generic_type": "CONSUMPTION"
-            },
+            "order": 5,
+            "generic_type": "CONSUMPTION",
             "isVisible": 1,
             "isHistorized": 1,
             "logicalId": "consumption_yesterday"
@@ -78,9 +73,8 @@
             "name": "Rafraichir",
             "type": "action",
             "subtype": "other",
-            "display": {
-                "generic_type": "DONT"
-            },
+            "order": 6,
+            "generic_type": "DONT",
             "configuration": {
                 "switch": "read"
             },

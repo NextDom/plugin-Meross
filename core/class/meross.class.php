@@ -130,6 +130,7 @@ class meross extends eqLogic
         } else {
             log::add('meross', 'debug', 'syncMeross: Load fake devices for developement');
             $json = self::getJsonFromFile(self::$_FakeJson);
+            $stdout = json_encode($json);
         }
 
         foreach ($json as $key=>$devices) {
@@ -181,8 +182,8 @@ class meross extends eqLogic
                     // Update cmd def
                     $cmd->setType($commandes['type']);
                     $cmd->setSubType($commandes['subtype']);
-                    $cmd->setDisplay('generic_type', $commandes['display']['generic_type']);
-                    $cmd->setGeneric_type($commandes['display']['generic_type']);
+                    $cmd->setGeneric_type($commandes['generic_type']);
+                    $cmd->setOrder($commandes['order']);
                     if (isset($commandes['unite']) && $commandes['type'] == 'info') {
                         $cmd->setUnite($commandes['unite']);
                     }
