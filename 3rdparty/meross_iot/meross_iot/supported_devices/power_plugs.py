@@ -125,10 +125,7 @@ class Device:
         self._mqtt_client.on_subscribe = self._on_subscribe
         self._mqtt_client.on_log = self._on_log
         self._mqtt_client.username_pw_set(username=self._user_id, password=hashed_password)
-        self._mqtt_client.tls_set(ca_certs=None, certfile=None, keyfile=None, cert_reqs=ssl.CERT_REQUIRED,
-                       tls_version=ssl.PROTOCOL_TLS,
-                       ciphers=None)
-
+        self._mqtt_client.tls_set_context(context=ssl.create_default_context())
         self._mqtt_client.connect(self._domain, self._port, keepalive=30)
         self._set_status(ClientStatus.CONNECTING)
 
