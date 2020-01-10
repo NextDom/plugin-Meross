@@ -28,8 +28,7 @@ if sys.version_info[0] < 3:
 pver = str(sys.version_info.major) + '.' + str(sys.version_info.minor)
 
 # Add Meross-iot lib to Pythonpath
-current_dir = os.path.normpath(os.path.dirname(
-    os.path.abspath(os.path.realpath(sys.argv[0]))))
+current_dir = os.path.normpath(os.path.dirname(os.path.abspath(os.path.realpath(sys.argv[0]))))
 #sys.path.append(os.path.abspath(os.path.join(current_dir, 'meross_iot', 'lib', 'python' + pver, 'site-packages')))
 
 # Var dir
