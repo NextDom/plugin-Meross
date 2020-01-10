@@ -1,6 +1,16 @@
 #!/usr/bin/python3
 
-from meross_iot.api import MerossHttpClient
+import os
+import time
+from random import randint
+
+from meross_iot.cloud.devices.door_openers import GenericGarageDoorOpener
+from meross_iot.cloud.devices.hubs import GenericHub
+from meross_iot.cloud.devices.light_bulbs import GenericBulb
+from meross_iot.cloud.devices.power_plugs import GenericPlug
+from meross_iot.cloud.devices.subdevices.thermostats import ValveSubDevice, ThermostatV3Mode
+from meross_iot.manager import MerossManager
+from meross_iot.meross_event import MerossEventType
 from datetime import datetime, timedelta
 import argparse
 import pickle
@@ -8,7 +18,6 @@ import json
 import pprint
 import os
 import sys
-import time
 debug = False
 
 
@@ -177,12 +186,19 @@ def ConnectAndRefreshAll(email, password):
     """ Connect to Meross Cloud and refresh all devices and informations """
 
     try:
-        httpHandler = MerossHttpClient(email, password)
+        # OLD httpHandler = MerossHttpClient(email, password)
+        
+        # Initiates the Meross Cloud Manager. This is in charge of handling the communication with the remote endpoint
+        manager = MerossManager(meross_email=email, meross_password=password)
+        
+        # Register event handlers for the manager...
+        manager.register_event_handler(event_handler)
     except:
         Exit("<F> Error : can't connect to Meross Cloud ! Please verify Internet connection, email and password !")
 
     # Retrieves the list of supported devices
-    devices = httpHandler.list_supported_devices()
+    # devices = httpHandler.list_supported_devices()
+    devices = manager.get_supported_devices()
 
     # Build dict of devices informations
     d_devices = {}
@@ -211,6 +227,8 @@ def ConnectAndRefreshAll(email, password):
     # with open(jsonfile, 'w') as fp:
     #   json.dump(d_devices, fp)
 
+    manager.stop()
+
     return d_devices
 
 # ---------------------------------------------------------------------
@@ -225,12 +243,16 @@ def ConnectAndSetOnOff(devices, email, password, name=None, uuid=None, mac=None,
         Exit("<F> Error : need at least 'name', 'uuid' or 'mac' parameter to set on or off a smartplug !")
 
     try:
-        httpHandler = MerossHttpClient(email, password)
+        # Initiates the Meross Cloud Manager. This is in charge of handling the communication with the remote endpoint
+        manager = MerossManager(meross_email=email, meross_password=password)
+        
+        # Register event handlers for the manager...
+        manager.register_event_handler(event_handler)
     except:
         Exit("<F> Error : can't connect to Meross Cloud ! Please verify Internet connection, email and password !")
 
     # Retrieves the list of supported devices
-    ldevices = httpHandler.list_supported_devices()
+    ldevices = manager.get_supported_devices()
 
     device = None
     for d in ldevices:
@@ -264,6 +286,8 @@ def ConnectAndSetOnOff(devices, email, password, name=None, uuid=None, mac=None,
             pass
 
     devices[d._uuid] = RefreshOneDevice(device)
+
+    manager.stop()
 
     return devices
 
