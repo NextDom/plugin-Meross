@@ -152,30 +152,30 @@ def RefreshOneDevice(device):
     return d
 
 # ---------------------------------------------------------------------
-def event_handler(eventobj):
+# def event_handler(eventobj):
     # TODO: handle events in plugin
-
-    if eventobj.event_type == MerossEventType.DEVICE_ONLINE_STATUS:
-        # print("Device online status changed: %s went %s" % (eventobj.device.name, eventobj.status))
-        pass
-
-    elif eventobj.event_type == MerossEventType.DEVICE_SWITCH_STATUS:
-        # print("Switch state changed: Device %s (channel %d) went %s" % (eventobj.device.name, eventobj.channel_id, eventobj.switch_state))
-    elif eventobj.event_type == MerossEventType.CLIENT_CONNECTION:
-        # print("MQTT connection state changed: client went %s" % eventobj.status)
-
-        # TODO: Give example of reconnection?
-
-    elif eventobj.event_type == MerossEventType.GARAGE_DOOR_STATUS:
-        # print("Garage door is now %s" % eventobj.door_state)
-
-    elif eventobj.event_type == MerossEventType.THERMOSTAT_MODE_CHANGE:
-        # print("Thermostat %s has changed mode to %s" % (eventobj.device.name, eventobj.mode))
-
-    elif eventobj.event_type == MerossEventType.THERMOSTAT_TEMPERATURE_CHANGE:
-        # print("Thermostat %s has revealed a temperature change: %s" % (eventobj.device.name, eventobj.temperature))
-
-    else:
+    #
+    # if eventobj.event_type == MerossEventType.DEVICE_ONLINE_STATUS:
+    #     # print("Device online status changed: %s went %s" % (eventobj.device.name, eventobj.status))
+    #     pass
+    #
+    # elif eventobj.event_type == MerossEventType.DEVICE_SWITCH_STATUS:
+    #     # print("Switch state changed: Device %s (channel %d) went %s" % (eventobj.device.name, eventobj.channel_id, eventobj.switch_state))
+    # elif eventobj.event_type == MerossEventType.CLIENT_CONNECTION:
+    #     # print("MQTT connection state changed: client went %s" % eventobj.status)
+    #
+    #     # TODO: Give example of reconnection?
+    #
+    # elif eventobj.event_type == MerossEventType.GARAGE_DOOR_STATUS:
+    #     # print("Garage door is now %s" % eventobj.door_state)
+    #
+    # elif eventobj.event_type == MerossEventType.THERMOSTAT_MODE_CHANGE:
+    #     # print("Thermostat %s has changed mode to %s" % (eventobj.device.name, eventobj.mode))
+    #
+    # elif eventobj.event_type == MerossEventType.THERMOSTAT_TEMPERATURE_CHANGE:
+    #     # print("Thermostat %s has revealed a temperature change: %s" % (eventobj.device.name, eventobj.temperature))
+    #
+    # else:
         # print("Unknown event!")
 
 # ---------------------------------------------------------------------
@@ -187,7 +187,7 @@ def ConnectAndRefreshAll(email, password):
         manager = MerossManager(meross_email=email, meross_password=password)
 
         # Register event handlers for the manager...
-        manager.register_event_handler(event_handler)
+        # manager.register_event_handler(event_handler)
 
         # Starts the manager
         manager.start()
@@ -233,7 +233,7 @@ def ConnectAndSetOnOff(devices, email, password, name=None, uuid=None, mac=None,
         manager = MerossManager(meross_email=email, meross_password=password)
 
         # Register event handlers for the manager...
-        manager.register_event_handler(event_handler)
+        # manager.register_event_handler(event_handler)
 
         # Starts the manager
         manager.start()
