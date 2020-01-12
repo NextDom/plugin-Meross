@@ -153,29 +153,30 @@ def RefreshOneDevice(device):
 
 # ---------------------------------------------------------------------
 def event_handler(eventobj):
+    # TODO: handle events in plugin
+
     if eventobj.event_type == MerossEventType.DEVICE_ONLINE_STATUS:
-        print("Device online status changed: %s went %s" % (eventobj.device.name, eventobj.status))
+        # print("Device online status changed: %s went %s" % (eventobj.device.name, eventobj.status))
         pass
 
     elif eventobj.event_type == MerossEventType.DEVICE_SWITCH_STATUS:
-        print("Switch state changed: Device %s (channel %d) went %s" % (eventobj.device.name, eventobj.channel_id,
-                                                                        eventobj.switch_state))
+        # print("Switch state changed: Device %s (channel %d) went %s" % (eventobj.device.name, eventobj.channel_id, eventobj.switch_state))
     elif eventobj.event_type == MerossEventType.CLIENT_CONNECTION:
-        print("MQTT connection state changed: client went %s" % eventobj.status)
+        # print("MQTT connection state changed: client went %s" % eventobj.status)
 
         # TODO: Give example of reconnection?
 
     elif eventobj.event_type == MerossEventType.GARAGE_DOOR_STATUS:
-        print("Garage door is now %s" % eventobj.door_state)
+        # print("Garage door is now %s" % eventobj.door_state)
 
     elif eventobj.event_type == MerossEventType.THERMOSTAT_MODE_CHANGE:
-        print("Thermostat %s has changed mode to %s" % (eventobj.device.name, eventobj.mode))
+        # print("Thermostat %s has changed mode to %s" % (eventobj.device.name, eventobj.mode))
 
     elif eventobj.event_type == MerossEventType.THERMOSTAT_TEMPERATURE_CHANGE:
-        print("Thermostat %s has revealed a temperature change: %s" % (eventobj.device.name, eventobj.temperature))
+        # print("Thermostat %s has revealed a temperature change: %s" % (eventobj.device.name, eventobj.temperature))
 
     else:
-        print("Unknown event!")
+        # print("Unknown event!")
 
 # ---------------------------------------------------------------------
 def ConnectAndRefreshAll(email, password):
