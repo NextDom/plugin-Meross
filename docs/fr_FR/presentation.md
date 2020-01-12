@@ -7,6 +7,7 @@ Liste des équipements compatibles
 - MSS310
 - MSS110
 - MSS425E
+- MSS710
 
 # Prévisualisation
 
