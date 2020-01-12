@@ -112,7 +112,7 @@ def RefreshOneDevice(device):
     # on/off status
     onoff = []
     try:
-        device.online
+        onoff = [data['all']['control']['toggle']['onoff']]
     except:
         try:
             ll = data['all']['digest']['togglex']
