@@ -1,0 +1,67 @@
+{
+    "name": "Smart WiFi Switch",
+    "group": "Connect and Control",
+    "configuration": {
+        "type": "mss710"
+    },
+    "commands": [
+        {
+            "name": "Status",
+            "type": "info",
+            "subtype": "binary",
+            "display": {
+                "generic_type": "ENERGY_STATE"
+            },
+            "isVisible": 0,
+            "isHistorized": 0,
+            "logicalId": "onoff_0",
+            "template": {
+                "dashboard": "light",
+                "mobile": "light"
+            }
+        },
+        {
+            "name": "Off",
+            "type": "action",
+            "subtype": "other",
+            "display": {
+                "generic_type": "ENERGY_OFF"
+            },
+            "isVisible": 1,
+            "value": "onoff_0",
+            "logicalId": "off_0",
+            "template": {
+                "dashboard": "prise",
+                "mobile": "prise"
+            }
+        },
+        {
+            "name": "On",
+            "type": "action",
+            "subtype": "other",
+            "display": {
+                "generic_type": "ENERGY_ON"
+            },
+            "isVisible": 1,
+            "value": "onoff_0",
+            "logicalId": "on_0",
+            "template": {
+                "dashboard": "prise",
+                "mobile": "prise"
+            }
+        },
+        {
+            "name": "Rafraichir",
+            "type": "action",
+            "subtype": "other",
+            "display": {
+                "generic_type": "DONT"
+            },
+            "configuration": {
+                "switch": "read"
+            },
+            "isVisible": 1,
+            "logicalId": "refresh"
+        }
+    ]
+}
