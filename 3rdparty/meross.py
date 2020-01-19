@@ -84,7 +84,7 @@ def Exit(txt=""):
 def RefreshOneDevice(device):
     """ Connect to Meross Cloud and refresh only the device 'device' """
 
-    if device.online:
+    if device.online is True or str(device.online) == "1":
         data = device.get_sys_data()
         if debug:
             pprint.pprint(data)
@@ -100,7 +100,7 @@ def RefreshOneDevice(device):
         'hardversion': device.hwversion,
     })
 
-    if device.online:
+    if device.online is True or str(device.online) == "1":
         try:
             d['ip'] = data['all']['system']['firmware']['innerIp']
         except:
@@ -126,30 +126,34 @@ def RefreshOneDevice(device):
         # Current power
         try:
             electricity = device.get_electricity()
-            d['power'] = float(electricity['electricity']['power'] / 1000.)
+            d['power'] = float(electricity['power'] / 1000.)
         except:
             d['power'] = '-1'
 
         # Historical consumption
-        try:
-            l_consumption = device.get_power_consumptionX()['consumptionx']
-        except:
-            l_consumption = []
-
+        #print (dir(device) )
         d['consumption'] = []   # on decide de ne pas la stocker
+        try:
+            #pprint.pprint (device.get_power_consumption())
+            l_consumption = device.get_power_consumption()
 
-        # Yesterday consumption
-        today = datetime.today()
-        yesterday = (today - timedelta(1)).strftime("%Y-%m-%d")
-        d['consumption_yesterday'] = 0
+            # Yesterday consumption
+            today = datetime.today()
+            yesterday = (today - timedelta(1)).strftime("%Y-%m-%d")
+            d['consumption_yesterday'] = 0
 
-        for c in l_consumption:
-            if c['date'] == yesterday:
-                try:
-                    d['consumption_yesterday'] = float(c['value'] / 1000.)
-                except:
-                    d['consumption_yesterday'] = 0
-                break
+            for c in l_consumption:
+                if c['date'] == yesterday:
+                    try:
+                        d['consumption_yesterday'] = float(c['value'] / 1000.)
+                    except:
+                        d['consumption_yesterday'] = 0
+                    break
+
+        except:
+            d['consumption_yesterday'] = 0
+            #l_consumption = []
+
 
     return d
 

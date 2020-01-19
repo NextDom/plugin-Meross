@@ -19,7 +19,7 @@ codret=$?
 
 # Kill ghosts processes
 nbprocess=$(pgrep -u www-data -f "python3 $root/meross.py" -c)
-if [[ ! $nbprocess -eq 0 ]]; then
+if [ ! $nbprocess -eq 0 ]; then
     pkill -u www-data -f "python3 $root/meross.py"
 fi
 
