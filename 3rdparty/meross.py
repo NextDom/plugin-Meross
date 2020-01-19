@@ -84,9 +84,10 @@ def Exit(txt=""):
 def RefreshOneDevice(device):
     """ Connect to Meross Cloud and refresh only the device 'device' """
 
-    data = device.get_sys_data()
-    if debug:
-        pprint.pprint(data)
+    if device.online:
+        data = device.get_sys_data()
+        if debug:
+            pprint.pprint(data)
 
     d = dict({
         'name':     device.name,
@@ -99,55 +100,56 @@ def RefreshOneDevice(device):
         'hardversion': device.hwversion,
     })
 
-    try:
-        d['ip'] = data['all']['system']['firmware']['innerIp']
-    except:
-        pass
-
-    try:
-        d['mac'] = data['all']['system']['hardware']['macAddress']
-    except:
-        pass
-
-    # on/off status
-    onoff = []
-    try:
-        onoff = [data['all']['control']['toggle']['onoff']]
-    except:
+    if device.online:
         try:
-            ll = data['all']['digest']['togglex']
-            onoff = [x['onoff'] for x in ll]
+            d['ip'] = data['all']['system']['firmware']['innerIp']
         except:
             pass
-    d['onoff'] = onoff
 
-    # Current power
-    try:
-        electricity = device.get_electricity()
-        d['power'] = float(electricity['electricity']['power'] / 1000.)
-    except:
-        d['power'] = '-1'
+        try:
+            d['mac'] = data['all']['system']['hardware']['macAddress']
+        except:
+            pass
 
-    # Historical consumption
-    try:
-        l_consumption = device.get_power_consumptionX()['consumptionx']
-    except:
-        l_consumption = []
-
-    d['consumption'] = []   # on decide de ne pas la stocker
-
-    # Yesterday consumption
-    today = datetime.today()
-    yesterday = (today - timedelta(1)).strftime("%Y-%m-%d")
-    d['consumption_yesterday'] = 0
-
-    for c in l_consumption:
-        if c['date'] == yesterday:
+        # on/off status
+        onoff = []
+        try:
+            onoff = [data['all']['control']['toggle']['onoff']]
+        except:
             try:
-                d['consumption_yesterday'] = float(c['value'] / 1000.)
+                ll = data['all']['digest']['togglex']
+                onoff = [x['onoff'] for x in ll]
             except:
-                d['consumption_yesterday'] = 0
-            break
+                pass
+        d['onoff'] = onoff
+
+        # Current power
+        try:
+            electricity = device.get_electricity()
+            d['power'] = float(electricity['electricity']['power'] / 1000.)
+        except:
+            d['power'] = '-1'
+
+        # Historical consumption
+        try:
+            l_consumption = device.get_power_consumptionX()['consumptionx']
+        except:
+            l_consumption = []
+
+        d['consumption'] = []   # on decide de ne pas la stocker
+
+        # Yesterday consumption
+        today = datetime.today()
+        yesterday = (today - timedelta(1)).strftime("%Y-%m-%d")
+        d['consumption_yesterday'] = 0
+
+        for c in l_consumption:
+            if c['date'] == yesterday:
+                try:
+                    d['consumption_yesterday'] = float(c['value'] / 1000.)
+                except:
+                    d['consumption_yesterday'] = 0
+                break
 
     return d
 
