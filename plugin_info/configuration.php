@@ -29,16 +29,14 @@ if (!isConnect()) {
 ?>
 
 <form class="form-horizontal">
-    <fieldset>
-        <div class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-xs-12">
-            <div class="form-group">
-                <label for="merossEmail">{{Email}}</label>
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-                    <input type="email" class="configKey form-control" placeholder="{{Email de votre compte Meross}}"
-                        data-l1key="merossEmail" id="merossEmail">
-                </div>
-            </div>
+<fieldset>
+    <legend>{{Connexion au Cloud Meross}}</legend>
+    <div class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-xs-12">
+      <div class="form-group">
+        <label for="merossEmail">{{Email}}</label>
+        <div class="input-group">
+          <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+          <input type="email" class="configKey form-control" placeholder="{{Email de votre compte Meross}}" data-l1key="merossEmail" id="merossEmail">
         </div>
 
         <br>
@@ -53,5 +51,9 @@ if (!isConnect()) {
                 </div>
             </div>
         </div>
-    </fieldset>
+
+      </div>
+    </div>
+  </fieldset>
 </form>
+

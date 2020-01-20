@@ -25,46 +25,29 @@ $eqLogics = eqLogic::byType($plugin->getId());
 ?>
 
 <div class="row row-overflow">
-    <div class="col-lg-2 col-md-3 col-sm-4">
-        <div class="bs-sidebar">
-            <ul id="ul_eqLogic" class="nav nav-list bs-sidenav">
-                <li class="filter" style="margin-bottom: 5px;">
-                    <input class="filter form-control input-sm" placeholder="{{Rechercher}}" style="width: 100%" />
-                </li>
-                <?php
-                    foreach ($eqLogics as $eqLogic) {
-                        $opacity = ($eqLogic->getIsEnable()) ? '' : jeedom::getConfiguration('eqLogic:style:noactive');
-                        echo '<li class="cursor li_eqLogic" data-eqLogic_id="' . $eqLogic->getId() . '" style="' . $opacity . '"><a>' . $eqLogic->getHumanName(true) . '</a></li>';
-                    }
-                    ?>
-            </ul>
-        </div>
-    </div>
-
-    <div class="col-lg-10 col-md-9 col-sm-8 eqLogicThumbnailDisplay" style="border-left: solid 1px #EEE; padding-left: 25px;">
-        <legend><i class="fa fa-cog"></i> {{Gestion}}</legend>
-        <div class="eqLogicThumbnailContainer">
-            <div class="cursor eqLogicAction" data-action="sync" style="text-align: center; background-color : #ffffff; height : 120px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;">
-                <i class="fa fa-sync" style="font-size : 6em;color:#33b8cc;"></i>
-                <br>
-                <span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;">{{ Synchroniser }}</span>
+    <div class="col-lg-12 col-md-9 col-sm-8 eqLogicThumbnailDisplay">
+        <legend><i class="fa fa-cog">&nbsp;&nbsp;</i>{{Gestion}}</legend>
+        <div class="eqLogicThumbnailContainer form-group">
+            <div class="cursor eqLogicAction eqlogicConfigBtn" data-action="sync">
+                <div class="fa fa-sync icon_theme_color"></div>
+                <div class="eqlogicConfigBtnTitle">{{ Synchroniser }}</div>
             </div>
-            <div class="cursor eqLogicAction" data-action="gotoPluginConf" style="text-align: center; background-color : #ffffff; height : 120px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;">
-                <i class="fa fa-wrench" style="font-size : 6em;color:#767676;"></i>
-                <br>
-                <span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;">{{ Configuration }}</span>
+            <div class="cursor eqLogicAction eqlogicConfigBtn" data-action="gotoPluginConf" >
+                <div class="fa fa-wrench"></div>
+                <div class="eqlogicConfigBtnTitle">{{ Configuration }}</div>
             </div>
-            <div class="cursor" id="bt_healthmeross" style="text-align: center; background-color : #ffffff; height : 120px;margin-bottom : 10px;padding : 5px; border-radius: 2px;width : 160px;margin-left : 10px;">
-                <i class="fa fa-medkit" style="font-size : 6em;color:#767676;"></i>
-                <br>
-                <span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;">{{ Santé }}</span>
+            <div class="cursor eqlogicConfigBtn" id="bt_healthmeross">
+                <div class="fa fa-medkit"></div>
+                <div class="eqlogicConfigBtnTitle">{{ Santé }}</div>
             </div>
         </div>
 
-        <br>
-
-        <legend><i class="fa fa-table"></i> {{Mes Meross}}</legend>
+        <legend><i class="fa fa-table">&nbsp;&nbsp;</i>{{Mes Meross}}</legend>
         <div class="eqLogicThumbnailContainer">
+            <div class="input-group">
+                <div class="input-group-addon"><i class="fas fa-search"></i></div>
+                <input class="filter form-control" placeholder="{{Rechercher...}}" id="in_searchEq">
+            </div>
             <?php
                 foreach ($eqLogics as $eqLogic) {
                     $opacity = ($eqLogic->getIsEnable()) ? '' : jeedom::getConfiguration('eqLogic:style:noactive');
@@ -82,11 +65,32 @@ $eqLogics = eqLogic::byType($plugin->getId());
         </div>
     </div>
 
-    <div class="col-lg-10 col-md-9 col-sm-8 eqLogic" style="display: none;">
-        <section class="content-header">
+    <div class="col-lg-2 col-md-3 col-sm-4" id="ListEqlogiq" style="display: none;">
+        <div class="bs-sidebar">
+            <ul id="ul_eqLogic" class="nav nav-list bs-sidenav">
+                <legend><i class="fa fa-table">&nbsp;&nbsp;</i>{{Mes Meross}}</legend>
+                <li class="filter">
+                    <div class="input-group">
+                        <div class="input-group-addon"><i class="fas fa-search"></i></div>
+                        <input class="filter form-control" placeholder="{{Rechercher...}}">
+                    </div>
+                </li>
+                <?php
+                    foreach ($eqLogics as $eqLogic) {
+                        $opacity = ($eqLogic->getIsEnable()) ? '' : jeedom::getConfiguration('eqLogic:style:noactive');
+                        echo '<li class="cursor li_eqLogic" data-eqLogic_id="' . $eqLogic->getId() . '" style="' . $opacity . '"><a>' . $eqLogic->getHumanName(true) . '</a></li>';
+                    }
+                    ?>
+            </ul>
+        </div>
+    </div>
+
+    <div class="eqLogic" style="display: none;padding-left:0px">
+        <section class="content-header" style="padding-top:0px">
             <div class="action-bar">
                 <div class="action-group">
                     <a class="btn btn-danger btn-action-bar eqLogicAction" data-action="returnToThumbnailDisplay"><i class="fas fa-chevron-left">&nbsp;&nbsp;</i>Retour</a>
+                    <a class="btn btn-action btn-action-bar eqLogicAction" id="bt_displayListEqlogiq"><i class="fas fa-list">&nbsp;&nbsp;</i>Liste</a>
                 </div>
                 <div class="action-group">
                     <a class="btn btn-success eqLogicAction pull-right" data-action="save"><i class="fa fa-check-circle">&nbsp;&nbsp;</i>{{Sauvegarder}}</a>
@@ -100,26 +104,27 @@ $eqLogics = eqLogic::byType($plugin->getId());
                 <ul class="nav nav-tabs pull-right" role="tablist">
                     <li role="presentation" class="active">
                         <a href="#eqlogictab" aria-controls="home" role="tab" data-toggle="tab">
-                            <i class="fa fa-tachometer"></i> {{Equipement}}
+                            <i class="fa fa-tachometer">&nbsp;&nbsp;</i>{{Equipement}}
                         </a>
                     </li>
                     <li role="presentation">
                         <a href="#commandtab" aria-controls="profile" role="tab" data-toggle="tab">
-                            <i class="fa fa-list-alt"></i> {{Commandes}}
+                            <i class="fa fa-list-alt">&nbsp;&nbsp;</i>{{Commandes}}
                         </a>
                     </li>
+                    <h4 class="label label-primary pull-right label-sticker">{{ID : }}<span class="eqLogicAttr" data-l1key="id"></span></h4>
+                    <li class="header pull-left"><i class="fas fa-pencil-alt">&nbsp;&nbsp;</i>{{Edition équipement}}</li>
                 </ul>
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="eqlogictab">
-                        <br />
                         <div class="row">
                         <!-- Configuration -->
                             <div class="col-md-8">
                                 <div class="box box-widget widget-user-2">
                                     <div class="widget-user-header backgroundColor">
-                                        <h3 class="eqlogic-box-title">{{ Configuration équipement }}</h3>
+                                        <h3 class="eqlogicBoxTitle">{{Configuration équipement}}</h3>
                                     </div>
-                                    <div class="box-body">
+                                    <div class="box-body" style="margin-top:10px">
                                         <form class="form-horizontal">
                                             <fieldset>
                                                 <div class="form-group">
@@ -147,21 +152,21 @@ $eqLogics = eqLogic::byType($plugin->getId());
                                                     <div class="col-sm-9">
                                                         <?php
                                                             foreach (jeedom::getConfiguration('eqLogic:category') as $key => $value) {
-                                                                echo '<label class="checkbox-inline" for="category-' . $key . '">';
-                                                                echo '<input type="checkbox" id="category-' . $key . '" class="eqLogicAttr" data-l1key="category" data-l2key="' . $key . '" />' . $value['name'];
+                                                                echo '<label class="checkbox-inline" for="category-' . $key . '" style="padding-top: 0px">';
+                                                                echo '<input type="checkbox" id="category-' . $key . '" class="eqLogicAttr" data-l1key="category" data-l2key="' . $key . '" />&nbsp;' . $value['name'];
                                                                 echo '</label>';
                                                             }
                                                         ?>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="col-sm-3 control-label"></label>
+                                                    <label class="col-sm-3 control-label">{{Options}}</label>
                                                     <div class="col-sm-9">
-                                                        <label class="checkbox-inline" for="is-enable">
+                                                        <label class="checkbox-inline" style="padding-top: 0px" for="is-enable">
                                                             <input type="checkbox" class="eqLogicAttr" data-l1key="isEnable" checked="checked" id="is-enable" />
                                                             {{Activer}}
                                                         </label>
-                                                        <label class="checkbox-inline" for="is-visible">
+                                                        <label class="checkbox-inline" style="padding-top: 0px" for="is-visible">
                                                             <input type="checkbox" class="eqLogicAttr" data-l1key="isVisible" checked="checked" id="is-visible" />
                                                             {{Visible}}
                                                         </label>
@@ -178,7 +183,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
                             <div class="col-md-4">
                                 <div class="box box-widget widget-user-2">
                                     <div class="widget-user-header backgroundColor">
-                                        <h3 class="eqlogic-box-title">{{ Informations Meross Cloud }}</h3>
+                                        <h3 class="eqlogicBoxTitle">{{ Informations Meross Cloud }}</h3>
                                     </div>
                                     <div class="box-footer no-padding">
                                         <ul class="nav nav-stacked">
@@ -200,7 +205,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
                                 </div>
                             </div>
                         <!-- End Informations -->
-                                                        </div>
+                        </div>
 
                     </div>
                     <div role="tabpanel" class="tab-pane" id="commandtab">
@@ -217,10 +222,13 @@ $eqLogics = eqLogic::byType($plugin->getId());
                             <tbody>
                             </tbody>
                         </table>
+                        <div class="btn btn-success btn-sm cmdAction" data-action="add">
+                            <i class="fa fa-plus-circle">&nbsp;&nbsp;</i>{{Commandes}}
+                        </div>
                     </div>
                 </div>
             </div>
-        </section>                                                
+        </section>
     </div>
 </div>
 
