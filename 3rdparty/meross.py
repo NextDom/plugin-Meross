@@ -226,7 +226,7 @@ def ConnectAndRefreshAll(email, password):
 # ---------------------------------------------------------------------
 
 
-def ConnectAndSetOnOff(devices, email, password, name=None, uuid=None, mac=None, action='on', channel='0'):
+def ConnectAndSetOnOff(devices, email, password, name=None, uuid=None, mac=None, action='on', channel=0):
     """ Connect to Meross Cloud and set on or off a smartplug """
 
     if mac and not name and not uuid:
@@ -259,25 +259,17 @@ def ConnectAndSetOnOff(devices, email, password, name=None, uuid=None, mac=None,
         if device.online:
             try:
                 if action == 'on':
-                    device.turn_on()
-                else:
-                    device.turn_off()
-            except:
-                pass
-        else:
-            try:
-                if action == 'on':
-                    if channel == '0':
+                    if channel == 0:
                         device.turn_on()
                     else:
-                        device.turn_on_channel(channel)
+                        device.turn_on_channel(int(channel))
                 else:
-                    if channel == '0':
+                    if channel == 0:
                         device.turn_off()
                     else:
-                        device.turn_off_channel(channel)
+                        device.turn_off_channel(int(channel))
             except:
-                pass
+                print("Unexpected error:", sys.exc_info()[0])
 
     devices[device.uuid] = RefreshOneDevice(device)
 
