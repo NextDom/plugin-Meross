@@ -62,7 +62,7 @@ class meross extends eqLogic
             return null;
         }
         try {
-            $command = "sh " . self::$_Script . ' --email ' . $email . ' --password ' . $password . ' ' . $_args;
+            $command = "sh " . self::$_Script . ' --email ' . $email . ' --password \'' . $password . '\' ' . $_args;
             $log = str_replace($password, 'xxx', str_replace($email, 'xxx', $command));
             log::add('meross', 'debug', 'shell_exec: ' . $log);
             $stdout = shell_exec($command);

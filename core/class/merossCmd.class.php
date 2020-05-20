@@ -29,7 +29,7 @@ class merossCmd extends cmd
         $password = config::byKey('merossPassword', 'meross');
         
         // Base cmd
-        $command = 'sh ' . __DIR__ . '/../../3rdparty/meross.sh' . ' --email ' . $email . ' --password ' . $password . ' --uuid ' . $eqLogic->getLogicalId() . ' --show ';
+        $command = 'sh ' . __DIR__ . '/../../3rdparty/meross.sh' . ' --email ' . $email . ' --password \'' . $password . '\' --uuid ' . $eqLogic->getLogicalId() . ' --show ';
 
         // If action need to be executed
         $execute = false;
