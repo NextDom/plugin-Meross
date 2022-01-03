@@ -1,0 +1,287 @@
+{
+    "name": "Smart WiFi Plug with Energy Monitor",
+    "group": "Connect and Control",
+    "configuration": {
+        "type": "mss426f"
+    },
+    "commands": [
+        {
+            "name": "Status 0",
+            "type": "info",
+            "subtype": "binary",
+            "order": 1,
+            "generic_type": "ENERGY_STATE",
+            "isVisible": 0,
+            "isHistorized": 0,
+            "logicalId": "onoff_0"
+        },
+        {
+            "name": "Off 0",
+            "type": "action",
+            "subtype": "other",
+            "order": 2,
+            "generic_type": "ENERGY_OFF",
+            "isVisible": 1,
+            "value": "onoff_0",
+            "logicalId": "off_0",
+            "template": {
+                "dashboard": "prise",
+                "mobile": "prise"
+            }
+        },
+        {
+            "name": "On 0",
+            "type": "action",
+            "subtype": "other",
+            "order": 3,
+            "generic_type": "ENERGY_ON",
+            "isVisible": 1,
+            "value": "onoff_0",
+            "logicalId": "on_0",
+            "template": {
+                "dashboard": "prise",
+                "mobile": "prise"
+            }
+        },
+        {
+            "name": "Status 1",
+            "type": "info",
+            "subtype": "binary",
+            "order": 4,
+            "generic_type": "ENERGY_STATE",
+            "isVisible": 0,
+            "isHistorized": 0,
+            "logicalId": "onoff_1"
+        },
+        {
+            "name": "Off 1",
+            "type": "action",
+            "subtype": "other",
+            "order": 5,
+            "generic_type": "ENERGY_OFF",
+            "isVisible": 1,
+            "value": "onoff_1",
+            "logicalId": "off_1",
+            "template": {
+                "dashboard": "prise",
+                "mobile": "prise"
+            }
+        },
+        {
+            "name": "On 1",
+            "type": "action",
+            "subtype": "other",
+            "order": 6,
+            "generic_type": "ENERGY_ON",
+            "isVisible": 1,
+            "value": "onoff_1",
+            "logicalId": "on_1",
+            "template": {
+                "dashboard": "prise",
+                "mobile": "prise"
+            }
+        },
+        {
+            "name": "Status 2",
+            "type": "info",
+            "subtype": "binary",
+            "order": 7,
+            "generic_type": "ENERGY_STATE",
+            "isVisible": 0,
+            "isHistorized": 0,
+            "logicalId": "onoff_2"
+        },
+        {
+            "name": "Off 2",
+            "type": "action",
+            "subtype": "other",
+            "order": 8,
+            "generic_type": "ENERGY_OFF",
+            "isVisible": 1,
+            "value": "onoff_2",
+            "logicalId": "off_2",
+            "template": {
+                "dashboard": "prise",
+                "mobile": "prise"
+            }
+        },
+        {
+            "name": "On 2",
+            "type": "action",
+            "subtype": "other",
+            "order": 9,
+            "generic_type": "ENERGY_ON",
+            "isVisible": 1,
+            "value": "onoff_2",
+            "logicalId": "on_2",
+            "template": {
+                "dashboard": "prise",
+                "mobile": "prise"
+            }
+        },
+        {
+            "name": "Status 3",
+            "type": "info",
+            "subtype": "binary",
+            "order": 10,
+            "generic_type": "ENERGY_STATE",
+            "isVisible": 0,
+            "isHistorized": 0,
+            "logicalId": "onoff_3"
+        },
+        {
+            "name": "Off 3",
+            "type": "action",
+            "subtype": "other",
+            "order": 11,
+            "generic_type": "ENERGY_OFF",
+            "isVisible": 1,
+            "value": "onoff_3",
+            "logicalId": "off_3",
+            "template": {
+                "dashboard": "prise",
+                "mobile": "prise"
+            }
+        },
+        {
+            "name": "On 3",
+            "type": "action",
+            "subtype": "other",
+            "order": 12,
+            "generic_type": "ENERGY_ON",
+            "isVisible": 1,
+            "value": "onoff_3",
+            "logicalId": "on_3",
+            "template": {
+                "dashboard": "prise",
+                "mobile": "prise"
+            }
+        },
+        {
+            "name": "Status 4",
+            "type": "info",
+            "subtype": "binary",
+            "order": 13,
+            "generic_type": "ENERGY_STATE",
+            "isVisible": 0,
+            "isHistorized": 0,
+            "logicalId": "onoff_4"
+        },
+        {
+            "name": "Off 4",
+            "type": "action",
+            "subtype": "other",
+            "order": 14,
+            "generic_type": "ENERGY_OFF",
+            "isVisible": 1,
+            "value": "onoff_4",
+            "logicalId": "off_4",
+            "template": {
+                "dashboard": "prise",
+                "mobile": "prise"
+            }
+        },
+        {
+            "name": "On 4",
+            "type": "action",
+            "subtype": "other",
+            "order": 15,
+            "generic_type": "ENERGY_ON",
+            "isVisible": 1,
+            "value": "onoff_4",
+            "logicalId": "on_4",
+            "template": {
+                "dashboard": "prise",
+                "mobile": "prise"
+            }
+        },
+        {
+            "name": "Status 5",
+            "type": "info",
+            "subtype": "binary",
+            "order": 16,
+            "generic_type": "ENERGY_STATE",
+            "isVisible": 0,
+            "isHistorized": 0,
+            "logicalId": "onoff_5"
+        },
+        {
+            "name": "Off 5",
+            "type": "action",
+            "subtype": "other",
+            "order": 17,
+            "generic_type": "ENERGY_OFF",
+            "isVisible": 1,
+            "value": "onoff_5",
+            "logicalId": "off_5",
+            "template": {
+                "dashboard": "prise",
+                "mobile": "prise"
+            }
+        },
+        {
+            "name": "On 5",
+            "type": "action",
+            "subtype": "other",
+            "order": 18,
+            "generic_type": "ENERGY_ON",
+            "isVisible": 1,
+            "value": "onoff_5",
+            "logicalId": "on_5",
+            "template": {
+                "dashboard": "prise",
+                "mobile": "prise"
+            }
+        },
+        {
+            "name": "Status 6",
+            "type": "info",
+            "subtype": "binary",
+            "order": 19,
+            "generic_type": "ENERGY_STATE",
+            "isVisible": 0,
+            "isHistorized": 0,
+            "logicalId": "onoff_6"
+        },
+        {
+            "name": "Off 6",
+            "type": "action",
+            "subtype": "other",
+            "order": 20,
+            "generic_type": "ENERGY_OFF",
+            "isVisible": 1,
+            "value": "onoff_6",
+            "logicalId": "off_6",
+            "template": {
+                "dashboard": "prise",
+                "mobile": "prise"
+            }
+        },
+        {
+            "name": "On 6",
+            "type": "action",
+            "subtype": "other",
+            "order": 21,
+            "generic_type": "ENERGY_ON",
+            "isVisible": 1,
+            "value": "onoff_6",
+            "logicalId": "on_6",
+            "template": {
+                "dashboard": "prise",
+                "mobile": "prise"
+            }
+        },
+        {
+            "name": "Rafraichir",
+            "type": "action",
+            "subtype": "other",
+            "order": 22,
+            "generic_type": "DONT",
+            "configuration": {
+                "switch": "read"
+            },
+            "isVisible": 1,
+            "logicalId": "refresh"
+        }
+    ]
+}
